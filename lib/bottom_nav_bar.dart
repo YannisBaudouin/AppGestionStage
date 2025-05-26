@@ -35,36 +35,53 @@ class BottomBar extends State<BottomNavBar> {
 
   @override
   Widget build(BuildContext context) {
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       body: Center(child: global.btmPages.elementAt(global.selectedIndex)),
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.backpack_outlined),
+            backgroundColor: isDarkMode
+                ? Color(global.darkThemeSeco)
+                : Color(global.lightThemeSeco),
+            icon: const Icon(Icons.backpack_outlined),
             label: 'PFMP',
           ),
           BottomNavigationBarItem(
+            backgroundColor: isDarkMode
+                ? Color(global.darkThemeSeco)
+                : Color(global.lightThemeSeco),
             icon: Icon(Icons.file_open_outlined),
             label: 'Ressources',
           ),
           BottomNavigationBarItem(
+            backgroundColor: isDarkMode
+                ? Color(global.darkThemeSeco)
+                : Color(global.lightThemeSeco),
             icon: Icon(Icons.home),
             label: 'Home',
           ),
           BottomNavigationBarItem(
+            backgroundColor: isDarkMode
+                ? Color(global.darkThemeSeco)
+                : Color(global.lightThemeSeco),
             icon: Icon(Icons.messenger_outlined),
             label: 'Messages',
           ),
           BottomNavigationBarItem(
+            backgroundColor: isDarkMode
+                ? Color(global.darkThemeSeco)
+                : Color(global.lightThemeSeco),
             icon: Icon(Icons.person_outline),
             label: 'Profil',
           ),
         ],
         currentIndex: global.selectedIndex,
-        selectedItemColor: Colors.red,
+        selectedItemColor: Color(global.commonTheme),
         unselectedItemColor: Colors.grey,
         onTap: onItemTapped,
         showUnselectedLabels: true,
+        elevation: 10,
       ),
     );
   }
