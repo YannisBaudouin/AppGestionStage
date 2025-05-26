@@ -1,20 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/btm_nav_bar.dart';
+import 'global_var.dart' as global;
+import 'package:flutter/init/dark_mode';
 
 void main() {
-  runApp(const MainApp());
+  runApp(const Main());
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class Main extends StatelessWidget {
+  const Main({super.key});
 
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
-      ),
+    return MaterialApp(
+      title: 'Flutter Demo',
+      themeMode: ThemeMode.system,
+      theme: global.lightTheme,
+      darkTheme: global.darkTheme,
+      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key, required this.title});
+
+  final String title;
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: Stack(
+      children: <Widget>[
+        BottomNavBar(
+          title: 'navbar',
+        ),
+      ],
+    ));
   }
 }
