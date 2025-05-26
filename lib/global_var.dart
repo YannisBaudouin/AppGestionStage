@@ -9,6 +9,14 @@ import 'messages.dart';
 
 int selectedIndex = 2;
 
+Image currentLogo(bool darkMode) {
+  Image image;
+  darkMode
+      ? image = Image.asset('assets/lyceelogoWHITE.png')
+      : image = Image.asset('assets/lyceelogo.png');
+  return image;
+}
+
 ThemeData lightTheme = ThemeData(
   colorScheme: ColorScheme(
     brightness: Brightness.light,

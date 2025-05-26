@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'global_var.dart' as global;
-import 'init/dark_mode.dart';
 
 class Profil extends StatelessWidget {
   const Profil({super.key});
@@ -43,10 +42,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    Brightness getBrightness() {
-      return MediaQuery.of(context).platformBrightness;
-    }
-
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       body: Container(
         alignment: Alignment.center,
@@ -57,9 +53,7 @@ class _HomePageState extends State<HomePage> {
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                getBrightness() == global.darkTheme.brightness
-                    ? DarkMode.getBlackLogo
-                    : DarkMode.getWhiteLogo,
+                global.currentLogo(isDarkMode),
                 Container(
                   alignment: Alignment.center,
                   height: 100,
