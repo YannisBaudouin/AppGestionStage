@@ -29,95 +29,85 @@ Image currentLogo(bool darkMode) {
 }
 
 ThemeData lightTheme = ThemeData(
-  colorScheme: ColorScheme(
-    brightness: Brightness.light,
-    surface: Color(lightThemePrim),
-    onSurface: Color(lightThemeSeco),
-    primary: Colors.white,
-    onPrimary: Colors.black,
-    secondary: Color(commonTheme),
-    onSecondary: Colors.black,
-    error: Colors.blue,
-    onError: Color(commonTheme),
-  ),
-  elevatedButtonTheme: ElevatedButtonThemeData(
-    style: ElevatedButton.styleFrom(
+    colorScheme: ColorScheme(
+        brightness: Brightness.light,
+        surface: Color(lightThemePrim),
+        onSurface: Color(lightThemeSeco),
+        primary: Colors.white,
+        onPrimary: Colors.black,
+        secondary: Color(commonTheme),
+        onSecondary: Colors.black,
+        error: Colors.blue,
+        onError: Color(commonTheme)),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
       backgroundColor: Color(commonTheme),
       iconColor: Color(lightThemeSeco),
-    ),
-  ),
-  bottomNavigationBarTheme: BottomNavigationBarThemeData(
-    backgroundColor: Color(lightThemeSeco),
-  ),
-  textTheme: TextTheme(
-      titleSmall: TextStyle(
-        color: Color(lightThemeText),
-      ),
-      titleMedium: TextStyle(
-        color: Color(lightThemeText),
-      ),
-      titleLarge: TextStyle(
-        color: Color(lightThemeText),
-      ),
-      headlineSmall: TextStyle(
-        color: Color(lightThemeText),
-      ),
-      headlineMedium: TextStyle(
-        color: Color(lightThemeText),
-      ),
-      headlineLarge: TextStyle(
-        color: Color(lightThemeText),
-      ),
-      bodySmall: TextStyle(
-        color: Color(lightThemeText),
-      ),
-      bodyMedium: TextStyle(
-        color: Color(lightThemeText),
-      ),
-      bodyLarge: TextStyle(
-        color: Color(lightThemeText),
-      ),
-      displaySmall: TextStyle(
-        color: Color(lightThemeText),
-      ),
-      displayMedium: TextStyle(
-        color: Color(lightThemeText),
-      ),
-      displayLarge: TextStyle(
-        color: Color(lightThemeText),
-      ),
-      labelSmall: TextStyle(
-        color: Color(lightThemeText),
-      ),
-      labelMedium: TextStyle(
-        color: Color(lightThemeText),
-      ),
-      labelLarge: TextStyle(
-        color: Color(lightThemeText),
-      )),
-  appBarTheme: AppBarTheme(
-    backgroundColor: Color(lightThemeSeco),
-    titleTextStyle: TextStyle(color: Colors.black, fontSize: 18),
-  ),
-);
+    )),
+    bottomNavigationBarTheme:
+        BottomNavigationBarThemeData(backgroundColor: Color(lightThemeSeco)),
+    textTheme: TextTheme(
+        titleSmall: TextStyle(
+          color: Color(lightThemeText),
+        ),
+        titleMedium: TextStyle(
+          color: Color(lightThemeText),
+        ),
+        titleLarge: TextStyle(
+          color: Color(lightThemeText),
+        ),
+        headlineSmall: TextStyle(
+          color: Color(lightThemeText),
+        ),
+        headlineMedium: TextStyle(
+          color: Color(lightThemeText),
+        ),
+        headlineLarge: TextStyle(
+          color: Color(lightThemeText),
+        ),
+        bodySmall: TextStyle(
+          color: Color(lightThemeText),
+        ),
+        bodyMedium: TextStyle(
+          color: Color(lightThemeText),
+        ),
+        bodyLarge: TextStyle(
+          color: Color(lightThemeText),
+        ),
+        displaySmall: TextStyle(
+          color: Color(lightThemeText),
+        ),
+        displayMedium: TextStyle(
+          color: Color(lightThemeText),
+        ),
+        displayLarge: TextStyle(
+          color: Color(lightThemeText),
+        ),
+        labelSmall: TextStyle(
+          color: Color(lightThemeText),
+        ),
+        labelMedium: TextStyle(
+          color: Color(lightThemeText),
+        ),
+        labelLarge: TextStyle(
+          color: Color(lightThemeText),
+        )));
 ThemeData darkTheme = ThemeData(
     colorScheme: ColorScheme(
-      brightness: Brightness.dark,
-      surface: Color(darkThemePrim),
-      onSurface: Color(darkThemeSeco),
-      primary: Colors.white,
-      onPrimary: Color(commonTheme),
-      secondary: Colors.white,
-      onSecondary: Colors.black,
-      error: Color(commonTheme),
-      onError: Colors.blue,
-    ),
+        brightness: Brightness.dark,
+        surface: Color(darkThemePrim),
+        onSurface: Color(darkThemeSeco),
+        primary: Colors.white,
+        onPrimary: Color(commonTheme),
+        secondary: Colors.white,
+        onSecondary: Colors.black,
+        error: Color(commonTheme),
+        onError: Colors.blue),
     elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Color(commonTheme),
-        iconColor: Colors.white,
-      ),
-    ),
+        style: ElevatedButton.styleFrom(
+      backgroundColor: Color(commonTheme),
+      iconColor: Colors.white,
+    )),
     textTheme: TextTheme(
         titleSmall: TextStyle(
           color: Color(darkThemeText),
@@ -164,10 +154,6 @@ ThemeData darkTheme = ThemeData(
         labelLarge: TextStyle(
           color: Color(darkThemeText),
         )),
-    appBarTheme: AppBarTheme(
-      backgroundColor: Color(darkThemeSeco),
-      titleTextStyle: TextStyle(color: Color(darkThemeText), fontSize: 18),
-    ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
       backgroundColor: Color(darkThemeSeco),
     ));

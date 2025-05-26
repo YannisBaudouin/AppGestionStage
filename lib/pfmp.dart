@@ -50,19 +50,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   color: const Color(0xFF000000),
                   height: MediaQuery.of(context).size.height - 500,
                   width: MediaQuery.of(context).size.width,
-                  child: ListView(
-                    shrinkWrap: true,
-                    children: [
-                      Container(
-                        height: 100,
-                        color: const Color(0xFFB00A60),
-                      ),
-                      Container(
-                        height: 100,
-                        color: const Color(0xFFFFEEDD),
-                      ),
-                    ],
-                  ),
+                  child: RichText(
+                      textAlign: TextAlign.left,
+                      text: TextSpan(
+                        text: 'Construction en cours',
+                        style: Theme.of(context).textTheme.headlineMedium,
+                      )),
                 ),
               ],
             ),

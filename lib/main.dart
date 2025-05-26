@@ -4,7 +4,6 @@ import 'global_var.dart' as global;
 import 'init/dark_mode.dart';
 
 void main() {
-  DarkMode();
   runApp(const Main());
 }
 
@@ -14,6 +13,7 @@ class Main extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    DarkMode.init(context);
     return MaterialApp(
       title: 'Flutter Demo',
       themeMode: ThemeMode.system,
