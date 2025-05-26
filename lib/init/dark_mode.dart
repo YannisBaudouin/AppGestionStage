@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../globar_var.dart';
+import '../global_var.dart';
 
 class DarkMode {
   static late bool isDarkMode;

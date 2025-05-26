@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:test1/global_var.dart' as global;
+import 'global_var.dart' as global;
+import 'init/dark_mode.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});

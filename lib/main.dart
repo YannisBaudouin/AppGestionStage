@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/btm_nav_bar.dart';
+import 'bottom_nav_bar.dart';
 import 'global_var.dart' as global;
-import 'package:flutter/init/dark_mode';
+import 'init/dark_mode.dart';
 
 void main() {
+  DarkMode();
   runApp(const Main());
 }
 

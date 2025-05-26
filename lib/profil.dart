@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'global_var.dart' as global;
+import 'init/dark_mode.dart';
 
 class Profil extends StatelessWidget {
   const Profil({super.key});
