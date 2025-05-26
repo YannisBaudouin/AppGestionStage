@@ -9,14 +9,16 @@ import 'messages.dart';
 
 int selectedIndex = 2;
 
-int lightThemeText = 0xFF434343;
-int lightThemeSeco = 0xFFFFFFFF;
+const int lightThemePrim = 0xFFF1F1F1;
+const int lightThemeSeco = 0xFFFFFFFF;
+const int lightThemeText = 0xFF434343;
 
-int darkThemeSeco = 0xFF424242;
-int darkThemeText = 0xFFD3D3D3;
+const int darkThemePrim = 0xFF2B2B2B;
+const int darkThemeSeco = 0xFF424242;
+const int darkThemeText = 0xFFD3D3D3;
 
-int commonTheme = 0xFFDC3C3C;
-int commonTheme2 = 0xFFC83333;
+const int commonTheme = 0xFFDC3C3C;
+const int commonTheme2 = 0xFFC83333;
 
 Image currentLogo(bool darkMode) {
   Image image;
@@ -29,7 +31,7 @@ Image currentLogo(bool darkMode) {
 ThemeData lightTheme = ThemeData(
   colorScheme: ColorScheme(
     brightness: Brightness.light,
-    surface: Color(0xFFF1F1F1),
+    surface: Color(lightThemePrim),
     onSurface: Color(lightThemeSeco),
     primary: Colors.white,
     onPrimary: Colors.black,
@@ -94,14 +96,14 @@ ThemeData lightTheme = ThemeData(
         color: Color(lightThemeText),
       )),
   appBarTheme: AppBarTheme(
-    backgroundColor: Colors.white,
+    backgroundColor: Color(lightThemeSeco),
     titleTextStyle: TextStyle(color: Colors.black, fontSize: 18),
   ),
 );
 ThemeData darkTheme = ThemeData(
     colorScheme: ColorScheme(
       brightness: Brightness.dark,
-      surface: Color(0xFF2B2B2B),
+      surface: Color(darkThemePrim),
       onSurface: Color(darkThemeSeco),
       primary: Colors.white,
       onPrimary: Color(commonTheme),

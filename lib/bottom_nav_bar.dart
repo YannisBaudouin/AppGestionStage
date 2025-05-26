@@ -44,6 +44,7 @@ class BottomBar extends State<BottomNavBar> {
             backgroundColor: isDarkMode
                 ? Color(global.darkThemeSeco)
                 : Color(global.lightThemeSeco),
+            activeIcon: Icon(Icons.backpack),
             icon: const Icon(Icons.backpack_outlined),
             label: 'PFMP',
           ),
@@ -51,6 +52,7 @@ class BottomBar extends State<BottomNavBar> {
             backgroundColor: isDarkMode
                 ? Color(global.darkThemeSeco)
                 : Color(global.lightThemeSeco),
+            activeIcon: Icon(Icons.file_open),
             icon: Icon(Icons.file_open_outlined),
             label: 'Ressources',
           ),
@@ -58,20 +60,23 @@ class BottomBar extends State<BottomNavBar> {
             backgroundColor: isDarkMode
                 ? Color(global.darkThemeSeco)
                 : Color(global.lightThemeSeco),
-            icon: Icon(Icons.home),
+            activeIcon: Icon(Icons.home),
+            icon: Icon(Icons.home_outlined),
             label: 'Home',
           ),
           BottomNavigationBarItem(
             backgroundColor: isDarkMode
                 ? Color(global.darkThemeSeco)
                 : Color(global.lightThemeSeco),
-            icon: Icon(Icons.messenger_outlined),
+            activeIcon: Icon(Icons.messenger),
+            icon: Icon(Icons.messenger_outline),
             label: 'Messages',
           ),
           BottomNavigationBarItem(
             backgroundColor: isDarkMode
                 ? Color(global.darkThemeSeco)
                 : Color(global.lightThemeSeco),
+            activeIcon: Icon(Icons.person),
             icon: Icon(Icons.person_outline),
             label: 'Profil',
           ),
