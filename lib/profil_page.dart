@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'global_var.dart' as global;
+import 'package:firebase_auth/firebase_auth.dart';
 
 class Profil extends StatelessWidget {
   const Profil({super.key});
@@ -26,19 +27,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  double counter = 0.0;
-
-  void _incrementCounter() {
-    setState(() {
-      counter += 1.0;
-    });
-  }
-
-  void _decrementCounter() {
-    setState(() {
-      counter -= 1.0;
-    });
-  }
+  String currentUid = FirebaseAuth.instance.currentUser != null ? FirebaseAuth.instance.currentUser!.uid.toString() : "N/A" ; 
+  String currentEmail = FirebaseAuth.instance.currentUser != null ? FirebaseAuth.instance.currentUser!.email.toString() : "N/A" ; 
 
   @override
   Widget build(BuildContext context) {
@@ -54,40 +44,12 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 global.currentLogo(isDarkMode),
-                Container(
-                  alignment: Alignment.center,
-                  height: 100,
-                  width: MediaQuery.of(context).size.width / 2,
-                  child: const SelectionContainer.disabled(
-                    child: Text(
-                      textAlign: TextAlign.center,
-                      'You have pushed the button this many times:',
-                    ),
-                  ),
-                ),
-                Text(
-                  '$counter',
-                  style: Theme.of(context).textTheme.headlineMedium,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    //Bouton plus
-                    ElevatedButton(
-                      onPressed: () {
-                        _incrementCounter();
-                      },
-                      child: const Icon(Icons.add),
-                    ),
-                    //Bouton moins
-                    ElevatedButton(
-                      onPressed: () {
-                        _decrementCounter();
-                      },
-                      child: const Icon(Icons.minimize),
-                    ),
-                  ],
-                ),
+                Text("UID : " + currentUid),
+                Text("Email : " + currentEmail),
+              
+                ElevatedButton(onPressed: () async {
+                 await FirebaseAuth.instance.signOut();
+                }, child: Text("Se déconnecter")),
               ],
             ),
           ],
