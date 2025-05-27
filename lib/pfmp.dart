@@ -1,3 +1,4 @@
+import 'package:app_gestion_stage/init/dark_mode.dart';
 import 'package:flutter/material.dart';
 import 'global_var.dart' as global;
 
@@ -43,24 +44,96 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 global.currentLogo(isDarkMode),
-                Container(
-                  alignment: Alignment.topCenter,
-                  color: const Color(0xFF000000),
-                  height: MediaQuery.of(context).size.height - 500,
-                  width: MediaQuery.of(context).size.width,
-                  child: RichText(
+                Row(
+                  children: <Widget>[
+                    RichText(
                       textAlign: TextAlign.left,
                       text: TextSpan(
-                        text: 'Construction en cours',
-                        style: Theme.of(context).textTheme.headlineMedium,
-                      )),
+                        text: 'Mes PFMP',
+                        style: Theme.of(context).textTheme.displayMedium,
+                      ),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SecondRoute(),
+                          ),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        shape: CircleBorder(),
+                        backgroundColor: DarkMode.getDarkMode
+                            ? Color(global.lightThemePrim)
+                            : Color(global.darkThemePrim),
+                        iconColor: Color(global.commonTheme),
+                      ),
+                      child: Icon(Icons.add_circle_outline, size: 35),
+                    ),
+                  ],
+                ),
+                Container(
+                  alignment: Alignment.center,
+                  height: 250,
+                  width: MediaQuery.of(context).size.width,
+                  child: ListView(
+                    children: <Widget>[
+                      Container(
+                        alignment: Alignment.center,
+                        height: MediaQuery.of(context).size.height - 500,
+                        width: MediaQuery.of(context).size.width,
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class SecondRoute extends StatelessWidget {
+  const SecondRoute({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    return Scaffold(
+      body: Column(
+        children: <Widget>[
+          global.currentLogo(isDarkMode),
+          RichText(
+            text: TextSpan(
+              text: 'Nouvelle PFMP',
+              style: Theme.of(context).textTheme.displayMedium,
+            ),
+          ),
+          Container(
+            alignment: Alignment.center,
+            height: 250,
+            width: MediaQuery.of(context).size.width,
+            child: ListView(),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('Terminer'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text('Retour'),
+          ),
+        ],
       ),
     );
   }
