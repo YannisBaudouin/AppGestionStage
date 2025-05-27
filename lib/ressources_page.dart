@@ -1,3 +1,4 @@
+import 'package:app_gestion_stage/init/dark_mode.dart';
 import 'package:flutter/material.dart';
 import 'global_var.dart' as global;
 
@@ -53,14 +54,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: ListView(
                     shrinkWrap: true,
                     children: [
-                      Container(
-                        height: 100,
-                        color: const Color(0xFFB00A60),
-                      ),
-                      Container(
-                        height: 100,
-                        color: const Color(0xFFFFEEDD),
-                      ),
+                      Container(height: 100, color: const Color(0xFFB00A60)),
+                      Container(height: 100, color: const Color(0xFFFFEEDD)),
                     ],
                   ),
                 ),
