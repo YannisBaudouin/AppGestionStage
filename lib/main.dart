@@ -3,6 +3,10 @@ import 'bottom_nav_bar.dart';
 import 'global_var.dart' as global;
 import 'init/dark_mode.dart';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+
+
 void main() {
   runApp(const Main());
 }
