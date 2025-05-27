@@ -1,6 +1,6 @@
 {
-    "name": "test1",
-    "short_name": "test1",
+    "name": "app_gestion_stage",
+    "short_name": "app_gestion_stage",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
