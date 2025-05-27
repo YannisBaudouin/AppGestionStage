@@ -33,12 +33,12 @@ ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
     surface: Color(lightThemePrim),
     onSurface: Color(lightThemeSeco),
-    primary: Colors.white,
-    onPrimary: Colors.black,
-    secondary: Color(commonTheme),
-    onSecondary: Colors.black,
-    error: Colors.blue,
-    onError: Color(commonTheme),
+    primary: Color(lightThemePrim),
+    onPrimary: Color(lightThemeSeco),
+    secondary: Color(lightThemePrim),
+    onSecondary: Color(lightThemeSeco),
+    error: Color(commonTheme),
+    onError: Color(commonTheme2),
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
@@ -72,12 +72,12 @@ ThemeData darkTheme = ThemeData(
     brightness: Brightness.dark,
     surface: Color(darkThemePrim),
     onSurface: Color(darkThemeSeco),
-    primary: Colors.white,
-    onPrimary: Color(commonTheme),
-    secondary: Colors.white,
-    onSecondary: Colors.black,
+    primary: Color(darkThemePrim),
+    onPrimary: Color(darkThemeSeco),
+    secondary: Color(darkThemePrim),
+    onSecondary: Color(darkThemeSeco),
     error: Color(commonTheme),
-    onError: Colors.blue,
+    onError: Color(commonTheme2),
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
@@ -104,6 +104,10 @@ ThemeData darkTheme = ThemeData(
   ),
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     backgroundColor: Color(darkThemeSeco),
+  ),
+  hintColor: Color(darkThemeSeco),
+  textSelectionTheme: TextSelectionThemeData(
+    selectionColor: Color(commonTheme2),
   ),
 );
 

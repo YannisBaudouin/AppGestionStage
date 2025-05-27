@@ -105,8 +105,11 @@ class SecondRoute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    DateTime lastDate = DateTime.now();
+    DateTime firstDate = DateTime(1980, 1, 1, 0, 0, 0, 0, 0);
     return Scaffold(
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           global.currentLogo(isDarkMode),
           RichText(
@@ -116,10 +119,83 @@ class SecondRoute extends StatelessWidget {
             ),
           ),
           Container(
-            alignment: Alignment.center,
-            height: 250,
-            width: MediaQuery.of(context).size.width,
-            child: ListView(),
+            alignment: Alignment.topCenter,
+            width: MediaQuery.of(context).size.width - 50,
+            height: MediaQuery.of(context).size.width / 1.30,
+            decoration: BoxDecoration(
+              //color: Color(global.darkThemeSeco),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: ListView(
+              children: <Widget>[
+                RichText(
+                  text: TextSpan(
+                    text: "Société",
+                    style: Theme.of(context).textTheme.displayMedium,
+                  ),
+                ),
+                TextField(
+                  decoration: InputDecoration(
+                    labelText: "Nom",
+                    border: OutlineInputBorder(),
+                    labelStyle: TextStyle(fontSize: 20),
+                  ),
+                ),
+                TextField(
+                  decoration: InputDecoration(
+                    labelText: "Adresse",
+                    border: OutlineInputBorder(),
+                    labelStyle: TextStyle(fontSize: 20),
+                  ),
+                ),
+                TextField(
+                  decoration: InputDecoration(
+                    labelText: "Status juridique",
+                    border: OutlineInputBorder(),
+                    labelStyle: TextStyle(fontSize: 20),
+                  ),
+                ),
+                RichText(
+                  textAlign: TextAlign.start,
+                  text: TextSpan(
+                    text: "Formateur",
+                    style: Theme.of(context).textTheme.displayMedium,
+                  ),
+                ),
+                TextField(
+                  decoration: InputDecoration(
+                    labelText: "Nom du formateur",
+                    border: OutlineInputBorder(),
+                    labelStyle: TextStyle(fontSize: 20),
+                  ),
+                ),
+                TextField(
+                  decoration: InputDecoration(
+                    labelText: "Contact du formateur",
+                    border: OutlineInputBorder(),
+                    labelStyle: TextStyle(fontSize: 20),
+                  ),
+                ),
+                RichText(
+                  textAlign: TextAlign.start,
+                  text: TextSpan(
+                    text: "Période",
+                    style: Theme.of(context).textTheme.displayMedium,
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(bottom: 20),
+                  child: ElevatedButton(
+                    onPressed: () => showDateRangePicker(
+                      context: context,
+                      firstDate: firstDate,
+                      lastDate: lastDate,
+                    ),
+                    child: const Text("Selectionner la date"),
+                  ),
+                ),
+              ],
+            ),
           ),
           ElevatedButton(
             onPressed: () {
