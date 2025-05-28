@@ -34,8 +34,8 @@ ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
     surface: Color(lightThemePrim),
     onSurface: Color(lightThemeSeco),
-    primary: Color(lightThemePrim),
-    onPrimary: Color(lightThemeSeco),
+    primary: Color(lightThemeSeco),
+    onPrimary: Color(lightThemePrim),
     secondary: Color(lightThemePrim),
     onSecondary: Color(lightThemeSeco),
     error: Color(commonTheme),
@@ -67,14 +67,24 @@ ThemeData lightTheme = ThemeData(
     labelMedium: TextStyle(color: Color(lightThemeText)),
     labelLarge: TextStyle(color: Color(lightThemeText)),
   ),
+  inputDecorationTheme: InputDecorationTheme(
+    labelStyle: TextStyle(color: Color(lightThemeText), fontSize: 20),
+    fillColor: Color(lightThemePrim),
+    filled: true,
+    counterStyle: TextStyle(color: Color(darkThemeText)),
+    focusColor: Color(lightThemePrim),
+  ),
+  textSelectionTheme: TextSelectionThemeData(
+    selectionColor: Color(darkThemePrim),
+  ),
 );
 ThemeData darkTheme = ThemeData(
   colorScheme: ColorScheme(
     brightness: Brightness.dark,
     surface: Color(darkThemePrim),
     onSurface: Color(darkThemeSeco),
-    primary: Color(darkThemePrim),
-    onPrimary: Color(darkThemeSeco),
+    primary: Color(darkThemeSeco),
+    onPrimary: Color(darkThemePrim),
     secondary: Color(darkThemePrim),
     onSecondary: Color(darkThemeSeco),
     error: Color(commonTheme),
@@ -106,9 +116,15 @@ ThemeData darkTheme = ThemeData(
   bottomNavigationBarTheme: BottomNavigationBarThemeData(
     backgroundColor: Color(darkThemeSeco),
   ),
-  hintColor: Color(darkThemeSeco),
+  inputDecorationTheme: InputDecorationTheme(
+    labelStyle: TextStyle(color: Color(darkThemeText), fontSize: 20),
+    fillColor: Color(darkThemePrim),
+    filled: true,
+    counterStyle: TextStyle(color: Color(darkThemeText)),
+    focusColor: Color(darkThemePrim),
+  ),
   textSelectionTheme: TextSelectionThemeData(
-    selectionColor: Color(commonTheme2),
+    selectionColor: Color(lightThemePrim),
   ),
 );
 

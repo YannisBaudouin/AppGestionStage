@@ -1,4 +1,5 @@
-import 'package:app_gestion_stage/init/dark_mode.dart';
+import 'package:app_gestion_stage/class/pfmp.dart';
+//import 'package:app_gestion_stage/init/dark_mode.dart';
 import 'package:flutter/material.dart';
 import 'global_var.dart' as global;
 
@@ -61,15 +62,16 @@ class _MyHomePageState extends State<MyHomePage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const SecondRoute(),
+                            builder: (context) =>
+                                const CreaPFMP(title: 'CreationPFMP'),
                           ),
                         );
                       },
                       style: ElevatedButton.styleFrom(
                         shape: CircleBorder(),
-                        backgroundColor: DarkMode.getDarkMode
-                            ? Color(global.lightThemePrim)
-                            : Color(global.darkThemePrim),
+                        backgroundColor: isDarkMode
+                            ? Color(global.darkThemePrim)
+                            : Color(global.lightThemePrim),
                         iconColor: Color(global.commonTheme),
                       ),
                       child: Icon(Icons.add_circle_outline, size: 35),
@@ -99,14 +101,40 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
-class SecondRoute extends StatelessWidget {
-  const SecondRoute({super.key});
+class CreaPFMP extends StatefulWidget {
+  const CreaPFMP({super.key, required this.title});
 
+  final String title;
+
+  @override
+  State<CreaPFMP> createState() => _CreaPFMP();
+}
+
+class _CreaPFMP extends State<CreaPFMP> {
   @override
   Widget build(BuildContext context) {
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     DateTime lastDate = DateTime.now();
     DateTime firstDate = DateTime(1980, 1, 1, 0, 0, 0, 0, 0);
+
+    late String nom;
+    late String adresse;
+    late String statusJur;
+    late String nomForma;
+    late String contact;
+    DateTime dateDeb = DateTime.now();
+    DateTime dateFin = DateTime.now();
+    DateTimeRange selectedDate = DateTimeRange(
+      start: DateTime.now(),
+      end: DateTime.now(),
+    );
+
+    final nomSociete = TextEditingController();
+    final adresseSoc = TextEditingController();
+    final statusJuri = TextEditingController();
+    final nomFormate = TextEditingController();
+    final contactFor = TextEditingController();
+
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -123,7 +151,7 @@ class SecondRoute extends StatelessWidget {
             width: MediaQuery.of(context).size.width - 50,
             height: MediaQuery.of(context).size.width / 1.30,
             decoration: BoxDecoration(
-              //color: Color(global.darkThemeSeco),
+              color: Color(global.darkThemeSeco),
               borderRadius: BorderRadius.circular(12),
             ),
             child: ListView(
@@ -131,28 +159,28 @@ class SecondRoute extends StatelessWidget {
                 RichText(
                   text: TextSpan(
                     text: "Société",
-                    style: Theme.of(context).textTheme.displayMedium,
+                    style: Theme.of(context).textTheme.titleLarge,
                   ),
                 ),
                 TextField(
+                  controller: nomSociete,
                   decoration: InputDecoration(
                     labelText: "Nom",
                     border: OutlineInputBorder(),
-                    labelStyle: TextStyle(fontSize: 20),
                   ),
                 ),
                 TextField(
+                  controller: adresseSoc,
                   decoration: InputDecoration(
                     labelText: "Adresse",
                     border: OutlineInputBorder(),
-                    labelStyle: TextStyle(fontSize: 20),
                   ),
                 ),
                 TextField(
+                  controller: statusJuri,
                   decoration: InputDecoration(
                     labelText: "Status juridique",
                     border: OutlineInputBorder(),
-                    labelStyle: TextStyle(fontSize: 20),
                   ),
                 ),
                 RichText(
@@ -163,17 +191,17 @@ class SecondRoute extends StatelessWidget {
                   ),
                 ),
                 TextField(
+                  controller: nomFormate,
                   decoration: InputDecoration(
                     labelText: "Nom du formateur",
                     border: OutlineInputBorder(),
-                    labelStyle: TextStyle(fontSize: 20),
                   ),
                 ),
                 TextField(
+                  controller: contactFor,
                   decoration: InputDecoration(
                     labelText: "Contact du formateur",
                     border: OutlineInputBorder(),
-                    labelStyle: TextStyle(fontSize: 20),
                   ),
                 ),
                 RichText(
@@ -186,11 +214,22 @@ class SecondRoute extends StatelessWidget {
                 Container(
                   margin: EdgeInsets.only(bottom: 20),
                   child: ElevatedButton(
-                    onPressed: () => showDateRangePicker(
-                      context: context,
-                      firstDate: firstDate,
-                      lastDate: lastDate,
-                    ),
+                    onPressed: () async {
+                      final DateTimeRange? dateTimeRange =
+                          await showDateRangePicker(
+                            context: context,
+                            firstDate: firstDate,
+                            lastDate: lastDate,
+                            saveText: "Enregistrer",
+                          );
+                      if (dateTimeRange != null) {
+                        setState(() {
+                          selectedDate = dateTimeRange;
+                          dateDeb = selectedDate.start;
+                          dateFin = selectedDate.end;
+                        });
+                      }
+                    },
                     child: const Text("Selectionner la date"),
                   ),
                 ),
@@ -199,7 +238,21 @@ class SecondRoute extends StatelessWidget {
           ),
           ElevatedButton(
             onPressed: () {
-              Navigator.pop(context);
+              nom = nomSociete.text;
+              adresse = adresseSoc.text;
+              statusJur = statusJuri.text;
+              nomForma = nomFormate.text;
+              contact = contactFor.text;
+              Pfmp newPFMP = new Pfmp(
+                nom,
+                adresse,
+                statusJur,
+                nomForma,
+                contact,
+                dateDeb,
+                dateFin,
+              );
+              //Navigator.pop(context);
             },
             child: const Text('Terminer'),
           ),

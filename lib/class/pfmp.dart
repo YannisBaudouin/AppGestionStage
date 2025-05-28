@@ -4,7 +4,8 @@ class Pfmp {
   late String statusSociete;
   late String nomFormateur;
   late String contactFormateur;
-  late DateTime periodeStage;
+  late DateTime dateDebut;
+  late DateTime dateFin;
 
   Pfmp(
     String nomSoc,
@@ -12,14 +13,16 @@ class Pfmp {
     String statusSoc,
     String nomForma,
     String contactForma,
-    DateTime periode,
+    DateTime dateD,
+    DateTime dateF,
   ) {
     this.nomSociete = nomSoc;
     this.adresseSociete = adresseSoc;
     this.statusSociete = statusSoc;
     this.nomFormateur = nomForma;
     this.contactFormateur = contactForma;
-    this.periodeStage = periode;
+    this.dateDebut = dateD;
+    this.dateFin = dateF;
   }
 
   String getNomSociete() {
@@ -62,11 +65,19 @@ class Pfmp {
     this.nomSociete = nouvContact;
   }
 
-  DateTime getPeriodeStage() {
-    return this.periodeStage;
+  DateTime getDateDebut() {
+    return this.dateDebut;
   }
 
-  void setPeriodeStage(DateTime nouvPeriode) {
-    this.periodeStage = nouvPeriode;
+  void setdateDebut(DateTime nouvDateDebut) {
+    this.dateDebut = nouvDateDebut;
+  }
+
+  DateTime getDateFin() {
+    return this.dateFin;
+  }
+
+  void setDateFin(DateTime nouvDateFin) {
+    this.dateFin = nouvDateFin;
   }
 }
