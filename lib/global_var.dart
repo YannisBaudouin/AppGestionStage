@@ -8,8 +8,10 @@ import 'pfmp_page.dart';
 import 'messages_page.dart';
 import 'login_page.dart';
 
+//index de départ pour la bar de navigation
 int selectedIndex = 2;
 
+//variable qui contiennent les valeurs héxadécimales des couleurs nécessaires pour l'application
 const int lightThemePrim = 0xFFF1F1F1;
 const int lightThemeSeco = 0xFFFFFFFF;
 const int lightThemeText = 0xFF434343;
@@ -21,6 +23,7 @@ const int darkThemeText = 0xFFD3D3D3;
 const int commonTheme = 0xFFDC3C3C;
 const int commonTheme2 = 0xFFC83333;
 
+// méthode qui renvoie une image basé sur un booléen
 Image currentLogo(bool darkMode) {
   Image image;
   darkMode
@@ -29,7 +32,9 @@ Image currentLogo(bool darkMode) {
   return image;
 }
 
+//données de couleur pour le mode lumineux
 ThemeData lightTheme = ThemeData(
+  //décrit les couleurs pour une majorité des éléments pour rapport à leur couche du mode lumineux
   colorScheme: ColorScheme(
     brightness: Brightness.light,
     surface: Color(lightThemePrim),
@@ -41,15 +46,14 @@ ThemeData lightTheme = ThemeData(
     error: Color(commonTheme),
     onError: Color(commonTheme2),
   ),
+  //décrit les couleurs pour les ElevatedButtons du mode lumineux
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
       backgroundColor: Color(commonTheme),
       iconColor: Color(lightThemeSeco),
     ),
   ),
-  bottomNavigationBarTheme: BottomNavigationBarThemeData(
-    backgroundColor: Color(lightThemeSeco),
-  ),
+  //décrit les couleurs pour tous les types d'écritures du mode lumineux
   textTheme: TextTheme(
     titleSmall: TextStyle(color: Color(lightThemeText)),
     titleMedium: TextStyle(color: Color(lightThemeText)),
@@ -67,6 +71,7 @@ ThemeData lightTheme = ThemeData(
     labelMedium: TextStyle(color: Color(lightThemeText)),
     labelLarge: TextStyle(color: Color(lightThemeText)),
   ),
+  //décrit la palette de couleur pour les BoxDecoration pour le mode lumineux
   inputDecorationTheme: InputDecorationTheme(
     labelStyle: TextStyle(color: Color(lightThemeText), fontSize: 20),
     fillColor: Color(lightThemePrim),
@@ -74,11 +79,10 @@ ThemeData lightTheme = ThemeData(
     counterStyle: TextStyle(color: Color(darkThemeText)),
     focusColor: Color(lightThemePrim),
   ),
-  textSelectionTheme: TextSelectionThemeData(
-    selectionColor: Color(darkThemePrim),
-  ),
 );
+//données de couleur pour le mode sombre
 ThemeData darkTheme = ThemeData(
+  //décrit les couleurs pour une majorité des éléments pour rapport à leur couche du mode sombre
   colorScheme: ColorScheme(
     brightness: Brightness.dark,
     surface: Color(darkThemePrim),
@@ -90,12 +94,14 @@ ThemeData darkTheme = ThemeData(
     error: Color(commonTheme),
     onError: Color(commonTheme2),
   ),
+  //décrit les couleurs pour les ElevatedButtons du mode sombre
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
       backgroundColor: Color(commonTheme),
       iconColor: Colors.white,
     ),
   ),
+  //décrit les couleurs pour tous les types d'écritures du mode sombre
   textTheme: TextTheme(
     titleSmall: TextStyle(color: Color(darkThemeText)),
     titleMedium: TextStyle(color: Color(darkThemeText)),
@@ -113,9 +119,7 @@ ThemeData darkTheme = ThemeData(
     labelMedium: TextStyle(color: Color(darkThemeText)),
     labelLarge: TextStyle(color: Color(darkThemeText)),
   ),
-  bottomNavigationBarTheme: BottomNavigationBarThemeData(
-    backgroundColor: Color(darkThemeSeco),
-  ),
+  //décrit la palette de couleur pour les BoxDecoration pour le mode sombre
   inputDecorationTheme: InputDecorationTheme(
     labelStyle: TextStyle(color: Color(darkThemeText), fontSize: 20),
     fillColor: Color(darkThemePrim),
@@ -123,11 +127,9 @@ ThemeData darkTheme = ThemeData(
     counterStyle: TextStyle(color: Color(darkThemeText)),
     focusColor: Color(darkThemePrim),
   ),
-  textSelectionTheme: TextSelectionThemeData(
-    selectionColor: Color(lightThemePrim),
-  ),
 );
 
+//Pages utiliser pour la bar de navigation
 const List<Widget> btmPages = [
   PFMP(),
   Ressources(),

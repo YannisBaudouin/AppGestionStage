@@ -29,13 +29,12 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  Brightness getBrightness() {
-    return MediaQuery.of(context).platformBrightness;
-  }
-
+  // page d'accueil des PFMPs
   @override
   Widget build(BuildContext context) {
-    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    bool isDarkMode =
+        Theme.of(context).brightness ==
+        Brightness.dark; //Booléen qui change par rapport au thème
     return Scaffold(
       body: Container(
         alignment: Alignment.center,
@@ -47,8 +46,11 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                global.currentLogo(isDarkMode),
+                global.currentLogo(
+                  isDarkMode,
+                ), //Utilise le booléen définit plus haut pour changer l'image
                 Row(
+                  //partie pour ajouter une PFMP
                   children: <Widget>[
                     RichText(
                       textAlign: TextAlign.left,
@@ -62,12 +64,14 @@ class _MyHomePageState extends State<MyHomePage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>
-                                const CreaPFMP(title: 'CreationPFMP'),
+                            builder: (context) => const CreaPFMP(
+                              title: 'CreationPFMP',
+                            ), // redirection vers la page de création d'une PFMP
                           ),
                         );
                       },
                       style: ElevatedButton.styleFrom(
+                        //Modification du style du boutton
                         shape: CircleBorder(),
                         backgroundColor: isDarkMode
                             ? Color(global.darkThemePrim)
@@ -83,6 +87,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   height: 250,
                   width: MediaQuery.of(context).size.width,
                   child: ListView(
+                    // pour accueillir les futurs PFMP
                     children: <Widget>[
                       Container(
                         alignment: Alignment.center,
@@ -111,12 +116,17 @@ class CreaPFMP extends StatefulWidget {
 }
 
 class _CreaPFMP extends State<CreaPFMP> {
+  //Page de création des PFMPs
   @override
   Widget build(BuildContext context) {
+    //Booléen qui change par rapport au thème
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
+    //Définition des dates pour le calendrier
     DateTime lastDate = DateTime.now();
     DateTime firstDate = DateTime(1980, 1, 1, 0, 0, 0, 0, 0);
 
+    // attribut d'une PFMP en vue de la stockée dans la base de données
     late String nom;
     late String adresse;
     late String statusJur;
@@ -124,11 +134,14 @@ class _CreaPFMP extends State<CreaPFMP> {
     late String contact;
     DateTime dateDeb = DateTime.now();
     DateTime dateFin = DateTime.now();
+
+    // date pour définir le début et la fin des dates sélectionner dans le calendrier
     DateTimeRange selectedDate = DateTimeRange(
       start: DateTime.now(),
       end: DateTime.now(),
     );
 
+    // Controller pour les champs de saisies
     final nomSociete = TextEditingController();
     final adresseSoc = TextEditingController();
     final statusJuri = TextEditingController();
@@ -139,6 +152,7 @@ class _CreaPFMP extends State<CreaPFMP> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
+          //Utilise le booléen définit plus haut pour changer l'image
           global.currentLogo(isDarkMode),
           RichText(
             text: TextSpan(
@@ -150,10 +164,14 @@ class _CreaPFMP extends State<CreaPFMP> {
             alignment: Alignment.topCenter,
             width: MediaQuery.of(context).size.width - 50,
             height: MediaQuery.of(context).size.width / 1.30,
+            //utiliser pour customiser un Container
             decoration: BoxDecoration(
+              //backgroundcolors
               color: Color(global.darkThemeSeco),
+              //permet d'arondir le container
               borderRadius: BorderRadius.circular(12),
             ),
+            //contient le formulaire pour créer une nouvelle PFMP
             child: ListView(
               children: <Widget>[
                 RichText(
@@ -165,22 +183,27 @@ class _CreaPFMP extends State<CreaPFMP> {
                 TextField(
                   controller: nomSociete,
                   decoration: InputDecoration(
-                    labelText: "Nom",
-                    border: OutlineInputBorder(),
+                    labelText: "Nom", //Le nom qui est affiché dans le champs
+                    border:
+                        OutlineInputBorder(), //fait en sorte que le nom aille au-dessus du champs lors de la saisie
                   ),
                 ),
                 TextField(
                   controller: adresseSoc,
                   decoration: InputDecoration(
-                    labelText: "Adresse",
-                    border: OutlineInputBorder(),
+                    labelText:
+                        "Adresse", //Le nom qui est affiché dans le champs
+                    border:
+                        OutlineInputBorder(), //fait en sorte que le nom aille au-dessus du champs lors de la saisie
                   ),
                 ),
                 TextField(
                   controller: statusJuri,
                   decoration: InputDecoration(
-                    labelText: "Status juridique",
-                    border: OutlineInputBorder(),
+                    labelText:
+                        "Status juridique", //Le nom qui est affiché dans le champs
+                    border:
+                        OutlineInputBorder(), //fait en sorte que le nom aille au-dessus du champs lors de la saisie
                   ),
                 ),
                 RichText(
@@ -193,15 +216,19 @@ class _CreaPFMP extends State<CreaPFMP> {
                 TextField(
                   controller: nomFormate,
                   decoration: InputDecoration(
-                    labelText: "Nom du formateur",
-                    border: OutlineInputBorder(),
+                    labelText:
+                        "Nom du formateur", //Le nom qui est affiché dans le champs
+                    border:
+                        OutlineInputBorder(), //fait en sorte que le nom aille au-dessus du champs lors de la saisie
                   ),
                 ),
                 TextField(
                   controller: contactFor,
                   decoration: InputDecoration(
-                    labelText: "Contact du formateur",
-                    border: OutlineInputBorder(),
+                    labelText:
+                        "Contact du formateur", //Le nom qui est affiché dans le champs
+                    border:
+                        OutlineInputBorder(), //fait en sorte que le nom aille au-dessus du champs lors de la saisie
                   ),
                 ),
                 RichText(
@@ -214,19 +241,26 @@ class _CreaPFMP extends State<CreaPFMP> {
                 Container(
                   margin: EdgeInsets.only(bottom: 20),
                   child: ElevatedButton(
+                    //boutton qui appelle le calendrier
                     onPressed: () async {
-                      final DateTimeRange? dateTimeRange =
-                          await showDateRangePicker(
-                            context: context,
-                            firstDate: firstDate,
-                            lastDate: lastDate,
-                            saveText: "Enregistrer",
-                          );
+                      final DateTimeRange?
+                      dateTimeRange = await showDateRangePicker(
+                        //le calendrier
+                        context: context,
+                        firstDate:
+                            firstDate, //première date sélectionnable(la plus loin dans le temps)
+                        lastDate:
+                            lastDate, //dernière date sélectionnable(la plus près dans le temps)
+                        saveText:
+                            "Enregistrer", //pour modifier l'affichage du boutton qui permet d'enregistrer les dates
+                      );
                       if (dateTimeRange != null) {
                         setState(() {
                           selectedDate = dateTimeRange;
-                          dateDeb = selectedDate.start;
-                          dateFin = selectedDate.end;
+                          dateDeb = selectedDate
+                              .start; //affectation de la valeur de début à une varible instancié avant
+                          dateFin = selectedDate
+                              .end; //affectation de la valeur de début à une varible instancié avant
                         });
                       }
                     },
@@ -238,11 +272,13 @@ class _CreaPFMP extends State<CreaPFMP> {
           ),
           ElevatedButton(
             onPressed: () {
+              //assigne les valeurs renseigné dans les champs dans ces variables
               nom = nomSociete.text;
               adresse = adresseSoc.text;
               statusJur = statusJuri.text;
               nomForma = nomFormate.text;
               contact = contactFor.text;
+              //Création d'un objet PFMP grâce au varible instancié précédement
               Pfmp newPFMP = new Pfmp(
                 nom,
                 adresse,
@@ -252,11 +288,13 @@ class _CreaPFMP extends State<CreaPFMP> {
                 dateDeb,
                 dateFin,
               );
-              //Navigator.pop(context);
+              Navigator.pop(context);
+              //TODO(envoyer la PFMP dans la base de données)
             },
             child: const Text('Terminer'),
           ),
           ElevatedButton(
+            //boutton pour quitter la page
             onPressed: () {
               Navigator.pop(context);
             },

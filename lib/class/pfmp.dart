@@ -1,4 +1,5 @@
 class Pfmp {
+  //attribut de la classe PFMP
   late String nomSociete;
   late String adresseSociete;
   late String statusSociete;
@@ -7,6 +8,7 @@ class Pfmp {
   late DateTime dateDebut;
   late DateTime dateFin;
 
+  //Constructeur de la classe
   Pfmp(
     String nomSoc,
     String adresseSoc,
@@ -25,6 +27,7 @@ class Pfmp {
     this.dateFin = dateF;
   }
 
+  //Constructeur des attributs
   String getNomSociete() {
     return this.nomSociete;
   }
