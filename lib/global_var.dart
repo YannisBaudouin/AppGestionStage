@@ -133,7 +133,6 @@ ThemeData darkTheme = ThemeData(
 const List<Widget> btmPages = [
   PFMP(),
   Ressources(),
-  //LoginPage(),
   MainScreen(),
   Messages(),
   Profil(),

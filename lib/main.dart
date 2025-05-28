@@ -16,7 +16,6 @@ void main() async {
       themeMode: ThemeMode.system,
       theme: global.lightTheme,
       darkTheme: global.darkTheme,
-      //home: const MyHomePage(title: 'Flutter Demo Home Page'),
       home: LoginPage(),
     );
     

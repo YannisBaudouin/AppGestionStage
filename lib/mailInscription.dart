@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'class/appUser.dart';
+
 class MailInscriptionPage extends StatefulWidget {
   const MailInscriptionPage({super.key, required this.title});
 
@@ -140,23 +142,9 @@ class MailInscriptionPageState extends State<MailInscriptionPage> {
                           password: passwordController.text,
                         );
                         
-                    DocumentReference eleveRef = FirebaseFirestore.instance
-                        .collection('Statut')
-                        .doc(
-                          'Eleve',
-                        ); // On donne le statut d'élève par défaut à la création du compte
+                    AppUser user = new AppUser(userCredentials.user!.uid, "", "", DateTime.now(), "Eleve", "", "", "");
+                    user.update();
 
-                    final user = {
-                      "firstName": "Roger",
-                      "lastName": "Figman",
-                      "birthDate": "14-05-2025",
-                      "statut": eleveRef,
-                    };
-
-                    FirebaseFirestore.instance
-                        .collection("users")
-                        .doc(userCredentials.user!.uid)
-                        .set(user);
                   } on FirebaseAuthException catch (e) {
                     final String errorMsg = e.message ?? "Erreur inconnue";
 

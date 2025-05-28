@@ -3,6 +3,9 @@ import 'global_var.dart' as global;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'edition_profil_page.dart';
+import 'class/appUser.dart';
+
 class Profil extends StatelessWidget {
   const Profil({super.key});
 
@@ -28,10 +31,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  String currentUid = FirebaseAuth.instance.currentUser != null ? FirebaseAuth.instance.currentUser!.uid.toString() : "N/A" ; 
-  String currentEmail = FirebaseAuth.instance.currentUser != null ? FirebaseAuth.instance.currentUser!.email.toString() : "N/A" ; 
-
-  Map<String, dynamic>? userData;
+  // Strings qui vont être affichées sur la page.
+  String currentUid = FirebaseAuth.instance.currentUser!.uid.toString(); 
+  String currentEmail = FirebaseAuth.instance.currentUser!.email.toString(); 
   String firstName = "N/A";
   String lastName = "N/A";
   String age = "N/A";
@@ -47,29 +49,26 @@ class _HomePageState extends State<HomePage> {
   }
 
   void getData() async {
-    CollectionReference users = FirebaseFirestore.instance.collection('users');
-    final snapshot = await users.doc(FirebaseAuth.instance.currentUser!.uid).get();
-    userData = snapshot.data() as Map<String, dynamic>;
-    firstName = userData != null ? userData!["firstName"] : "N/A";
-    lastName = userData != null ? userData!["lastName"] : "N/A";
+    // Récupère les infos de l'utilisateur connecté
+    AppUser user = await AppUser.retrieve(FirebaseAuth.instance.currentUser!.uid);
 
+    firstName = user.firstName;
+    lastName = user.lastName;
+
+    // Fait la différence entre la date d'aujourd'hui et la date de naissance de l'utilisateur
     DateTime now = DateTime.now();
-    DateTime birthDate = DateTime.parse(userData!["birthDate"]);
+    DateTime birthDate = user.birthDate;
     DateTime dateDifference = DateTime(now.year-birthDate.year, now.month-birthDate.month, now.day-birthDate.day);
     age = dateDifference.year.toString();
 
-    etablissement = userData != null ? userData!["school"].id : "N/A";
+    etablissement = user.school;
 
-    //DocumentReference statutRef = userData!["statut"];
-    statut = userData != null ? userData!["statut"].id : "N/A";
-    filiere = userData != null ? userData!["sector"].id : "N/A";
-    classe = userData != null ? userData!["class"].id : "N/A";
+    statut = user.status;
+    filiere = user.sector;
+    classe = user.userClass;
 
-    //print(userData);
-
-    setState(() {
-      
-    });
+    // Actualise la page
+    setState(() {});
   }
 
   @override
@@ -86,16 +85,27 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 global.currentLogo(isDarkMode),
-                Text("UID : " + currentUid),
-                Text("Prénom : " + firstName),
-                Text("Nom : "+ lastName),
-                Text("Age: " + age + " ans"),
-                Text("Etablissement : "+ etablissement),
-                Text("Status : "+ statut),
-                Text("Filière : " + filiere),
-                Text("Classe : " + classe),
-                Text("Email : " + currentEmail),
+                Text("UID : $currentUid"),
+                Text("Prénom : $firstName"),
+                Text("Nom : $lastName"),
+                Text("Age: $age ans"),
+                Text("Status : $statut"),
+                Text("Etablissement : $etablissement"),
+                Text("Filière : $filiere"),
+                Text("Classe : $classe"),
+                Text("Email : $currentEmail"),
               
+                // Bouton Confirmer
+                ElevatedButton(onPressed: () async {
+                  // Attend que l'utilisateur ferme la page
+                  await Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => const EditionProfilPage(title: "AppPage")),
+                  );
+
+                  // Actualise les infos affichées
+                  getData();
+                }, child: Text("Edition du profil")),
+                // Bouton Déconnexion
                 ElevatedButton(onPressed: () async {
                  await FirebaseAuth.instance.signOut();
                 }, child: Text("Se déconnecter")),
