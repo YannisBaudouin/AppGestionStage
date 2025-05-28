@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'global_var.dart' as global;
 
-import 'mailConnexion.dart';
-import 'mailInscription.dart';
-
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
 
@@ -16,11 +13,6 @@ class MainScreen extends StatelessWidget {
       theme: global.lightTheme,
       darkTheme: global.darkTheme,
       home: const MyHomePage(title: 'Agestage'),
-      initialRoute: '/',
-      routes: {
-      '/inscription': (context) => const MailInscriptionPage(title: "test"),
-      '/connexion': (context) => const MailConnexionPage(title: "test"),
-      },
     );
   }
 }
@@ -49,8 +41,6 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 global.currentLogo(isDarkMode),
-                ElevatedButton(onPressed: () { Navigator.pushNamed(context, '/connexion'); }, child: Text("Connexion")),
-                ElevatedButton(onPressed: () { Navigator.pushNamed(context, '/inscription'); }, child: Text("Inscription"))
               ],
             ),
           ],

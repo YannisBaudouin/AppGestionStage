@@ -27,16 +27,16 @@ class MailInscriptionPageState extends State<MailInscriptionPage> {
   void updateEmailValid(text) {
     setState(() {
       mailValid = RegExp(
-              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-          .hasMatch(emailController.text);
+        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+      ).hasMatch(emailController.text);
     });
   }
 
   void updatePasswords(text) {
     setState(() {
       passwordValid = RegExp(
-              r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{6,}$')
-          .hasMatch(passwordController.text);
+        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{6,}$',
+      ).hasMatch(passwordController.text);
       passwordVerificationValid =
           passwordController.text == passwordVerificationController.text;
     });
@@ -77,29 +77,30 @@ class MailInscriptionPageState extends State<MailInscriptionPage> {
                 controller: passwordController,
                 onChanged: updatePasswords,
                 decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    labelText: "Mot de passe",
-                    hintText: '*********',
-                    helperText:
-                        "Le mot de passe doit contenir au moins 6 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.",
-                    helperMaxLines: 6,
-                    errorText: !passwordValid
-                        ? "Le mot de passe doit contenir au moins 6 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial."
-                        : null,
-                    errorMaxLines: 6,
-                    suffixIcon: IconButton(
-                        onPressed: () => setState(() {
-                              passwordHidden = !passwordHidden;
+                  border: OutlineInputBorder(),
+                  labelText: "Mot de passe",
+                  hintText: '*********',
+                  helperText:
+                      "Le mot de passe doit contenir au moins 6 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.",
+                  helperMaxLines: 6,
+                  errorText: !passwordValid
+                      ? "Le mot de passe doit contenir au moins 6 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial."
+                      : null,
+                  errorMaxLines: 6,
+                  suffixIcon: IconButton(
+                    onPressed: () => setState(() {
+                      passwordHidden = !passwordHidden;
 
-                              if (passwordHidden) {
-                                currentPasswordSuffixIcon =
-                                    Icons.remove_red_eye_outlined;
-                              } else {
-                                currentPasswordSuffixIcon =
-                                    Icons.remove_red_eye_sharp;
-                              }
-                            }),
-                        icon: Icon(currentPasswordSuffixIcon))),
+                      if (passwordHidden) {
+                        currentPasswordSuffixIcon =
+                            Icons.remove_red_eye_outlined;
+                      } else {
+                        currentPasswordSuffixIcon = Icons.remove_red_eye_sharp;
+                      }
+                    }),
+                    icon: Icon(currentPasswordSuffixIcon),
+                  ),
+                ),
                 // Cache le texte
                 obscureText: passwordHidden,
               ),
@@ -128,61 +129,67 @@ class MailInscriptionPageState extends State<MailInscriptionPage> {
 
             // Bouton Inscription
             ElevatedButton(
-                onPressed: () async {
-                  updateEmailValid("");
-                  updatePasswords('');
-                  if (mailValid && passwordValid && passwordVerificationValid) {
-                    try {
-                      UserCredential userCredentials = await FirebaseAuth
-                          .instance
-                          .createUserWithEmailAndPassword(
-                              email: emailController.text,
-                              password: passwordController.text);
-                      DocumentReference eleveRef = FirebaseFirestore.instance
-                          .collection('Statut')
-                          .doc(
-                              'Eleve'); // On donne le statut d'élève par défaut à la création du compte
+              onPressed: () async {
+                updateEmailValid("");
+                updatePasswords('');
+                if (mailValid && passwordValid && passwordVerificationValid) {
+                  try {
+                    UserCredential userCredentials = await FirebaseAuth.instance
+                        .createUserWithEmailAndPassword(
+                          email: emailController.text,
+                          password: passwordController.text,
+                        );
+                        
+                    DocumentReference eleveRef = FirebaseFirestore.instance
+                        .collection('Statut')
+                        .doc(
+                          'Eleve',
+                        ); // On donne le statut d'élève par défaut à la création du compte
 
-                      final user = {
-                        "firstName": "Roger",
-                        "lastName": "Figman",
-                        "birthDate": "14/05/2025",
-                        "statut": eleveRef
-                      };
+                    final user = {
+                      "firstName": "Roger",
+                      "lastName": "Figman",
+                      "birthDate": "14-05-2025",
+                      "statut": eleveRef,
+                    };
 
-                      FirebaseFirestore.instance
-                          .collection("users")
-                          .doc(userCredentials.user!.uid)
-                          .set(user);
-                    } on FirebaseAuthException catch (e) {
-                      final String errorMsg = e.message ?? "Erreur inconnue";
+                    FirebaseFirestore.instance
+                        .collection("users")
+                        .doc(userCredentials.user!.uid)
+                        .set(user);
+                  } on FirebaseAuthException catch (e) {
+                    final String errorMsg = e.message ?? "Erreur inconnue";
 
-                      showDialog<String>(
-                        context: context,
-                        builder: (BuildContext context) => AlertDialog(
-                          title: const Text('Problème lors de l\'inscription'),
-                          content: Text(errorMsg),
-                          actions: <Widget>[
-                            TextButton(
-                              onPressed: () => Navigator.popUntil(
-                                  context,
-                                  ModalRoute.withName(
-                                      Navigator.defaultRouteName)),
-                              child: const Text('OK'),
+                    showDialog<String>(
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                        title: const Text('Problème lors de l\'inscription'),
+                        content: Text(errorMsg),
+                        actions: <Widget>[
+                          TextButton(
+                            onPressed: () => Navigator.popUntil(
+                              context,
+                              ModalRoute.withName(Navigator.defaultRouteName),
                             ),
-                          ],
-                        ),
-                      );
-                    }
+                            child: const Text('OK'),
+                          ),
+                        ],
+                      ),
+                    );
                   }
-                },
-                child: Text("Inscription")),
+                }
+              },
+              child: Text("Inscription"),
+            ),
             ElevatedButton(
-                onPressed: () {
-                  Navigator.popUntil(
-                      context, ModalRoute.withName(Navigator.defaultRouteName));
-                },
-                child: Text("Retour")),
+              onPressed: () {
+                Navigator.popUntil(
+                  context,
+                  ModalRoute.withName(Navigator.defaultRouteName),
+                );
+              },
+              child: Text("Retour"),
+            ),
           ],
         ),
       ),

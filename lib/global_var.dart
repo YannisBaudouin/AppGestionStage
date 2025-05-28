@@ -6,6 +6,7 @@ import 'profil_page.dart';
 import 'ressources_page.dart';
 import 'pfmp_page.dart';
 import 'messages_page.dart';
+import 'login_page.dart';
 
 int selectedIndex = 2;
 
@@ -114,6 +115,7 @@ ThemeData darkTheme = ThemeData(
 const List<Widget> btmPages = [
   PFMP(),
   Ressources(),
+  //LoginPage(),
   MainScreen(),
   Messages(),
   Profil(),

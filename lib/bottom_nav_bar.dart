@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'global_var.dart' as global;
 
+/*
 class BottomNavBarPage extends StatelessWidget {
   const BottomNavBarPage({super.key});
 
@@ -15,7 +16,7 @@ class BottomNavBarPage extends StatelessWidget {
       home: const BottomNavBar(title: 'Agestage'),
     );
   }
-}
+}*/
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({super.key, required this.title});
