@@ -6,7 +6,6 @@ import 'profil_page.dart';
 import 'ressources_page.dart';
 import 'pfmp_page.dart';
 import 'messages_page.dart';
-import 'login_page.dart';
 
 //index de départ pour la bar de navigation
 int selectedIndex = 2;
