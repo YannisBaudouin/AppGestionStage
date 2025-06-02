@@ -1,6 +1,23 @@
 import 'package:flutter/material.dart';
 import 'global_var.dart' as global;
 
+/*
+class BottomNavBarPage extends StatelessWidget {
+  const BottomNavBarPage({super.key});
+
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Agestage',
+      themeMode: ThemeMode.system,
+      theme: global.lightTheme,
+      darkTheme: global.darkTheme,
+      home: const BottomNavBar(title: 'Agestage'),
+    );
+  }
+}*/
+
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({super.key, required this.title});
 
@@ -12,11 +29,9 @@ class BottomNavBar extends StatefulWidget {
 
 class BottomBar extends State<BottomNavBar> {
   //fonction qui permet de changer d'index et donc de page affichée
-  int selectedIndex = 2;
   void onItemTapped(int index) {
     setState(() {
-      selectedIndex = index;
-      global.selectedIndex = selectedIndex;
+      global.selectedIndex = index;
     });
   }
 
@@ -26,7 +41,7 @@ class BottomBar extends State<BottomNavBar> {
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      body: Center(child: global.btmPages.elementAt(selectedIndex)),
+      body: Center(child: global.btmPages.elementAt(global.selectedIndex)),
       //initialisation de la bar de navigation
       bottomNavigationBar: BottomNavigationBar(
         //personnalisation des items contenu dans la bar de navigation
@@ -93,7 +108,7 @@ class BottomBar extends State<BottomNavBar> {
           ),
         ],
         //définit l'index que la bar utilise quand elle est instancié dans l'application
-        currentIndex: selectedIndex,
+        currentIndex: global.selectedIndex,
         //Couleur de l'icône quand il est sélectionner ou pas
         selectedItemColor: Color(global.commonTheme),
         unselectedItemColor: Colors.grey,

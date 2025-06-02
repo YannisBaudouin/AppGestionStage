@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'global_var.dart' as global;
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'edition_profil_page.dart';
 import 'class/appUser.dart';
@@ -107,10 +108,6 @@ class _HomePageState extends State<HomePage> {
                 // Bouton Déconnexion
                 ElevatedButton(onPressed: () async {
                  await FirebaseAuth.instance.signOut();
-
-                 if (FirebaseAuth.instance.currentUser == null) {
-                  Navigator.of(context, rootNavigator: true).pushNamedAndRemoveUntil("/", (_) => false);
-                 }
                 }, child: Text("Se déconnecter")),
               ],
             ),
