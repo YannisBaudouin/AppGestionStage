@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'pfmp.dart';
 
 class AppUser {
   late String uid;
@@ -11,6 +12,8 @@ class AppUser {
   late String school;
   late String userClass;
   late String sector;
+
+  late List<Pfmp> pfmpList;
   
   AppUser(
     String uid_,
@@ -20,7 +23,8 @@ class AppUser {
     String status_,
     String school_,
     String userClass_,
-    String sector_,    
+    String sector_,
+    List<Pfmp> pfmpList_
   ) {
     this.uid = uid_;
     this.firstName = firstName_;
@@ -30,6 +34,7 @@ class AppUser {
     this.school = school_;
     this.userClass = userClass_;
     this.sector = sector_;
+    this.pfmpList = pfmpList_;
   }
 
   void update() {
@@ -37,6 +42,8 @@ class AppUser {
     DocumentReference schoolRef = FirebaseFirestore.instance.collection('Etablissement').doc(this.school.isEmpty ? "None" : this.school);
     DocumentReference userClassRef = FirebaseFirestore.instance.collection('Classe').doc(this.userClass.isEmpty ? "None" : this.userClass);
     DocumentReference sectorRef = FirebaseFirestore.instance.collection('Filliere').doc(this.sector.isEmpty ? "None" : this.sector);
+
+    DocumentReference userRef = FirebaseFirestore.instance.collection("users").doc(this.uid);
 
     final userData = {
       "firstName": this.firstName,
@@ -49,7 +56,7 @@ class AppUser {
       "sector": sectorRef
     };
 
-    FirebaseFirestore.instance.collection("users").doc(this.uid).set(userData);
+    userRef.set(userData);
   }
 
   static Future<AppUser> retrieve(String idToSearch) async {
@@ -58,7 +65,7 @@ class AppUser {
     final snapshot = await users.doc(FirebaseAuth.instance.currentUser!.uid).get();
     Map<String, dynamic> userData = snapshot.data() as Map<String, dynamic>;
 
-    return AppUser(idToSearch, userData['firstName'], userData['lastName'], userData['birthDate'].toDate(), userData['status'].id, userData['school'].id, userData['class'].id, userData['sector'].id);
+    return AppUser(idToSearch, userData['firstName'], userData['lastName'], userData['birthDate'].toDate(), userData['status'].id, userData['school'].id, userData['class'].id, userData['sector'].id, []);
   }
 
   void delete() {

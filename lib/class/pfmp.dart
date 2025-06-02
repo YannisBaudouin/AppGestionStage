@@ -1,5 +1,10 @@
+import 'appUser.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 class Pfmp {
   //attribut de la classe PFMP
+  late String idPfmp;
   late String nomSociete;
   late String adresseSociete;
   late String statusSociete;
@@ -10,6 +15,7 @@ class Pfmp {
 
   //Constructeur de la classe
   Pfmp(
+    String idPfmp_,
     String nomSoc,
     String adresseSoc,
     String statusSoc,
@@ -17,7 +23,9 @@ class Pfmp {
     String contactForma,
     DateTime dateD,
     DateTime dateF,
+
   ) {
+    this.idPfmp = idPfmp_;
     this.nomSociete = nomSoc;
     this.adresseSociete = adresseSoc;
     this.statusSociete = statusSoc;
@@ -27,60 +35,33 @@ class Pfmp {
     this.dateFin = dateF;
   }
 
-  //Constructeur des attributs
-  String getNomSociete() {
-    return this.nomSociete;
+  void create() async {
+     AppUser user = await AppUser.retrieve(FirebaseAuth.instance.currentUser!.uid);
+     DocumentReference userRef = FirebaseFirestore.instance.collection("users").doc(user.uid);
+
+     CollectionReference pfmpListRef = userRef.collection('pfmp');
+
+    final userData = {
+      "nomSociete": this.nomSociete,
+      "adresseSociete": this.adresseSociete,
+      "statusSociete": this.statusSociete,
+      "nomFormateur": this.nomFormateur,
+      "contactFormateur": this.contactFormateur,
+      "dateDebut": this.dateDebut,
+      "dateFin": this.dateFin,
+    };
+
+     DocumentReference pfmpRef = await pfmpListRef.add(userData);
+
+     this.idPfmp = pfmpRef.id;
   }
 
-  void setNomSociete(String nouvNom) {
-    this.nomSociete = nouvNom;
-  }
+  void update() async {
+     AppUser user = await AppUser.retrieve(FirebaseAuth.instance.currentUser!.uid);
+     DocumentReference userRef = FirebaseFirestore.instance.collection("users").doc(user.uid);
 
-  String getAdresseSociete() {
-    return this.adresseSociete;
-  }
+     CollectionReference pfmpListRef = userRef.collection('pfmp');
 
-  void setAdresseSociete(String nouvAdresse) {
-    this.adresseSociete = nouvAdresse;
-  }
-
-  String getStatusSociete() {
-    return this.statusSociete;
-  }
-
-  void setStatusSociete(String nouvStatus) {
-    this.statusSociete = nouvStatus;
-  }
-
-  String getNomFormateur() {
-    return this.nomFormateur;
-  }
-
-  void setNomFormateur(String nouvNomForma) {
-    this.nomFormateur = nouvNomForma;
-  }
-
-  String getContactFormateur() {
-    return this.contactFormateur;
-  }
-
-  void setContactFormateur(String nouvContact) {
-    this.nomSociete = nouvContact;
-  }
-
-  DateTime getDateDebut() {
-    return this.dateDebut;
-  }
-
-  void setdateDebut(DateTime nouvDateDebut) {
-    this.dateDebut = nouvDateDebut;
-  }
-
-  DateTime getDateFin() {
-    return this.dateFin;
-  }
-
-  void setDateFin(DateTime nouvDateFin) {
-    this.dateFin = nouvDateFin;
+     pfmpListRef.doc(this.idPfmp).set(this);
   }
 }
