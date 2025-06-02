@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'class/appUser.dart';
+import 'app_page.dart';
 
 class MailInscriptionPage extends StatefulWidget {
   const MailInscriptionPage({super.key, required this.title});
@@ -142,8 +142,14 @@ class MailInscriptionPageState extends State<MailInscriptionPage> {
                           password: passwordController.text,
                         );
                         
-                    AppUser user = new AppUser(userCredentials.user!.uid, "", "", DateTime.now(), "Eleve", "", "", "");
+                    AppUser user = new AppUser(userCredentials.user!.uid, "", "", DateTime.now(), "Eleve", "", "", "", []);
                     user.update();
+
+                    if (FirebaseAuth.instance.currentUser != null) {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => const AppPage(title: 'AppPage',)),
+                      );
+                    }
 
                   } on FirebaseAuthException catch (e) {
                     final String errorMsg = e.message ?? "Erreur inconnue";

@@ -1,27 +1,14 @@
-import 'package:app_gestion_stage/profil_page.dart';
 import 'package:flutter/material.dart';
 import 'global_var.dart' as global;
 
-import 'bottom_nav_bar.dart';
-
-import 'package:firebase_core/firebase_core.dart';
-import 'firebase_options.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-
 import 'mailConnexion.dart';
 import 'mailInscription.dart';
-import 'app_page.dart';
-
-// Exporte le context de la page (💀💀💀💀)
-BuildContext? context_;
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    context_ = context;
-
     return MaterialApp(
       title: 'Agestage',
       themeMode: ThemeMode.system,
