@@ -1,26 +1,22 @@
 import 'package:flutter/material.dart';
 import '../global_var.dart' as global;
 
+//ElevationButton classique customiser
 class CustomEB extends StatelessWidget {
   final String text;
-  final String title = 'AppPage';
-  final direction;
+  final VoidCallback pressed;
   final BuildContext context;
   const CustomEB({
     super.key,
     required this.text,
-    required this.direction,
+    required this.pressed,
     required this.context,
   });
   @override
   Widget build(context) {
     return Center(
       child: ElevatedButton(
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => direction(title: title)),
-          );
-        },
+        onPressed: pressed,
         child: RichText(
           text: TextSpan(
             text: text,
@@ -32,6 +28,7 @@ class CustomEB extends StatelessWidget {
   }
 }
 
+//ElevationButton retour customiser
 class CustomREB extends StatelessWidget {
   final String text;
   final BuildContext context;
@@ -54,18 +51,22 @@ class CustomREB extends StatelessWidget {
   }
 }
 
+//ElevationButton avec un styleform customiser
 class CustomEBS extends StatelessWidget {
   final String text;
-  final String title = 'AppPage';
-  final direction;
-  final shapeButton;
+  final VoidCallback pressed;
+  final OutlinedBorder shapeButton;
   final BuildContext context;
+  final Color colorDark;
+  final Color colorLight;
   const CustomEBS({
     super.key,
     required this.text,
-    required this.direction,
+    required this.pressed,
     required this.shapeButton,
     required this.context,
+    required this.colorDark,
+    required this.colorLight,
   });
   @override
   Widget build(context) {
@@ -73,16 +74,10 @@ class CustomEBS extends StatelessWidget {
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Center(
       child: ElevatedButton(
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(builder: (context) => direction(title: title)),
-          );
-        },
+        onPressed: pressed,
         style: ElevatedButton.styleFrom(
           shape: shapeButton,
-          backgroundColor: isDarkMode
-              ? Color(global.darkThemePrim)
-              : Color(global.lightThemePrim),
+          backgroundColor: isDarkMode ? colorDark : colorLight,
           iconColor: Color(global.commonTheme),
         ),
         child: RichText(

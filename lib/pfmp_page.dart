@@ -1,8 +1,14 @@
-import 'package:app_gestion_stage/class/pfmp.dart';
 import 'package:flutter/material.dart';
+//import 'package:flutter/scheduler.dart';
+
 import 'global_var.dart' as global;
+import '/customWidget/custom_buttons_icon.dart';
+import '/customWidget/custom_buttons.dart';
+import '/customWidget/custom_textfield.dart';
 
 import 'class/appUser.dart';
+import '/class/pfmp.dart';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -37,41 +43,64 @@ class _MyHomePageState extends State<MyHomePage> {
   void updateWidgetsLists() async {
     widgetsListPfmps = <Widget>[];
 
-    AppUser user = await AppUser.retrieve(FirebaseAuth.instance.currentUser!.uid);
-    DocumentReference userRef = FirebaseFirestore.instance.collection("users").doc(user.uid);
+    AppUser user = await AppUser.retrieve(
+      FirebaseAuth.instance.currentUser!.uid,
+    );
+    DocumentReference userRef = FirebaseFirestore.instance
+        .collection("users")
+        .doc(user.uid);
     CollectionReference pfmpListRef = userRef.collection('pfmp');
 
     QuerySnapshot snapshot = await pfmpListRef.get();
     List<dynamic> pfmpList = snapshot.docs.map((doc) => doc.data()).toList();
-    
+
     pfmpList.forEach((pfmpObj) {
-      Pfmp pfmp = Pfmp('0', pfmpObj["nomSociete"], pfmpObj["nomSociete"], pfmpObj["statusSociete"], pfmpObj["nomFormateur"], pfmpObj["contactFormateur"], pfmpObj['dateDebut'].toDate(), pfmpObj['dateFin'].toDate());
+      Pfmp pfmp = Pfmp(
+        '0',
+        pfmpObj["nomSociete"],
+        pfmpObj["nomSociete"],
+        pfmpObj["statusSociete"],
+        pfmpObj["nomFormateur"],
+        pfmpObj["contactFormateur"],
+        pfmpObj['dateDebut'].toDate(),
+        pfmpObj['dateFin'].toDate(),
+      );
 
       widgetsListPfmps.add(
-        ElevatedButton(child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(pfmp.nomSociete, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
-          Text(pfmp.dateDebut.toString().split(' ')[0] + "/" + pfmp.dateFin.toString().split(' ')[0], style: TextStyle(color: Colors.white)),
-        ],
-        ), 
-        onPressed: () {
-          /*Navigator.push(context, MaterialPageRoute(builder: 
+        ElevatedButton(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                pfmp.nomSociete,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                pfmp.dateDebut.toString().split(' ')[0] +
+                    "/" +
+                    pfmp.dateFin.toString().split(' ')[0],
+                style: TextStyle(color: Colors.white),
+              ),
+            ],
+          ),
+          onPressed: () {
+            /*Navigator.push(context, MaterialPageRoute(builder: 
           (context) => EditPFMP(
             title: 'EditPFMP',
               pfmp: pfmp,
             ), // redirection vers la page d'édition de la PFMP
           ),
         );*/
-        },
-      )
+          },
+        ),
       );
     });
 
-    setState(() {
-      
-    });
+    setState(() {});
   }
 
   @override
@@ -97,9 +126,8 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                global.currentLogo(
-                  isDarkMode,
-                ), //Utilise le booléen définit plus haut pour changer l'image
+                //Utilise le booléen définit plus haut pour changer l'image
+                global.currentLogo(isDarkMode),
                 Row(
                   //partie pour ajouter une PFMP
                   children: <Widget>[
@@ -110,30 +138,23 @@ class _MyHomePageState extends State<MyHomePage> {
                         style: Theme.of(context).textTheme.displayMedium,
                       ),
                     ),
-                    ElevatedButton(
-                      onPressed: () {
+                    CustomEBSI(
+                      context: context,
+                      selectedIcon: Icons.add_circle_outline,
+                      shapeButton: CircleBorder(),
+                      colorDark: Color(global.darkThemePrim),
+                      colorLight: Color(global.lightThemePrim),
+                      pressed: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const CreaPFMP(
-                              title: 'CreationPFMP',
-                            ), // redirection vers la page de création d'une PFMP
+                            builder: (context) =>
+                                const CreaPFMP(title: 'AppPage'),
                           ),
                         );
                       },
-                      style: ElevatedButton.styleFrom(
-                        //Modification du style du boutton
-                        shape: CircleBorder(),
-                        backgroundColor: isDarkMode
-                            ? Color(global.darkThemePrim)
-                            : Color(global.lightThemePrim),
-                        iconColor: Color(global.commonTheme),
-                      ),
-                      child: Icon(Icons.add_circle_outline, size: 35),
                     ),
-                    Column(
-                      children: [],
-                    )
+                    Column(children: []),
                   ],
                 ),
                 Container(
@@ -147,8 +168,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         alignment: Alignment.center,
                         height: MediaQuery.of(context).size.height - 500,
                         width: MediaQuery.of(context).size.width,
-                        child: Column(
-                          children: widgetsListPfmps),
+                        child: Column(children: widgetsListPfmps),
                       ),
                     ],
                   ),
@@ -179,7 +199,11 @@ class _CreaPFMP extends State<CreaPFMP> {
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
 
     //Définition des dates pour le calendrier
-    DateTime lastDate = DateTime(DateTime.now().year+50, DateTime.now().month, DateTime.now().day);
+    DateTime lastDate = DateTime(
+      DateTime.now().year + 50,
+      DateTime.now().month,
+      DateTime.now().day,
+    );
     DateTime firstDate = DateTime(1980, 1, 1, 0, 0, 0, 0, 0);
 
     // attribut d'une PFMP en vue de la stockée dans la base de données
@@ -228,34 +252,26 @@ class _CreaPFMP extends State<CreaPFMP> {
                 RichText(
                   text: TextSpan(
                     text: "Société",
-                    style: Theme.of(context).textTheme.titleLarge,
+                    style: Theme.of(context).textTheme.displayMedium,
                   ),
                 ),
-                TextField(
+                CustomTF(
+                  labelText: "Nom",
                   controller: nomSociete,
-                  decoration: InputDecoration(
-                    labelText: "Nom", //Le nom qui est affiché dans le champs
-                    border:
-                        OutlineInputBorder(), //fait en sorte que le nom aille au-dessus du champs lors de la saisie
-                  ),
+                  context: context,
+                  hintText: null,
                 ),
-                TextField(
+                CustomTF(
+                  labelText: "Adresse",
                   controller: adresseSoc,
-                  decoration: InputDecoration(
-                    labelText:
-                        "Adresse", //Le nom qui est affiché dans le champs
-                    border:
-                        OutlineInputBorder(), //fait en sorte que le nom aille au-dessus du champs lors de la saisie
-                  ),
+                  context: context,
+                  hintText: null,
                 ),
-                TextField(
+                CustomTF(
+                  labelText: "Statut juridique",
                   controller: statusJuri,
-                  decoration: InputDecoration(
-                    labelText:
-                        "Status juridique", //Le nom qui est affiché dans le champs
-                    border:
-                        OutlineInputBorder(), //fait en sorte que le nom aille au-dessus du champs lors de la saisie
-                  ),
+                  context: context,
+                  hintText: null,
                 ),
                 RichText(
                   textAlign: TextAlign.start,
@@ -264,23 +280,17 @@ class _CreaPFMP extends State<CreaPFMP> {
                     style: Theme.of(context).textTheme.displayMedium,
                   ),
                 ),
-                TextField(
+                CustomTF(
+                  labelText: "Nom du formateur",
                   controller: nomFormate,
-                  decoration: InputDecoration(
-                    labelText:
-                        "Nom du formateur", //Le nom qui est affiché dans le champs
-                    border:
-                        OutlineInputBorder(), //fait en sorte que le nom aille au-dessus du champs lors de la saisie
-                  ),
+                  context: context,
+                  hintText: null,
                 ),
-                TextField(
+                CustomTF(
+                  labelText: "Contact du formateur",
                   controller: contactFor,
-                  decoration: InputDecoration(
-                    labelText:
-                        "Contact du formateur", //Le nom qui est affiché dans le champs
-                    border:
-                        OutlineInputBorder(), //fait en sorte que le nom aille au-dessus du champs lors de la saisie
-                  ),
+                  context: context,
+                  hintText: null,
                 ),
                 RichText(
                   textAlign: TextAlign.start,
@@ -291,9 +301,9 @@ class _CreaPFMP extends State<CreaPFMP> {
                 ),
                 Container(
                   margin: EdgeInsets.only(bottom: 20),
-                  child: ElevatedButton(
-                    //boutton qui appelle le calendrier
-                    onPressed: () async {
+                  child: CustomEB(
+                    text: "Sélectionner la date",
+                    pressed: () async {
                       final DateTimeRange?
                       dateTimeRange = await showDateRangePicker(
                         //le calendrier
@@ -307,21 +317,21 @@ class _CreaPFMP extends State<CreaPFMP> {
                       );
                       if (dateTimeRange != null) {
                         selectedDate = dateTimeRange;
-                          dateDeb = selectedDate
-                              .start; //affectation de la valeur de début à une varible instancié avant
-                          dateFin = selectedDate
-                              .end; //affectation de la valeur de début à une varible instancié avant
+                        dateDeb = selectedDate
+                            .start; //affectation de la valeur de début à une varible instancié avant
+                        dateFin = selectedDate
+                            .end; //affectation de la valeur de début à une varible instancié avant
                       }
                     },
-                    child: const Text("Selectionner la date"),
+                    context: context,
                   ),
                 ),
               ],
             ),
           ),
-          ElevatedButton(
-            onPressed: () {
-              //Création d'un objet PFMP grâce au varible instancié précédement
+          CustomEB(
+            text: "Terminer",
+            pressed: () {
               Pfmp newPFMP = new Pfmp(
                 "",
                 nomSociete.text,
@@ -338,15 +348,9 @@ class _CreaPFMP extends State<CreaPFMP> {
               Navigator.pop(context);
               setState(() {});
             },
-            child: const Text('Terminer'),
+            context: context,
           ),
-          ElevatedButton(
-            //boutton pour quitter la page
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: const Text('Retour'),
-          ),
+          CustomREB(text: "Retour", context: context),
         ],
       ),
     );

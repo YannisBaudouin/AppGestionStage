@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'edition_profil_page.dart';
 import 'class/appUser.dart';
+import 'customWidget/custom_buttons.dart';
+import 'customWidget/custom_buttons_icon.dart';
 
 class Profil extends StatelessWidget {
   const Profil({super.key});
@@ -15,7 +17,7 @@ class Profil extends StatelessWidget {
       themeMode: ThemeMode.system,
       theme: global.lightTheme,
       darkTheme: global.darkTheme,
-      home: const HomePage(title: 'Flutter test Home Page'),
+      home: const PageProfil(title: 'Flutter test Home Page'),
     );
   }
 }
@@ -31,8 +33,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   // Strings qui vont être affichées sur la page.
-  String currentUid = FirebaseAuth.instance.currentUser!.uid.toString(); 
-  String currentEmail = FirebaseAuth.instance.currentUser!.email.toString(); 
+  String currentUid = FirebaseAuth.instance.currentUser!.uid.toString();
+  String currentEmail = FirebaseAuth.instance.currentUser!.email.toString();
   String firstName = "N/A";
   String lastName = "N/A";
   String age = "N/A";
@@ -42,14 +44,16 @@ class _HomePageState extends State<HomePage> {
   String classe = "N/A";
 
   @override
-  void initState(){
+  void initState() {
     super.initState();
     getData();
   }
 
   void getData() async {
     // Récupère les infos de l'utilisateur connecté
-    AppUser user = await AppUser.retrieve(FirebaseAuth.instance.currentUser!.uid);
+    AppUser user = await AppUser.retrieve(
+      FirebaseAuth.instance.currentUser!.uid,
+    );
 
     firstName = user.firstName;
     lastName = user.lastName;
@@ -57,7 +61,11 @@ class _HomePageState extends State<HomePage> {
     // Fait la différence entre la date d'aujourd'hui et la date de naissance de l'utilisateur
     DateTime now = DateTime.now();
     DateTime birthDate = user.birthDate;
-    DateTime dateDifference = DateTime(now.year-birthDate.year, now.month-birthDate.month, now.day-birthDate.day);
+    DateTime dateDifference = DateTime(
+      now.year - birthDate.year,
+      now.month - birthDate.month,
+      now.day - birthDate.day,
+    );
     age = dateDifference.year.toString();
 
     etablissement = user.school;
@@ -93,29 +101,137 @@ class _HomePageState extends State<HomePage> {
                 Text("Filière : $filiere"),
                 Text("Classe : $classe"),
                 Text("Email : $currentEmail"),
-              
+
                 // Bouton Confirmer
-                ElevatedButton(onPressed: () async {
-                  // Attend que l'utilisateur ferme la page
-                  await Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => const EditionProfilPage(title: "AppPage")),
-                  );
+                CustomEB(
+                  text: "Édition du profil",
+                  pressed: () async {
+                    // Attend que l'utilisateur ferme la page
+                    await Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            const EditionProfilPage(title: "AppPage"),
+                      ),
+                    );
 
-                  // Actualise les infos affichées
-                  getData();
-                }, child: Text("Edition du profil")),
+                    // Actualise les infos affichées
+                    getData();
+                  },
+                  context: context,
+                ),
+
                 // Bouton Déconnexion
-                ElevatedButton(onPressed: () async {
-                 await FirebaseAuth.instance.signOut();
+                CustomEB(
+                  text: "Se déconnecter",
+                  pressed: () async {
+                    await FirebaseAuth.instance.signOut();
 
-                 if (FirebaseAuth.instance.currentUser == null) {
-                  Navigator.of(context, rootNavigator: true).pushNamedAndRemoveUntil("/", (_) => false);
-                 }
-                }, child: Text("Se déconnecter")),
+                    if (FirebaseAuth.instance.currentUser == null) {
+                      Navigator.of(
+                        context,
+                        rootNavigator: true,
+                      ).pushNamedAndRemoveUntil("/", (_) => false);
+                    }
+                  },
+                  context: context,
+                ),
+                //Bouton de retour à la page d'avant
+                CustomREB(text: "Retour", context: context),
               ],
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class PageProfil extends StatefulWidget {
+  const PageProfil({super.key, required this.title});
+
+  final String title;
+
+  @override
+  State<PageProfil> createState() => ProfilHome();
+}
+
+class ProfilHome extends State<PageProfil> {
+  @override
+  Widget build(BuildContext context) {
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    return Scaffold(
+      body: Column(
+        children: <Widget>[
+          global.currentLogo(isDarkMode),
+          Container(
+            width: MediaQuery.of(context).size.width - 150,
+            height: 100,
+            margin: EdgeInsets.only(top: 75),
+            decoration: BoxDecoration(
+              color: isDarkMode
+                  ? Color(global.darkThemeSeco)
+                  : Color(global.lightThemeSeco),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Center(
+              child: CustomEBI(
+                labelText: "Profil",
+                selectedIcon: Icons.arrow_forward_ios,
+                pressed: () {
+                  // redirection vers la page d'aperçu du profil
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          const HomePage(title: 'CreationPFMP'),
+                    ),
+                  );
+                },
+                context: context,
+              ),
+            ),
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width - 150,
+            height: 200,
+            alignment: Alignment.center,
+            margin: EdgeInsets.only(top: 100),
+            decoration: BoxDecoration(
+              color: isDarkMode
+                  ? Color(global.darkThemeSeco)
+                  : Color(global.lightThemeSeco),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                CustomEBI(
+                  labelText: "Informations",
+                  selectedIcon: Icons.arrow_forward_ios,
+                  context: context,
+                  pressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+                Divider(
+                  height: 10,
+                  thickness: 5,
+                  indent: 20,
+                  endIndent: 20,
+                  color: Color(global.darkThemePrim),
+                ),
+                CustomEBI(
+                  labelText: "Mentions Légales",
+                  selectedIcon: Icons.arrow_forward_ios,
+                  pressed: () {
+                    Navigator.pop(context);
+                  },
+                  context: context,
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

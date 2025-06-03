@@ -1,3 +1,6 @@
+import 'customWidget/custom_textfield.dart';
+import 'customWidget/custom_buttons.dart';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -41,54 +44,55 @@ class EditionProfilPageState extends State<EditionProfilPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text("Edition du profil"),
-            // PRENOM 
+            // PRENOM
             SizedBox(
               width: 250,
-              child: TextField(
+              child: CustomTF(
+                labelText: "Prénom",
                 controller: fNameController,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: "Prénom",
-                  hintText: 'Roger',
-                ),
+                context: context,
+                hintText: "Roger",
               ),
             ),
-            // NOM 
+            // NOM
             SizedBox(
               width: 250,
-              child: TextField(
+              child: CustomTF(
+                labelText: "Nom",
                 controller: lNameController,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  labelText: "Nom",
-                  hintText: 'Figman',
-                ),
+                context: context,
+                hintText: "Figman",
               ),
             ),
-            // DATE DE NAISSANCE 
-            ElevatedButton(onPressed: () async {
-               birthDate = await showDatePicker(
-                context: context,
-                initialDate: birthDate,
-                firstDate: DateTime(1980),
-                lastDate: DateTime.now(),
-              );
-               
-            }, child: Text("Date de naissance")),
+            // DATE DE NAISSANCE
+            CustomEB(
+              text: "Date de naissance",
+              pressed: () async {
+                birthDate = await showDatePicker(
+                  context: context,
+                  initialDate: birthDate,
+                  firstDate: DateTime(1980),
+                  lastDate: DateTime.now(),
+                );
+              },
+              context: context,
+            ),
             // Bouton Confirmer
-            ElevatedButton(onPressed: () async {
-              user.firstName = fNameController.text;
-              user.lastName = lNameController.text;
-              user.birthDate = birthDate!;
+            CustomEB(
+              text: "Confirmer",
+              pressed: () async {
+                user.firstName = fNameController.text;
+                user.lastName = lNameController.text;
+                user.birthDate = birthDate!;
 
-              user.update();
+                user.update();
 
-              Navigator.pop(context);
-            }, child: Text("Confirmer")),
+                Navigator.pop(context);
+              },
+              context: context,
+            ),
             // Bouton retour
-            ElevatedButton(onPressed: () {
-              Navigator.pop(context);
-            }, child: Text("Retour")),
+            CustomREB(context: context, text: "Retour"),
           ],
         ),
       ),
