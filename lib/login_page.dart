@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'global_var.dart' as global;
 
-import 'mailConnexion.dart';
+import 'mailConnexion/mail_con.dart';
 import 'mailInscription.dart';
 
 class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
+  const LoginPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class LoginPage extends StatelessWidget {
       initialRoute: '/',
       routes: {
       '/inscription': (context) => const MailInscriptionPage(title: "test"),
-      '/connexion': (context) => const MailConnexionPage(title: "test"),
+      '/connexion': (context) => const MailConnexionPage(),
       },
     );
   }
