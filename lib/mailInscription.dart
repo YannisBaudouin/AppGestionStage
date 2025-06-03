@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'class/appUser.dart';
 import 'app_page.dart';
+import 'customWidget/custom_textfield.dart';
+import 'customWidget/custom_buttons.dart';
 
 class MailInscriptionPage extends StatefulWidget {
   const MailInscriptionPage({super.key, required this.title});
@@ -130,8 +132,9 @@ class MailInscriptionPageState extends State<MailInscriptionPage> {
             ),
 
             // Bouton Inscription
-            ElevatedButton(
-              onPressed: () async {
+            CustomEB(
+              text: "Inscription",
+              pressed: () async {
                 updateEmailValid("");
                 updatePasswords('');
                 if (mailValid && passwordValid && passwordVerificationValid) {
@@ -141,16 +144,27 @@ class MailInscriptionPageState extends State<MailInscriptionPage> {
                           email: emailController.text,
                           password: passwordController.text,
                         );
-                        
-                    AppUser user = new AppUser(userCredentials.user!.uid, "", "", DateTime.now(), "Eleve", "", "", "", []);
+
+                    AppUser user = new AppUser(
+                      userCredentials.user!.uid,
+                      "",
+                      "",
+                      DateTime.now(),
+                      "Eleve",
+                      "",
+                      "",
+                      "",
+                      [],
+                    );
                     user.update();
 
                     if (FirebaseAuth.instance.currentUser != null) {
                       Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => const AppPage(title: 'AppPage',)),
+                        MaterialPageRoute(
+                          builder: (context) => const AppPage(title: 'AppPage'),
+                        ),
                       );
                     }
-
                   } on FirebaseAuthException catch (e) {
                     final String errorMsg = e.message ?? "Erreur inconnue";
 
@@ -173,16 +187,17 @@ class MailInscriptionPageState extends State<MailInscriptionPage> {
                   }
                 }
               },
-              child: Text("Inscription"),
+              context: context,
             ),
-            ElevatedButton(
-              onPressed: () {
+            CustomEB(
+              text: "Retour",
+              pressed: () {
                 Navigator.popUntil(
                   context,
                   ModalRoute.withName(Navigator.defaultRouteName),
                 );
               },
-              child: Text("Retour"),
+              context: context,
             ),
           ],
         ),

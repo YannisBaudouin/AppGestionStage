@@ -52,6 +52,8 @@ class EditionProfilPageState extends State<EditionProfilPage> {
                 controller: fNameController,
                 context: context,
                 hintText: "Roger",
+                helperText: null,
+                cacher: false,
               ),
             ),
             // NOM
@@ -62,6 +64,8 @@ class EditionProfilPageState extends State<EditionProfilPage> {
                 controller: lNameController,
                 context: context,
                 hintText: "Figman",
+                helperText: null,
+                cacher: false,
               ),
             ),
             // DATE DE NAISSANCE
