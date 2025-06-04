@@ -90,3 +90,44 @@ class CustomEBS extends StatelessWidget {
     );
   }
 }
+
+class CustomTB extends StatelessWidget {
+  final String text;
+  final VoidCallback pressed;
+  const CustomTB({super.key, required this.text, required this.pressed});
+  @override
+  Widget build(context) {
+    return Center(
+      child: TextButton(
+        onPressed: pressed,
+        child: RichText(
+          text: TextSpan(
+            text: text,
+            style: Theme.of(context).textTheme.labelLarge,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class CustomRTB extends StatelessWidget {
+  final String text;
+  const CustomRTB({super.key, required this.text});
+  @override
+  Widget build(context) {
+    return Center(
+      child: TextButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        child: RichText(
+          text: TextSpan(
+            text: text,
+            style: Theme.of(context).textTheme.labelLarge,
+          ),
+        ),
+      ),
+    );
+  }
+}

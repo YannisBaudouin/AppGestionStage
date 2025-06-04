@@ -4,8 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'edition_profil_page.dart';
 import 'class/appUser.dart';
-import 'customWidget/custom_buttons.dart';
-import 'customWidget/custom_buttons_icon.dart';
+import 'customWidget/custom_widget.dart';
 
 class Profil extends StatelessWidget {
   const Profil({super.key});
@@ -81,6 +80,22 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    List<Widget> popupOption = [
+      CustomTB(
+        text: "Déconnexion",
+        pressed: () async {
+          await FirebaseAuth.instance.signOut();
+
+          if (FirebaseAuth.instance.currentUser == null) {
+            Navigator.of(
+              context,
+              rootNavigator: true,
+            ).pushNamedAndRemoveUntil("/", (_) => false);
+          }
+        },
+      ),
+      CustomRTB(text: "Annuler"),
+    ];
     return Scaffold(
       body: Container(
         alignment: Alignment.center,
@@ -123,15 +138,13 @@ class _HomePageState extends State<HomePage> {
                 // Bouton Déconnexion
                 CustomEB(
                   text: "Se déconnecter",
-                  pressed: () async {
-                    await FirebaseAuth.instance.signOut();
-
-                    if (FirebaseAuth.instance.currentUser == null) {
-                      Navigator.of(
-                        context,
-                        rootNavigator: true,
-                      ).pushNamedAndRemoveUntil("/", (_) => false);
-                    }
+                  pressed: () {
+                    customShowDialog(
+                      context,
+                      "Déconnexion",
+                      "Êtes-vous sûr?",
+                      popupOption,
+                    );
                   },
                   context: context,
                 ),
