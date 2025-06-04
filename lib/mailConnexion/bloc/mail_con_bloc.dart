@@ -27,7 +27,7 @@ class MailConBloc extends Bloc<MailConEvent, MailConState> {
         );
       }
 
-      emit(MailConSucceded());
+      emit(MailConSucceeded());
     } on FirebaseAuthException catch (e) {
       final String errorMsg = e.message ?? "Erreur inconnue";
 

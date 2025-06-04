@@ -8,8 +8,8 @@ final class MailConInitial extends MailConState {
   const MailConInitial();
 }
 
-final class MailConSucceded extends MailConState {
-  const MailConSucceded();
+final class MailConSucceeded extends MailConState {
+  const MailConSucceeded();
 }
 
 final class MailConFailed extends MailConState {

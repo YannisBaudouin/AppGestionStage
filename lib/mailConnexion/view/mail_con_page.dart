@@ -72,10 +72,7 @@ class MailConnexionView extends StatelessWidget {
                 CustomEB(
                   text: "Retour",
                   pressed: () {
-                    Navigator.popUntil(
-                      context,
-                      ModalRoute.withName(Navigator.defaultRouteName),
-                    );
+                    Navigator.pop(context);
                   },
                   context: context,
                 ),

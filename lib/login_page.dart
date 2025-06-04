@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'global_var.dart' as global;
 
 import 'mailConnexion/mail_con.dart';
-import 'mailInscription.dart';
+import 'mailInscription/mail_insc.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -15,11 +15,6 @@ class LoginPage extends StatelessWidget {
       theme: global.lightTheme,
       darkTheme: global.darkTheme,
       home: const MyHomePage(title: 'Agestage'),
-      initialRoute: '/',
-      routes: {
-      '/inscription': (context) => const MailInscriptionPage(title: "test"),
-      '/connexion': (context) => const MailConnexionPage(),
-      },
     );
   }
 }
@@ -50,8 +45,26 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 global.currentLogo(isDarkMode),
-                ElevatedButton(onPressed: () { Navigator.pushNamed(context, '/connexion'); }, child: Text("Se connecter avec une adresse Mail")),
-                ElevatedButton(onPressed: () { Navigator.pushNamed(context, '/inscription'); }, child: Text("S'inscrire avec une adresse Mail"))
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const MailConnexionPage(),
+                      ),
+                    );
+                  },
+                  child: Text("Se connecter avec une adresse Mail"),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (context) => const MailInscriptionPage(),
+                      ),
+                    );
+                  },
+                  child: Text("S'inscrire avec une adresse Mail"),
+                ),
               ],
             ),
           ],
