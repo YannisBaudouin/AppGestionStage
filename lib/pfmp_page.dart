@@ -112,9 +112,8 @@ class _MyHomePageState extends State<MyHomePage> {
   // page d'accueil des PFMPs
   @override
   Widget build(BuildContext context) {
-    bool isDarkMode =
-        Theme.of(context).brightness ==
-        Brightness.dark; //Booléen qui change par rapport au thème
+    //Booléen qui change par rapport au thème
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return Scaffold(
       body: Container(
         alignment: Alignment.center,
@@ -124,7 +123,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 //Utilise le booléen définit plus haut pour changer l'image
                 global.currentLogo(isDarkMode),
@@ -158,20 +157,16 @@ class _MyHomePageState extends State<MyHomePage> {
                   ],
                 ),
                 Container(
-                  alignment: Alignment.center,
-                  height: 250,
-                  width: MediaQuery.of(context).size.width,
-                  child: ListView(
-                    // pour accueillir les futurs PFMP
-                    children: <Widget>[
-                      Container(
-                        alignment: Alignment.center,
-                        height: MediaQuery.of(context).size.height - 500,
-                        width: MediaQuery.of(context).size.width,
-                        child: Column(children: widgetsListPfmps),
-                      ),
-                    ],
+                  margin: EdgeInsets.only(top: 25),
+                  decoration: BoxDecoration(
+                    color: isDarkMode
+                        ? Color(global.darkThemeSeco)
+                        : Color(global.lightThemeSeco),
                   ),
+                  alignment: Alignment.topCenter,
+                  height: 500,
+                  width: MediaQuery.of(context).size.width - 50,
+                  child: ListView(children: widgetsListPfmps),
                 ),
               ],
             ),
@@ -238,7 +233,7 @@ class _CreaPFMP extends State<CreaPFMP> {
           Container(
             alignment: Alignment.topCenter,
             width: MediaQuery.of(context).size.width - 50,
-            height: MediaQuery.of(context).size.width / 1.30,
+            height: 300,
             //utiliser pour customiser un Container
             decoration: BoxDecoration(
               //backgroundcolors
@@ -248,6 +243,7 @@ class _CreaPFMP extends State<CreaPFMP> {
             ),
             //contient le formulaire pour créer une nouvelle PFMP
             child: ListView(
+              padding: EdgeInsets.only(bottom: 50),
               children: <Widget>[
                 RichText(
                   text: TextSpan(
@@ -310,6 +306,7 @@ class _CreaPFMP extends State<CreaPFMP> {
                   ),
                 ),
                 Container(
+                  height: 200,
                   margin: EdgeInsets.only(bottom: 20),
                   child: CustomEB(
                     text: "Sélectionner la date",
@@ -336,31 +333,31 @@ class _CreaPFMP extends State<CreaPFMP> {
                     context: context,
                   ),
                 ),
+                CustomEB(
+                  text: "Terminer",
+                  pressed: () {
+                    Pfmp newPFMP = new Pfmp(
+                      "",
+                      nomSociete.text,
+                      adresseSoc.text,
+                      statusJuri.text,
+                      nomFormate.text,
+                      contactFor.text,
+                      dateDeb,
+                      dateFin,
+                    );
+
+                    newPFMP.create();
+
+                    Navigator.pop(context);
+                    setState(() {});
+                  },
+                  context: context,
+                ),
+                CustomREB(text: "Retour", context: context),
               ],
             ),
           ),
-          CustomEB(
-            text: "Terminer",
-            pressed: () {
-              Pfmp newPFMP = new Pfmp(
-                "",
-                nomSociete.text,
-                adresseSoc.text,
-                statusJuri.text,
-                nomFormate.text,
-                contactFor.text,
-                dateDeb,
-                dateFin,
-              );
-
-              newPFMP.create();
-
-              Navigator.pop(context);
-              setState(() {});
-            },
-            context: context,
-          ),
-          CustomREB(text: "Retour", context: context),
         ],
       ),
     );

@@ -10,14 +10,21 @@ import 'messages_page.dart';
 //index de départ pour la bar de navigation
 int selectedIndex = 2;
 
+Image logoBlanc = Image.asset(
+  'assets/lyceelogoWHITE.png',
+  height: 165,
+  width: 425,
+);
+Image logoNoir = Image.asset('assets/lyceelogo.png', height: 165, width: 425);
+
 //variable qui contiennent les valeurs héxadécimales des couleurs nécessaires pour l'application
 const int lightThemePrim = 0xFFF1F1F1;
 const int lightThemeSeco = 0xFFFFFFFF;
-const int lightThemeText = 0xFF434343;
+const int lightThemeText = 0xFF000000;
 
 const int darkThemePrim = 0xFF2B2B2B;
 const int darkThemeSeco = 0xFF424242;
-const int darkThemeText = 0xFFD3D3D3;
+const int darkThemeText = 0xFFFFFFFF;
 
 const int commonTheme = 0xFFDC3C3C;
 const int commonTheme2 = 0xFFC83333;
@@ -25,9 +32,7 @@ const int commonTheme2 = 0xFFC83333;
 // méthode qui renvoie une image basé sur un booléen
 Image currentLogo(bool darkMode) {
   Image image;
-  darkMode
-      ? image = Image.asset('assets/lyceelogoWHITE.png')
-      : image = Image.asset('assets/lyceelogo.png');
+  darkMode ? image = logoBlanc : image = logoNoir;
   return image;
 }
 
@@ -50,6 +55,13 @@ ThemeData lightTheme = ThemeData(
     style: ElevatedButton.styleFrom(
       backgroundColor: Color(commonTheme),
       iconColor: Color(lightThemeSeco),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadiusGeometry.circular(12),
+        side: BorderSide(color: Color(darkThemeSeco)),
+      ),
+      maximumSize: Size(200, 40),
+      minimumSize: Size(200, 40),
+      fixedSize: Size(200, 40),
     ),
   ),
   //décrit les couleurs pour tous les types d'écritures du mode lumineux
@@ -79,6 +91,7 @@ ThemeData lightTheme = ThemeData(
     focusColor: Color(lightThemePrim),
   ),
 );
+
 //données de couleur pour le mode sombre
 ThemeData darkTheme = ThemeData(
   //décrit les couleurs pour une majorité des éléments pour rapport à leur couche du mode sombre
@@ -98,6 +111,13 @@ ThemeData darkTheme = ThemeData(
     style: ElevatedButton.styleFrom(
       backgroundColor: Color(commonTheme),
       iconColor: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadiusGeometry.circular(12),
+        side: BorderSide(color: Color(lightThemeSeco)),
+      ),
+      maximumSize: Size(200, 45),
+      minimumSize: Size(200, 45),
+      fixedSize: Size(200, 45),
     ),
   ),
   //décrit les couleurs pour tous les types d'écritures du mode sombre

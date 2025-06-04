@@ -22,6 +22,8 @@ class CustomEBSI extends StatelessWidget {
   Widget build(context) {
     //Booléen qui change par rapport au thème
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    ThemeData dataTheme = isDarkMode ? global.darkTheme : global.lightTheme;
+    ThemeData() = dataTheme;
     return Center(
       child: ElevatedButton(
         onPressed: pressed,
@@ -51,6 +53,9 @@ class CustomEBI extends StatelessWidget {
   });
   @override
   Widget build(context) {
+    bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
+    ThemeData dataTheme = isDarkMode ? global.darkTheme : global.lightTheme;
+    ThemeData() = dataTheme;
     return Center(
       child: ElevatedButton.icon(
         onPressed: pressed,
