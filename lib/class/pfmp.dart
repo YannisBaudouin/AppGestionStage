@@ -41,7 +41,7 @@ class Pfmp {
 
      CollectionReference pfmpListRef = userRef.collection('pfmp');
 
-    final userData = {
+    final pfmpData = {
       "nomSociete": this.nomSociete,
       "adresseSociete": this.adresseSociete,
       "statusSociete": this.statusSociete,
@@ -51,7 +51,7 @@ class Pfmp {
       "dateFin": this.dateFin,
     };
 
-     DocumentReference pfmpRef = await pfmpListRef.add(userData);
+     DocumentReference pfmpRef = await pfmpListRef.add(pfmpData);
 
      this.idPfmp = pfmpRef.id;
   }
@@ -62,6 +62,28 @@ class Pfmp {
 
      CollectionReference pfmpListRef = userRef.collection('pfmp');
 
-     pfmpListRef.doc(this.idPfmp).set(this);
+    final pfmpData = {
+      "nomSociete": this.nomSociete,
+      "adresseSociete": this.adresseSociete,
+      "statusSociete": this.statusSociete,
+      "nomFormateur": this.nomFormateur,
+      "contactFormateur": this.contactFormateur,
+      "dateDebut": this.dateDebut,
+      "dateFin": this.dateFin,
+    };
+
+     pfmpListRef.doc(this.idPfmp).set(pfmpData);
+  }
+
+  static Future<Pfmp> retrieve(String pfmpId) async {
+    AppUser user = await AppUser.retrieve(FirebaseAuth.instance.currentUser!.uid);
+     DocumentReference userRef = FirebaseFirestore.instance.collection("users").doc(user.uid);
+
+    CollectionReference pfmpListRef = userRef.collection('pfmp');
+
+    final snapshot = await pfmpListRef.doc(pfmpId).get();
+    Map<String, dynamic> pfmpData = snapshot.data() as Map<String, dynamic>;
+
+    return Pfmp(pfmpId, pfmpData["nomSociete"], pfmpData["adresseSociete"], pfmpData["statusSociete"], pfmpData["nomFormateur"], pfmpData["contactFormateur"], pfmpData["dateDebut"].toDate(), pfmpData["dateFin"].toDate());
   }
 }

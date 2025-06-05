@@ -4,6 +4,8 @@ import 'pfmp.dart';
 
 class AppUser {
   late String uid;
+  late String? email;
+
   late String firstName;
   late String lastName;
   late DateTime birthDate;
@@ -15,8 +17,21 @@ class AppUser {
 
   late List<Pfmp> pfmpList;
   
+  /*
+  AppUser({
+    required this.uid, 
+    required this.email, 
+    required this.firstName, 
+    required this.lastName, 
+    required this.birthDate,
+    required this.status,
+    required this.school,
+    required this.userClass,
+    required this.sector}); */
+
   AppUser(
     String uid_,
+    String? email_,
     String firstName_,
     String lastName_,
     DateTime birthDate_,
@@ -27,6 +42,7 @@ class AppUser {
     List<Pfmp> pfmpList_
   ) {
     this.uid = uid_;
+    this.email = email_;
     this.firstName = firstName_;
     this.lastName = lastName_;
     this.birthDate = birthDate_;
@@ -65,7 +81,7 @@ class AppUser {
     final snapshot = await users.doc(FirebaseAuth.instance.currentUser!.uid).get();
     Map<String, dynamic> userData = snapshot.data() as Map<String, dynamic>;
 
-    return AppUser(idToSearch, userData['firstName'], userData['lastName'], userData['birthDate'].toDate(), userData['status'].id, userData['school'].id, userData['class'].id, userData['sector'].id, []);
+    return AppUser(idToSearch, FirebaseAuth.instance.currentUser!.email, userData['firstName'], userData['lastName'], userData['birthDate'].toDate(), userData['status'].id, userData['school'].id, userData['class'].id, userData['sector'].id, []);
   }
 
   void delete() {

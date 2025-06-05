@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'home_page.dart';
 import 'profil_page.dart';
 import 'ressources_page.dart';
-import 'pfmp_page.dart';
+import 'pfmpHome/pfmp_home.dart';
 import 'messages_page.dart';
 
 //index de départ pour la bar de navigation
@@ -150,9 +150,9 @@ ThemeData darkTheme = ThemeData(
 
 //Pages utiliser pour la bar de navigation
 const List<Widget> btmPages = [
-  PFMP(),
+  PfmpHomePage(),
   Ressources(),
   MainScreen(),
   Messages(),
-  Profil(),
+  ProfilPage(),
 ];

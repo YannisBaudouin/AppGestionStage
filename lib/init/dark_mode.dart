@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class DarkMode {
   static late bool isDarkMode1;
   static late Image currentLogo;
+
   static init(BuildContext context) {
     isDarkMode1 = Theme.of(context).brightness == Brightness.dark;
 

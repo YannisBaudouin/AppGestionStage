@@ -68,6 +68,7 @@ class CustomEBS extends StatelessWidget {
     required this.colorDark,
     required this.colorLight,
   });
+
   @override
   Widget build(context) {
     //Booléen qui change par rapport au thème
@@ -89,6 +90,7 @@ class CustomEBS extends StatelessWidget {
       ),
     );
   }
+
 }
 
 class CustomTB extends StatelessWidget {

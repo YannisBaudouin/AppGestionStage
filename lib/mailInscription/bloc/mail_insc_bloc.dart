@@ -51,6 +51,7 @@ class MailInscBloc extends Bloc<MailInscEvent, MailInscState> {
 
       AppUser user = new AppUser(
         userCredentials.user!.uid,
+        userCredentials.user!.email,
         "",
         "",
         DateTime.now(),
