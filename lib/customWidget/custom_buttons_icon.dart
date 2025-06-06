@@ -71,3 +71,31 @@ class CustomEBI extends StatelessWidget {
     );
   }
 }
+
+class CustomTBI extends StatelessWidget {
+  final String text;
+  final VoidCallback pressed;
+  final IconData selectedIcon;
+  const CustomTBI({
+    super.key,
+    required this.text,
+    required this.pressed,
+    required this.selectedIcon,
+  });
+  @override
+  Widget build(context) {
+    return Center(
+      child: TextButton.icon(
+        onPressed: pressed,
+        icon: Icon(selectedIcon, size: 35, color: Color(global.commonTheme)),
+        iconAlignment: IconAlignment.end,
+        label: RichText(
+          text: TextSpan(
+            text: text,
+            style: Theme.of(context).textTheme.headlineMedium,
+          ),
+        ),
+      ),
+    );
+  }
+}

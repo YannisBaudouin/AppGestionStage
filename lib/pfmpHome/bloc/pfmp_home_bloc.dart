@@ -1,6 +1,6 @@
 import 'package:app_gestion_stage/class/appUser.dart';
 import 'package:app_gestion_stage/class/pfmp.dart';
-import 'package:app_gestion_stage/pfmpInsert/pfmp_insert.dart';
+import 'package:app_gestion_stage/pfmpProfil/pfmp_profil.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +31,9 @@ class PfmpHomeBloc extends Bloc<PfmpHomeEvent, PfmpHomeState> {
     CollectionReference pfmpListRef = userRef.collection('pfmp');
 
     QuerySnapshot snapshot = await pfmpListRef.get();
-    List<QueryDocumentSnapshot> pfmpList = snapshot.docs.map((doc) => doc).toList();
+    List<QueryDocumentSnapshot> pfmpList = snapshot.docs
+        .map((doc) => doc)
+        .toList();
 
     pfmpList.forEach((QueryDocumentSnapshot pfmpObj) {
       dynamic pfmpData = pfmpObj.data();
@@ -70,10 +72,14 @@ class PfmpHomeBloc extends Bloc<PfmpHomeEvent, PfmpHomeState> {
           onPressed: () async {
             await Navigator.push(
               event.context,
-              MaterialPageRoute(builder: (context) => PfmpInsertPage(pfmpId: pfmp.idPfmp)),
+              MaterialPageRoute(
+                builder: (context) => PfmpProfilPage(pfmpId: pfmp.idPfmp),
+              ),
             );
 
-            event.context.read<PfmpHomeBloc>().add(PfmpHome_GetListWidgets(context: event.context));
+            event.context.read<PfmpHomeBloc>().add(
+              PfmpHome_GetListWidgets(context: event.context),
+            );
           },
         ),
       );
