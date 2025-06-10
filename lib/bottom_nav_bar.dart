@@ -65,7 +65,7 @@ class BottomBar extends State<BottomNavBar> {
             //Icône utilisé quand l'utilisateur n'est pas sur la page
             icon: Icon(Icons.home_outlined),
             //Nom affiché sur l'icône
-            label: 'Home',
+            label: 'Accueil',
           ),
           BottomNavigationBarItem(
             //Changement de la couleur de fond pour rapport au thème

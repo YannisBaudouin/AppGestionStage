@@ -41,30 +41,30 @@ class AppUser {
     String sector_,
     List<Pfmp> pfmpList_
   ) {
-    this.uid = uid_;
-    this.email = email_;
-    this.firstName = firstName_;
-    this.lastName = lastName_;
-    this.birthDate = birthDate_;
-    this.status = status_;
-    this.school = school_;
-    this.userClass = userClass_;
-    this.sector = sector_;
-    this.pfmpList = pfmpList_;
+    uid = uid_;
+    email = email_;
+    firstName = firstName_;
+    lastName = lastName_;
+    birthDate = birthDate_;
+    status = status_;
+    school = school_;
+    userClass = userClass_;
+    sector = sector_;
+    pfmpList = pfmpList_;
   }
 
   void update() {
-    DocumentReference statusRef = FirebaseFirestore.instance.collection('Statut').doc(this.status.isEmpty ? "None" : this.status);
-    DocumentReference schoolRef = FirebaseFirestore.instance.collection('Etablissement').doc(this.school.isEmpty ? "None" : this.school);
-    DocumentReference userClassRef = FirebaseFirestore.instance.collection('Classe').doc(this.userClass.isEmpty ? "None" : this.userClass);
-    DocumentReference sectorRef = FirebaseFirestore.instance.collection('Filliere').doc(this.sector.isEmpty ? "None" : this.sector);
+    DocumentReference statusRef = FirebaseFirestore.instance.collection('Statut').doc(status.isEmpty ? "None" : status);
+    DocumentReference schoolRef = FirebaseFirestore.instance.collection('Etablissement').doc(school.isEmpty ? "None" : school);
+    DocumentReference userClassRef = FirebaseFirestore.instance.collection('Classe').doc(userClass.isEmpty ? "None" : userClass);
+    DocumentReference sectorRef = FirebaseFirestore.instance.collection('Filliere').doc(sector.isEmpty ? "None" : sector);
 
-    DocumentReference userRef = FirebaseFirestore.instance.collection("users").doc(this.uid);
+    DocumentReference userRef = FirebaseFirestore.instance.collection("users").doc(uid);
 
     final userData = {
-      "firstName": this.firstName,
-      "lastName": this.lastName,
-      "birthDate": this.birthDate,
+      "firstName": firstName,
+      "lastName": lastName,
+      "birthDate": birthDate,
       "status": statusRef,
 
       "school": schoolRef,

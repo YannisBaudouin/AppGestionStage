@@ -49,7 +49,7 @@ class MailInscBloc extends Bloc<MailInscEvent, MailInscState> {
             password: event.password,
           );
 
-      AppUser user = new AppUser(
+      AppUser user = AppUser(
         userCredentials.user!.uid,
         userCredentials.user!.email,
         "",

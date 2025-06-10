@@ -2,26 +2,29 @@ import 'package:flutter/material.dart';
 
 //Initie un TextField customiser
 class CustomTF extends StatelessWidget {
-  final String labelText;
+  final String? labelText;
   final TextEditingController controller;
   final BuildContext context;
   final String hintText;
   final String? helperText;
-  final bool cacher;
+  final bool? cacher;
+  final int? maxLines;
   const CustomTF({
     super.key,
-    required this.labelText,
+    this.labelText,
     required this.controller,
     required this.context,
     required this.hintText,
-    required this.helperText,
-    required this.cacher,
+    this.helperText,
+    this.cacher,
+    this.maxLines
   });
   @override
   Widget build(context) {
     return Center(
       child: TextField(
         controller: controller,
+        maxLines: cacher == true ? 1 : maxLines,
         decoration: InputDecoration(
           labelText: labelText,
           border: OutlineInputBorder(),
@@ -33,7 +36,7 @@ class CustomTF extends StatelessWidget {
           ),
           helperText: helperText,
         ),
-        obscureText: cacher,
+        obscureText: cacher as bool,
       ),
     );
   }

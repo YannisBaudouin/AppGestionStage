@@ -25,14 +25,14 @@ class Pfmp {
     DateTime dateF,
 
   ) {
-    this.idPfmp = idPfmp_;
-    this.nomSociete = nomSoc;
-    this.adresseSociete = adresseSoc;
-    this.statusSociete = statusSoc;
-    this.nomFormateur = nomForma;
-    this.contactFormateur = contactForma;
-    this.dateDebut = dateD;
-    this.dateFin = dateF;
+    idPfmp = idPfmp_;
+    nomSociete = nomSoc;
+    adresseSociete = adresseSoc;
+    statusSociete = statusSoc;
+    nomFormateur = nomForma;
+    contactFormateur = contactForma;
+    dateDebut = dateD;
+    dateFin = dateF;
   }
 
   void create() async {
@@ -42,18 +42,18 @@ class Pfmp {
      CollectionReference pfmpListRef = userRef.collection('pfmp');
 
     final pfmpData = {
-      "nomSociete": this.nomSociete,
-      "adresseSociete": this.adresseSociete,
-      "statusSociete": this.statusSociete,
-      "nomFormateur": this.nomFormateur,
-      "contactFormateur": this.contactFormateur,
-      "dateDebut": this.dateDebut,
-      "dateFin": this.dateFin,
+      "nomSociete": nomSociete,
+      "adresseSociete": adresseSociete,
+      "statusSociete": statusSociete,
+      "nomFormateur": nomFormateur,
+      "contactFormateur": contactFormateur,
+      "dateDebut": dateDebut,
+      "dateFin": dateFin,
     };
 
      DocumentReference pfmpRef = await pfmpListRef.add(pfmpData);
 
-     this.idPfmp = pfmpRef.id;
+     idPfmp = pfmpRef.id;
   }
 
   void update() async {
@@ -63,16 +63,16 @@ class Pfmp {
      CollectionReference pfmpListRef = userRef.collection('pfmp');
 
     final pfmpData = {
-      "nomSociete": this.nomSociete,
-      "adresseSociete": this.adresseSociete,
-      "statusSociete": this.statusSociete,
-      "nomFormateur": this.nomFormateur,
-      "contactFormateur": this.contactFormateur,
-      "dateDebut": this.dateDebut,
-      "dateFin": this.dateFin,
+      "nomSociete": nomSociete,
+      "adresseSociete": adresseSociete,
+      "statusSociete": statusSociete,
+      "nomFormateur": nomFormateur,
+      "contactFormateur": contactFormateur,
+      "dateDebut": dateDebut,
+      "dateFin": dateFin,
     };
 
-     pfmpListRef.doc(this.idPfmp).set(pfmpData);
+     pfmpListRef.doc(idPfmp).set(pfmpData);
   }
 
   static Future<Pfmp> retrieve(String pfmpId) async {

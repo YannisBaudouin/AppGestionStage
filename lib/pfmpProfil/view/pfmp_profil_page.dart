@@ -1,3 +1,4 @@
+import 'package:app_gestion_stage/logBook/view/log_book_page.dart';
 import 'package:flutter/material.dart';
 import 'package:app_gestion_stage/pfmpInsert/pfmp_insert.dart';
 import 'package:app_gestion_stage/global_var.dart' as global;
@@ -6,8 +7,8 @@ import 'package:app_gestion_stage/pfmpProfil/pfmp_profil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PfmpProfilPage extends StatelessWidget {
-  final String? pfmpId;
-  const PfmpProfilPage({super.key, this.pfmpId});
+  final String pfmpId;
+  const PfmpProfilPage({super.key, required this.pfmpId});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,7 @@ class PfmpProfilPage extends StatelessWidget {
 }
 
 class PfmpProfilView extends StatelessWidget {
-  final String? pfmpId;
+  final String pfmpId;
   const PfmpProfilView({super.key, required this.pfmpId});
 
   @override
@@ -55,7 +56,14 @@ class PfmpProfilView extends StatelessWidget {
               ),
               CustomEB(
                 text: "Carnet de bord",
-                pressed: () {},
+                pressed: () async {
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => LogBookPage(pfmpId: pfmpId),
+                    ),
+                  );
+                },
                 context: context,
               ),
               CustomEB(text: "Évaluation", pressed: () {}, context: context),

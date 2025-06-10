@@ -14,7 +14,7 @@ class PfmpInsertBloc extends Bloc<PfmpInsertEvent, PfmpInsertState> {
   Pfmp? targetPfmp;
 
   void _submit(PfmpInsert_Submit event, Emitter<PfmpInsertState> emit) async {
-    Pfmp newPFMP = new Pfmp(
+    Pfmp newPFMP = Pfmp(
       targetPfmp != null ? targetPfmp!.idPfmp : "",
       event.nomSociete,
       event.adresseSoc,

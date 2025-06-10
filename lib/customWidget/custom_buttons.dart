@@ -32,13 +32,16 @@ class CustomEB extends StatelessWidget {
 class CustomREB extends StatelessWidget {
   final String text;
   final BuildContext context;
-  const CustomREB({super.key, required this.text, required this.context});
+  final bool? popParentContext;
+  const CustomREB({super.key, required this.text, required this.context, this.popParentContext});
   @override
   Widget build(context) {
     return Center(
       child: ElevatedButton(
         onPressed: () {
           Navigator.pop(context);
+
+          if (popParentContext == true) {Navigator.pop(this.context);}
         },
         child: RichText(
           text: TextSpan(

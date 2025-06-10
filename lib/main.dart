@@ -1,3 +1,5 @@
+import 'package:app_gestion_stage/init/LocalNotification.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'global_var.dart' as global;
 import 'init/auth_user.dart';
@@ -10,24 +12,31 @@ import 'login_page.dart';
 import 'app_page.dart';
 
 void main() async {
-  await WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   AuthUser.init();
 
-  FirebaseAuth.instance
-    .authStateChanges()
-    .listen((User? user) {
+  FirebaseAuth.instance.authStateChanges().listen((User? user) {
     if (user == null) {
       print("User logged off !");
     } else {
       print("User logged in !");
     }
   });
-  
-  runApp(MainPage()); 
+
+  await LocalNotification.init();
+  LocalNotification.display("Agestage", "Hey! Pense à remplir ton carnet de bord ! 🖐");
+
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    print('Received message: ${message.notification?.title}');
+  });
+
+  FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+    print("Notification opened: ${message.notification?.title}");
+  });
+
+  runApp(MainPage());
 }
 
 class MainPage extends StatelessWidget {
