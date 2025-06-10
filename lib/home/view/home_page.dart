@@ -19,14 +19,14 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
-    final Uri url = Uri.parse('https://www.lemonde.fr/rss/une.xml');
+    final Uri url = Uri.parse(
+      'https://www.education.gouv.fr/actualites.rss#xtor=RSS-20',
+    );
     return BlocBuilder<HomeBloc, HomeState>(
       buildWhen: (prev, state) => prev.runtimeType != state.runtimeType,
       builder: (context, state) {
-        print("FLAG 6");
         switch (state) {
           case HomeInitial():
-            print("FLAG 5");
             context.read<HomeBloc>().add(
               getArticle(url: url, context: context),
             );

@@ -33,69 +33,62 @@ class ProfilHome extends State<PageProfil> {
       body: Column(
         children: <Widget>[
           global.currentLogo(isDarkMode),
-          Container(
-            width: MediaQuery.of(context).size.width - 150,
-            height: 100,
-            margin: EdgeInsets.only(top: 75),
-            decoration: BoxDecoration(
-              color: isDarkMode
-                  ? Color(global.darkThemeSeco)
-                  : Color(global.lightThemeSeco),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Center(
-              child: CustomEBI(
-                labelText: "Profil",
-                selectedIcon: Icons.arrow_forward_ios,
-                pressed: () {
-                  // redirection vers la page d'aperçu du profil
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const ProfilInfosPage()),
-                  );
-                },
-                context: context,
+          Center(
+            child: Container(
+              width: MediaQuery.of(context).size.width - 150,
+              height: MediaQuery.of(context).size.height / 2,
+              margin: EdgeInsets.only(top: 75),
+              decoration: BoxDecoration(
+                color: isDarkMode
+                    ? Color(global.darkThemeSeco)
+                    : Color(global.lightThemeSeco),
+                borderRadius: BorderRadius.circular(12),
               ),
-            ),
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width - 150,
-            height: 200,
-            alignment: Alignment.center,
-            margin: EdgeInsets.only(top: 100),
-            decoration: BoxDecoration(
-              color: isDarkMode
-                  ? Color(global.darkThemeSeco)
-                  : Color(global.lightThemeSeco),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                CustomEBI(
-                  labelText: "Informations",
-                  selectedIcon: Icons.arrow_forward_ios,
-                  context: context,
-                  pressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-                Divider(
-                  height: 10,
-                  thickness: 5,
-                  indent: 20,
-                  endIndent: 20,
-                  color: Color(global.darkThemePrim),
-                ),
-                CustomEBI(
-                  labelText: "Mentions Légales",
-                  selectedIcon: Icons.arrow_forward_ios,
-                  pressed: () {
-                    Navigator.pop(context);
-                  },
-                  context: context,
-                ),
-              ],
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  CustomEBI(
+                    labelText: "Profil",
+                    selectedIcon: Icons.arrow_forward_ios,
+                    pressed: () {
+                      // redirection vers la page d'aperçu du profil
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ProfilInfosPage(),
+                        ),
+                      );
+                    },
+                    context: context,
+                  ),
+                  Divider(
+                    height: 10,
+                    thickness: 5,
+                    indent: 20,
+                    endIndent: 20,
+                    color: Color(global.darkThemePrim),
+                  ),
+                  CustomEBI(
+                    labelText: "Informations",
+                    selectedIcon: Icons.arrow_forward_ios,
+                    context: context,
+                    pressed: () {},
+                  ),
+                  Divider(
+                    height: 10,
+                    thickness: 5,
+                    indent: 20,
+                    endIndent: 20,
+                    color: Color(global.darkThemePrim),
+                  ),
+                  CustomEBI(
+                    labelText: "Mentions Légales",
+                    selectedIcon: Icons.arrow_forward_ios,
+                    pressed: () {},
+                    context: context,
+                  ),
+                ],
+              ),
             ),
           ),
         ],

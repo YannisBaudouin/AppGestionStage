@@ -15,18 +15,21 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   final Xml2Json xml2json = Xml2Json();
+  //liste des articles
   List topStories = [];
+  //liste de widget pour contenir les boutons pour les articles
   List<Widget> widgetsListActu = <Widget>[];
+  //widget pour contenir la liste de widget puis les intégrer dans une page
   ListView listViewCool = ListView();
 
   void _lauchUrl(Uri url) async {
+    //si jamais la redirection échoue, renvoie un message d'erreur
     if (!await launchUrl(url)) {
       throw 'Could not lauch $url';
     }
   }
 
   void _getArticle(getArticle event, Emitter<HomeState> emit) async {
-    print("FLAG 1");
     http.Response reponse = await http.get(event.url);
     // Tranforme la réponse
     xml2json.parse(reponse.body);
@@ -35,11 +38,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     dynamic data = json.decode(jsondata);
     // Extract top stories from the JSON data
     topStories = data['rss']['channel']['item'];
-    print("FLAG 2");
     try {
-      for (int i = 1; i < topStories.length; i++) {
-        //print(topStories[i]['guid']['\$t']);
-        //print(topStories[i]);
+      for (int i = 0; i < topStories.length; i++) {
         widgetsListActu.add(
           OutlinedButton(
             style: OutlinedButton.styleFrom(
@@ -47,19 +47,19 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
               backgroundColor: Color(global.commonTheme),
             ),
             onPressed: () {
-              _lauchUrl(Uri.parse(topStories[i]['guid']['\$t']));
+              //redirige vers le site
+              _lauchUrl(Uri.parse(topStories[i]['link']['\$t']));
             },
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Image.network(
-                  topStories[i]['media\$content']['url'],
-                  height: 100,
-                ),
+                // image pour l'article
+                Image.asset('assets/ministereEducNationale.png', height: 150),
                 RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
-                    text: topStories[i]['title']['__cdata'],
+                    //titre de l'article
+                    text: topStories[i]['title']['\$t'],
                     style: Theme.of(event.context).textTheme.bodySmall,
                   ),
                 ),
@@ -67,8 +67,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
             ),
           ),
         );
-
-        print("FLAG 3");
       }
     } catch (e) {
       print(e);
@@ -76,7 +74,5 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
     listViewCool = ListView(children: widgetsListActu);
     emit(HomeInitialised());
-    print("FLAG 4");
-    print(widgetsListActu);
   }
 }
