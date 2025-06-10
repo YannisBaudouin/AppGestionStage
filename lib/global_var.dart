@@ -1,7 +1,7 @@
 library;
 
+import 'package:app_gestion_stage/home/view/home_page.dart';
 import 'package:flutter/material.dart';
-import 'home_page.dart';
 import 'profil_page.dart';
 import 'ressources_page.dart';
 import 'pfmpHome/pfmp_home.dart';
@@ -117,7 +117,6 @@ ThemeData darkTheme = ThemeData(
       ),
       maximumSize: Size(200, 45),
       minimumSize: Size(200, 45),
-      fixedSize: Size(200, 45),
     ),
   ),
   //décrit les couleurs pour tous les types d'écritures du mode sombre
@@ -152,7 +151,7 @@ ThemeData darkTheme = ThemeData(
 const List<Widget> btmPages = [
   PfmpHomePage(),
   Ressources(),
-  MainScreen(),
+  HomePage(),
   Messages(),
   ProfilPage(),
 ];

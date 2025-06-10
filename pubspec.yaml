@@ -1,6 +1,6 @@
 name: app_gestion_stage
 description: "A new Flutter project."
-publish_to: 'none'
+publish_to: "none"
 version: 0.1.0
 
 environment:
@@ -13,6 +13,9 @@ dependencies:
   firebase_auth: ^5.5.4
   cloud_firestore: ^5.6.8
   flutter_bloc: ^9.1.1
+  xml2json: ^6.2.0
+  http: ^1.1.0
+  url_launcher: ^6.3.1
 
 dev_dependencies:
   flutter_test:
