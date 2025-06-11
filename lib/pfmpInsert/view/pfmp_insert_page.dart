@@ -1,4 +1,5 @@
 import 'package:app_gestion_stage/class/pfmp.dart';
+import 'package:app_gestion_stage/emploiDuTemps/view/pfmp_emploi_temps_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/pfmp_insert_bloc.dart';
@@ -13,7 +14,7 @@ class PfmpInsertPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => PfmpInsertBloc(),
-      child: PfmpInsertView(pfmpId: pfmpId,),
+      child: PfmpInsertView(pfmpId: pfmpId),
     );
   }
 }
@@ -58,11 +59,13 @@ class PfmpInsertView extends StatelessWidget {
       builder: (context, state) {
         switch (state) {
           case PfmpInsertInitial():
-           context.read<PfmpInsertBloc>().add(PfmpInsert_GetInfos(pfmpId));
+            context.read<PfmpInsertBloc>().add(PfmpInsert_GetInfos(pfmpId));
           default:
         }
 
-        Pfmp? targetPfmp = context.select((PfmpInsertBloc bloc) => bloc.targetPfmp);
+        Pfmp? targetPfmp = context.select(
+          (PfmpInsertBloc bloc) => bloc.targetPfmp,
+        );
 
         if (targetPfmp != null) {
           nomSociete.text = targetPfmp.nomSociete;
@@ -176,7 +179,10 @@ class PfmpInsertView extends StatelessWidget {
                                 firstDate, //première date sélectionnable(la plus loin dans le temps)
                             lastDate:
                                 lastDate, //dernière date sélectionnable(la plus près dans le temps)
-                            initialDateRange: DateTimeRange(start: dateDeb, end: dateFin),
+                            initialDateRange: DateTimeRange(
+                              start: dateDeb,
+                              end: dateFin,
+                            ),
                             saveText:
                                 "Enregistrer", //pour modifier l'affichage du boutton qui permet d'enregistrer les dates
                           );
@@ -191,19 +197,36 @@ class PfmpInsertView extends StatelessWidget {
                         context: context,
                       ),
                     ),
-                    Text("Nombre de semaines : ${ (DateTime(dateDeb.year-dateFin.year, dateDeb.month-dateFin.month, dateDeb.day-dateFin.day).day/7 +0.5).round() }"),
+                    CustomEB(
+                      text: "Emploi du temps",
+                      pressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                PfmpEmploiTempsPage(pfmpId: pfmpId),
+                          ),
+                        );
+                      },
+                      context: context,
+                    ),
+                    Text(
+                      "Nombre de semaines : ${(DateTime(dateDeb.year - dateFin.year, dateDeb.month - dateFin.month, dateDeb.day - dateFin.day).day / 7 + 0.5).round()}",
+                    ),
                     CustomEB(
                       text: "Terminer",
-                      pressed: () => context.read<PfmpInsertBloc>().add(PfmpInsert_Submit(
-                        nomSociete.text,
-                        adresseSoc.text,
-                        statusJuri.text,
-                        nomFormate.text,
-                        contactFor.text,
-                        dateDeb,
-                        dateFin,
-                        context
-                        )),
+                      pressed: () => context.read<PfmpInsertBloc>().add(
+                        PfmpInsert_Submit(
+                          nomSociete.text,
+                          adresseSoc.text,
+                          statusJuri.text,
+                          nomFormate.text,
+                          contactFor.text,
+                          dateDeb,
+                          dateFin,
+                          context,
+                        ),
+                      ),
                       context: context,
                     ),
                     CustomREB(text: "Retour", context: context),
