@@ -18,6 +18,8 @@ dependencies:
   url_launcher: ^6.3.1
   flutter_local_notifications: ^19.2.1
   firebase_messaging: ^15.2.6
+  syncfusion_flutter_pdf: ^29.2.10
+  path_provider: ^2.1.5
 
 dev_dependencies:
   flutter_test:
@@ -31,3 +33,4 @@ flutter:
     - assets/lyceelogoWHITE.png
     - assets/app_icon.png
     - assets/ministereEducNationale.png
+    - assets/pfmpPdf.pdf

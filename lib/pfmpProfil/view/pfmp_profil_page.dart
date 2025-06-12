@@ -42,7 +42,7 @@ class PfmpProfilView extends StatelessWidget {
               CustomTBI(
                 text:
                     context.read<PfmpProfilBloc>().targetPfmp?.nomSociete ??
-                    "Y'a r",
+                    "",
                 pressed: () {
                   // redirection vers la page d'aperçu du profil
                   Navigator.push(
@@ -67,6 +67,7 @@ class PfmpProfilView extends StatelessWidget {
                 context: context,
               ),
               CustomEB(text: "Évaluation", pressed: () {}, context: context),
+              CustomEB(text: "Télécharger la fiche d'identité de l'entreprise", pressed: () => context.read<PfmpProfilBloc>().add(PfmpProfil_ConvertToPdf(pfmpId)), context: context),
               CustomREB(text: "Retour", context: context),
             ],
           ),

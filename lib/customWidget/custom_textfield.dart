@@ -36,7 +36,7 @@ class CustomTF extends StatelessWidget {
           ),
           helperText: helperText,
         ),
-        obscureText: cacher as bool,
+        obscureText: cacher ?? false,
       ),
     );
   }

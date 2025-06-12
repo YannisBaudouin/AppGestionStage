@@ -1,3 +1,4 @@
+import 'package:app_gestion_stage/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:app_gestion_stage/global_var.dart' as global;
@@ -6,7 +7,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:app_gestion_stage/profilEdit/profil_edit.dart';
 import 'package:app_gestion_stage/class/appUser.dart';
 import 'package:app_gestion_stage/customWidget/custom_widget.dart';
-import 'package:app_gestion_stage/profil_page.dart';
 
 import '../bloc/profil_infos_bloc.dart';
 
@@ -29,10 +29,7 @@ class BuildPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => ProfilInfosBloc(),
-      child: ProfilInfosPageView(),
-    );
+    return BlocProvider(create: (_) => ProfilInfosBloc(), child: ProfilInfosPageView());
   }
 }
 
@@ -52,7 +49,7 @@ class ProfilInfosPageView extends StatelessWidget {
             Navigator.of(
               context,
               rootNavigator: true,
-            ).pushNamedAndRemoveUntil("/", (_) => false);
+            ).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoginPage()), (Route route) => false);
           }
         },
       ),
@@ -64,10 +61,10 @@ class ProfilInfosPageView extends StatelessWidget {
       builder: (context, state) {
         switch (state) {
           case ProfilInfosInitial():
-            context.read<ProfilInfosBloc>().add(GetInfos());
+           context.read<ProfilInfosBloc>().add(GetInfos());
           default:
         }
-
+        
         AppUser? user = context.select((ProfilInfosBloc bloc) => bloc.user);
 
         if (user == null) {
@@ -84,107 +81,35 @@ class ProfilInfosPageView extends StatelessWidget {
         }
 
         return Scaffold(
-          body: Column(
-            children: <Widget>[
-              global.currentLogo(isDarkMode),
-              Container(
-                margin: EdgeInsets.only(top: 50),
-                child: Column(
+          body: Container(
+            alignment: Alignment.center,
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            child: Column(
+              children: <Widget>[
+                Column(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    Container(
-                      alignment: Alignment.center,
-                      width: MediaQuery.of(context).size.width - 200,
-                      decoration: BoxDecoration(
-                        color: isDarkMode
-                            ? Color(global.darkThemeSeco)
-                            : Color(global.lightThemeSeco),
-                        borderRadius: BorderRadius.circular(50),
-                      ),
-                      child: RichText(
-                        text: TextSpan(
-                          text: "Profil",
-                          style: Theme.of(context).textTheme.headlineMedium,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 30, bottom: 30),
-                      padding: EdgeInsets.only(top: 20, bottom: 20),
-                      width: MediaQuery.of(context).size.width - 50,
-                      decoration: BoxDecoration(
-                        color: isDarkMode
-                            ? Color(global.darkThemeSeco)
-                            : Color(global.lightThemeSeco),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Column(
-                        children: <Widget>[
-                          RichText(
-                            text: TextSpan(
-                              text: "UID : ${user.uid}",
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                          ),
-                          RichText(
-                            text: TextSpan(
-                              text: "Prénom : ${user.firstName}",
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                          ),
-                          RichText(
-                            text: TextSpan(
-                              text: "Nom : ${user.lastName}",
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                          ),
-                          RichText(
-                            text: TextSpan(
-                              text:
-                                  "Age: ${DateTime(DateTime.now().year - user.birthDate.year, DateTime.now().month - user.birthDate.month, DateTime.now().day - user.birthDate.day).year} ans",
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                          ),
-                          RichText(
-                            text: TextSpan(
-                              text: "Status : ${user.status}",
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                          ),
-                          RichText(
-                            text: TextSpan(
-                              text: "Etablissement : ${user.school}",
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                          ),
-                          RichText(
-                            text: TextSpan(
-                              text: "Filière : ${user.sector}",
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                          ),
-                          RichText(
-                            text: TextSpan(
-                              text: "Classe : ${user.userClass}",
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                          ),
-                          RichText(
-                            text: TextSpan(
-                              text: "Email : ${user.email}",
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    global.currentLogo(isDarkMode),
+                    Text("UID : ${user.uid}"),
+                    Text("Prénom : ${user.firstName}"),
+                    Text("Nom : ${user.lastName}"),
+                    Text("Age: ${DateTime(DateTime.now().year-user.birthDate.year,DateTime.now().month-user.birthDate.month,DateTime.now().day-user.birthDate.day).year} ans"),
+                    Text("Status : ${user.status}"),
+                    Text("Etablissement : ${user.school}"),
+                    Text("Filière : ${user.sector}"),
+                    Text("Classe : ${user.userClass}"),
+                    Text("Email : ${user.email}"),
+
+                    // Bouton Confirmer
                     CustomEB(
                       text: "Édition du profil",
                       pressed: () async {
                         // Attend que l'utilisateur ferme la page
                         await Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) => const ProfilEditPage(),
+                            builder: (context) =>
+                                const ProfilEditPage(),
                           ),
                         );
 
@@ -208,21 +133,11 @@ class ProfilInfosPageView extends StatelessWidget {
                       context: context,
                     ),
                     //Bouton de retour à la page d'avant
-                    CustomEB(
-                      text: "Retour",
-                      pressed: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => const ProfilPage(),
-                          ),
-                        );
-                      },
-                      context: context,
-                    ),
+                    CustomREB(text: "Retour", context: context),
                   ],
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },

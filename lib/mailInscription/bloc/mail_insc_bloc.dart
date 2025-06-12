@@ -14,6 +14,7 @@ class MailInscBloc extends Bloc<MailInscEvent, MailInscState> {
     on<MailInscLogin>(_onLoginAttempt);
     on<MailInscInputsChanged>(_checkInputsValid);
     on<MailInscHidePassword>(_hidePassword);
+    on<MailInscAcceptLegal>(_acceptLegal);
   }
 
   bool passwordHidden = true;
@@ -21,6 +22,8 @@ class MailInscBloc extends Bloc<MailInscEvent, MailInscState> {
   bool mailValid = false;
   bool passwordValid = false;
   bool passwordVerifValid = false;
+
+  bool acceptLegalMentions = false;
 
   void _hidePassword(MailInscHidePassword event, Emitter<MailInscState> emit) {
     passwordHidden = !passwordHidden;
@@ -42,6 +45,7 @@ class MailInscBloc extends Bloc<MailInscEvent, MailInscState> {
   }
 
   void _onLoginAttempt(MailInscLogin event, Emitter<MailInscState> emit) async {
+    if (!(mailValid && passwordValid && passwordVerifValid && acceptLegalMentions)) {return;}
     try {
       UserCredential userCredentials = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
@@ -52,9 +56,9 @@ class MailInscBloc extends Bloc<MailInscEvent, MailInscState> {
       AppUser user = AppUser(
         userCredentials.user!.uid,
         userCredentials.user!.email,
-        "",
-        "",
-        DateTime.now(),
+        event.fName,
+        event.lName,
+        event.birthDate,
         "Eleve",
         "",
         "",
@@ -90,5 +94,10 @@ class MailInscBloc extends Bloc<MailInscEvent, MailInscState> {
         ),
       );
     }
+  }
+
+  void _acceptLegal(MailInscAcceptLegal event, Emitter<MailInscState> emit) {
+    acceptLegalMentions = event.value;
+    emit(MailInscInitial());
   }
 }

@@ -19,21 +19,80 @@ class MailInscriptionPage extends StatelessWidget {
 class MailInscriptionView extends StatelessWidget {
   MailInscriptionView({super.key});
 
+  final TextEditingController fNameController = TextEditingController();
+  final TextEditingController lNameController = TextEditingController();
+  DateTime birthDate = DateTime.now();
+  final TextEditingController birthDateController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController passwordVerificationController = TextEditingController();
+  final TextEditingController passwordVerificationController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<MailInscBloc, MailInscState>(
-      buildWhen: (prev, state) => prev.runtimeType != state.runtimeType,
+      buildWhen: (prev, state) => true, //prev.runtimeType != state.runtimeType,
       builder: (context, state) {
+        birthDateController.text = birthDate.toString().split(" ")[0];
+
         return Scaffold(
           body: Container(
             alignment: Alignment.center,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                // Prénom
+                Container(
+                  width: 300,
+                  margin: const EdgeInsets.all(5),
+                  child: CustomTF(
+                    context: context,
+                    labelText: "Prénom",
+                    hintText: "Prénom",
+                    controller: fNameController,
+                  ),
+                ),
+                // Nom
+                Container(
+                  width: 300,
+                  margin: const EdgeInsets.all(5),
+                  child: CustomTF(
+                    context: context,
+                    labelText: "Nom",
+                    hintText: "Nom",
+                    controller: lNameController,
+                  ),
+                ),
+                // Date de naissance
+                Container(
+                  width: 300,
+                  margin: const EdgeInsets.all(5),
+                  child: TextField(
+                    controller: birthDateController,
+                    readOnly: true,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: "Date de naissance",
+                      suffixIcon: IconButton(
+                        onPressed: () async {
+                          birthDate =
+                              await showDatePicker(
+                                context: context,
+                                initialDate: birthDate,
+                                firstDate: DateTime(1980),
+                                lastDate: DateTime.now(),
+                              ) ??
+                              DateTime.now();
+
+                          context.read<MailInscBloc>().add(
+                            MailInscHidePassword(),
+                          );
+                        },
+                        icon: Icon(Icons.calendar_month),
+                      ),
+                    ),
+                  ),
+                ),
                 // ADRESSE MAIL
                 Container(
                   width: 300,
@@ -45,7 +104,7 @@ class MailInscriptionView extends StatelessWidget {
                           MailInscInputsChanged(
                             email: emailController.text,
                             password: passwordController.text,
-                            passwordCheck: passwordVerificationController.text
+                            passwordCheck: passwordVerificationController.text,
                           ),
                         ),
                     decoration: InputDecoration(
@@ -72,7 +131,7 @@ class MailInscriptionView extends StatelessWidget {
                           MailInscInputsChanged(
                             email: emailController.text,
                             password: passwordController.text,
-                            passwordCheck: passwordVerificationController.text
+                            passwordCheck: passwordVerificationController.text,
                           ),
                         ),
                     decoration: InputDecoration(
@@ -83,7 +142,9 @@ class MailInscriptionView extends StatelessWidget {
                           "Le mot de passe doit contenir au moins 6 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.",
                       helperMaxLines: 6,
                       errorText:
-                          !context.select((MailInscBloc bloc) => bloc.passwordValid)
+                          !context.select(
+                            (MailInscBloc bloc) => bloc.passwordValid,
+                          )
                           ? "Le mot de passe doit contenir au moins 6 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial."
                           : null,
                       errorMaxLines: 6,
@@ -91,11 +152,19 @@ class MailInscriptionView extends StatelessWidget {
                         onPressed: () => context.read<MailInscBloc>().add(
                           MailInscHidePassword(),
                         ),
-                        icon: Icon(context.select((MailInscBloc bloc) => bloc.passwordHidden) ? Icons.remove_red_eye_outlined : Icons.remove_red_eye_sharp),
+                        icon: Icon(
+                          context.select(
+                                (MailInscBloc bloc) => bloc.passwordHidden,
+                              )
+                              ? Icons.remove_red_eye_outlined
+                              : Icons.remove_red_eye_sharp,
+                        ),
                       ),
                     ),
                     // Cache le texte
-                    obscureText: context.select((MailInscBloc bloc) => bloc.passwordHidden),
+                    obscureText: context.select(
+                      (MailInscBloc bloc) => bloc.passwordHidden,
+                    ),
                   ),
                 ),
 
@@ -110,7 +179,7 @@ class MailInscriptionView extends StatelessWidget {
                           MailInscInputsChanged(
                             email: emailController.text,
                             password: passwordController.text,
-                            passwordCheck: passwordVerificationController.text
+                            passwordCheck: passwordVerificationController.text,
                           ),
                         ),
                     decoration: InputDecoration(
@@ -118,7 +187,9 @@ class MailInscriptionView extends StatelessWidget {
                       labelText: "Confirmation du mot de passe",
                       hintText: '*********',
                       errorText:
-                          !context.select((MailInscBloc bloc) => bloc.passwordVerifValid)
+                          !context.select(
+                            (MailInscBloc bloc) => bloc.passwordVerifValid,
+                          )
                           ? "Les mots de passes ne correspondent pas."
                           : null,
                       errorMaxLines: 2,
@@ -127,13 +198,35 @@ class MailInscriptionView extends StatelessWidget {
                     obscureText: true,
                   ),
                 ),
-
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    RichText(
+                      text: TextSpan(
+                        text: "J'ai lu et j'accepte les mentions légales",
+                      ),
+                    ),
+                    Checkbox(
+                      isError: true,
+                      tristate: true,
+                      value: context.read<MailInscBloc>().acceptLegalMentions,
+                      onChanged: (bool? value) {
+                        context.read<MailInscBloc>().add(
+                          MailInscAcceptLegal(value: value ?? false),
+                        );
+                      },
+                    ),
+                  ],
+                ),
                 // Bouton Inscription
                 CustomEB(
                   text: "Inscription",
                   pressed: () async {
                     context.read<MailInscBloc>().add(
                       MailInscLogin(
+                        fName: fNameController.text,
+                        lName: lNameController.text,
+                        birthDate: birthDate,
                         email: emailController.text,
                         password: passwordController.text,
                         context: context,
