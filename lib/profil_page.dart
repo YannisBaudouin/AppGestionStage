@@ -1,3 +1,4 @@
+import 'package:app_gestion_stage/mentionLegale/view/mention_legale_page.dart';
 import 'package:flutter/material.dart';
 import 'package:app_gestion_stage/global_var.dart' as global;
 import 'package:app_gestion_stage/customWidget/custom_widget.dart';
@@ -84,7 +85,14 @@ class ProfilHome extends State<PageProfil> {
                   CustomEBI(
                     labelText: "Mentions Légales",
                     selectedIcon: Icons.arrow_forward_ios,
-                    pressed: () {},
+                    pressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const MentionLegale(),
+                        ),
+                      );
+                    },
                     context: context,
                   ),
                 ],

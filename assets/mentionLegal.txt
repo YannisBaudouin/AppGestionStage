@@ -1,0 +1,57 @@
+Mentions légales – Application ‘Suivi PFMP’
+
+
+1. Éditeur de l’application
+Nom de l’application: Suivi PFMP(nom provisoire)
+Éditeur: Damien Piras – Cité scolaire Jamot-Jaurès
+Adresse: 1 Rue Williams Dumazet, 23200 Aubusson
+Email de contact: ce.0230002c@ac-limoges.fr
+Responsable de publication: Madame Dubois Sonia, Proviseur
+
+2. Hébergement
+L’application est héberger par:
+Firebase
+Adresse: 1600 Amphitheatre Parkway, Mountain View, Californie 
+Site web: https://firebase.google.com/
+Contact: https://firebase.google.com/support
+
+3. Finalité de l’application:
+L’application a pour objet le suivi des périodes de formation en milieu professionnel (PFMP) pour les élèves de l’établissement, du CAP au Bac Pro.
+Elle permet:
+    • La gestion des profils élèves, tuteurs en entreprise, et professeurs référents
+    • La saisie hebdomadaire d’un carnet de bord
+    • le suivi des tâches réalisées en entreprise
+    • La génération d’un PDF du carnet de bord
+    • La messagerie entre les trois parties
+    • Un module de recherche de stage via une carte Google Maps filtrée
+
+4. Accès à l’application
+L’accès à l’application est réservé aux personnes habilitées (élèves de l’établissement, tuteur d’accueil, professeurs référents). Chaque utilisateur dispose d’un accès sécurisé avec identifiant personnel.
+
+5. Donnée personnelles
+Traitement des données: les données personnelles collectées sont nécessaire au bon fonctionnement de l’application, notamment:
+    • Identité des élèves (nom, prénom, classe, âge)
+    • Information de stage (dates, entreprise, tuteur)
+    • Messages échangés
+    • Données pédagogiques (tâches , évaluations, carnet de bord)
+
+Base légale du traitement: mission d’intérêt public dans le cadre de la formation professionnelle des élèves.
+
+Durée de conservation: les données sont conservées pendant une durée de 3 ans après la fin de la scolarité de l’élève, sauf obligation légales contraires.
+
+Droit des utilisateurs: Conformément au RGPD, chaque utilisateur dispose d’un droit d’accès, de rectification, d’opposition et d’effacement sur ses données. Ces droits peuvent être exercés en contactant:
+Madame Dubois Sonia
+Email: ce.0230002c@ac-limoges.fr
+Adresse: 1 Rue Williams Dumazet, 23200 Aubusson
+
+6. Sécurité
+Des mesures technique et organisationnelles sont mises en place pour garantir la confidentialité, l’intégrité et la disponibilité des données traitées.
+
+7. Responsabilité
+L’éditeur ne saurait être tenu responsable des contenus saisis par les utilisateurs. L’utilisation de l’application se fait sous responsabilité des utilisateurs connectés.
+
+8. Propriété intellectuelle
+L’ensemble des éléments (code, interface, contenus) de l’application sont protégés par le droit d’auteur. Toute reproduction ou diffusion non autorisée sont interdite.
+
+9. Cookie et services tiers
+L’application ne recourt à aucun cookie à des fins publicitaires. Les seules données de navigation utilisées sont celles strictement nécessaires au fonctionnement de l’application (ex: session utilisateur). Le module de carte utilise les services de Google Maps (voir politique de confidentialité de Google: https://policies.google.com/privacy).
