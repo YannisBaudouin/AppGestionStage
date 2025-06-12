@@ -16,3 +16,9 @@ final class SubmitEdits extends ProfilEditEvent {
 
   const SubmitEdits(this.fName, this.lName, this.birthDate, this.context);
 }
+
+final class ProfilEditInputsChanged extends ProfilEditEvent {
+  final String prenom;
+  final String nom;
+  const ProfilEditInputsChanged({required this.prenom, required this.nom});
+}

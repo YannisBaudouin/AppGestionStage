@@ -9,11 +9,16 @@ class PfmpInsertBloc extends Bloc<PfmpInsertEvent, PfmpInsertState> {
   PfmpInsertBloc() : super(const PfmpInsertInitial()) {
     on<PfmpInsert_Submit>(_submit);
     on<PfmpInsert_GetInfos>(_getInfos);
+    on<PfmpInsertAcceptCharte>(_acceptLegal);
   }
 
   Pfmp? targetPfmp;
+  bool acceptCharte = false;
 
   void _submit(PfmpInsert_Submit event, Emitter<PfmpInsertState> emit) async {
+    if (!(acceptCharte)) {
+      return;
+    }
     Pfmp newPFMP = Pfmp(
       targetPfmp != null ? targetPfmp!.idPfmp : "",
       event.nomSociete,
@@ -35,11 +40,22 @@ class PfmpInsertBloc extends Bloc<PfmpInsertEvent, PfmpInsertState> {
     emit(PfmpInsertInitial());
   }
 
-  void _getInfos(PfmpInsert_GetInfos event, Emitter<PfmpInsertState> emit) async {
+  void _getInfos(
+    PfmpInsert_GetInfos event,
+    Emitter<PfmpInsertState> emit,
+  ) async {
     if (event.pfmpId != null) {
       targetPfmp = await Pfmp.retrieve(event.pfmpId.toString());
     }
-    
+
     emit(PfmpInsertInitialized());
+  }
+
+  void _acceptLegal(
+    PfmpInsertAcceptCharte event,
+    Emitter<PfmpInsertState> emit,
+  ) {
+    acceptCharte = event.value;
+    emit(PfmpInsertInitial());
   }
 }

@@ -15,3 +15,7 @@ final class ProfilEditInitialized extends ProfilEditState {
 final class ProfilEditSucceeded extends ProfilEditState {
   const ProfilEditSucceeded();
 }
+
+final class ProfilEditChanged extends ProfilEditState {
+  const ProfilEditChanged();
+}

@@ -15,21 +15,10 @@ class ProfilInfosPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      themeMode: ThemeMode.system,
-      theme: global.lightTheme,
-      darkTheme: global.darkTheme,
-      home: const BuildPage(),
+    return BlocProvider(
+      create: (_) => ProfilInfosBloc(),
+      child: ProfilInfosPageView(),
     );
-  }
-}
-
-class BuildPage extends StatelessWidget {
-  const BuildPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider(create: (_) => ProfilInfosBloc(), child: ProfilInfosPageView());
   }
 }
 
@@ -46,10 +35,10 @@ class ProfilInfosPageView extends StatelessWidget {
           await FirebaseAuth.instance.signOut();
 
           if (FirebaseAuth.instance.currentUser == null) {
-            Navigator.of(
-              context,
-              rootNavigator: true,
-            ).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => LoginPage()), (Route route) => false);
+            Navigator.of(context, rootNavigator: true).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => LoginPage()),
+              (Route route) => false,
+            );
           }
         },
       ),
@@ -61,10 +50,10 @@ class ProfilInfosPageView extends StatelessWidget {
       builder: (context, state) {
         switch (state) {
           case ProfilInfosInitial():
-           context.read<ProfilInfosBloc>().add(GetInfos());
+            context.read<ProfilInfosBloc>().add(GetInfos());
           default:
         }
-        
+
         AppUser? user = context.select((ProfilInfosBloc bloc) => bloc.user);
 
         if (user == null) {
@@ -94,7 +83,9 @@ class ProfilInfosPageView extends StatelessWidget {
                     Text("UID : ${user.uid}"),
                     Text("Prénom : ${user.firstName}"),
                     Text("Nom : ${user.lastName}"),
-                    Text("Age: ${DateTime(DateTime.now().year-user.birthDate.year,DateTime.now().month-user.birthDate.month,DateTime.now().day-user.birthDate.day).year} ans"),
+                    Text(
+                      "Age: ${DateTime(DateTime.now().year - user.birthDate.year, DateTime.now().month - user.birthDate.month, DateTime.now().day - user.birthDate.day).year} ans",
+                    ),
                     Text("Status : ${user.status}"),
                     Text("Etablissement : ${user.school}"),
                     Text("Filière : ${user.sector}"),
@@ -108,8 +99,7 @@ class ProfilInfosPageView extends StatelessWidget {
                         // Attend que l'utilisateur ferme la page
                         await Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) =>
-                                const ProfilEditPage(),
+                            builder: (context) => const ProfilEditPage(),
                           ),
                         );
 

@@ -30,7 +30,6 @@ class ProfilEditView extends StatelessWidget {
     return BlocBuilder<ProfilEditBloc, ProfilEditState>(
       buildWhen: (prev, state) => prev.runtimeType != state.runtimeType,
       builder: (context, state) {
-
         switch (state) {
           case ProfilEditInitial():
             context.read<ProfilEditBloc>().add(ProfilEdit_GetInfos());
@@ -71,8 +70,19 @@ class ProfilEditView extends StatelessWidget {
                     controller: fNameController,
                     context: context,
                     hintText: "Roger",
-                    helperText: null,
-                    cacher: false,
+                    /*errorText:
+                        !context.select(
+                          (ProfilEditBloc bloc) => bloc.prenomValid,
+                        )
+                        ? "Le prénom n'est pas valide."
+                        : null,
+                    changed: (String text) =>
+                        context.read<ProfilEditBloc>().add(
+                          ProfilEditInputsChanged(
+                            prenom: fNameController.text,
+                            nom: lNameController.text,
+                          ),
+                        ),*/
                   ),
                 ),
                 // NOM
@@ -83,8 +93,17 @@ class ProfilEditView extends StatelessWidget {
                     controller: lNameController,
                     context: context,
                     hintText: "Figman",
-                    helperText: null,
-                    cacher: false,
+                    /*errorText:
+                        !context.select((ProfilEditBloc bloc) => bloc.nomValid)
+                        ? "Le nom n'est pas valide."
+                        : null,
+                    changed: (String text) =>
+                        context.read<ProfilEditBloc>().add(
+                          ProfilEditInputsChanged(
+                            prenom: fNameController.text,
+                            nom: lNameController.text,
+                          ),
+                        ),*/
                   ),
                 ),
                 // DATE DE NAISSANCE
@@ -108,7 +127,7 @@ class ProfilEditView extends StatelessWidget {
                       fNameController.text,
                       lNameController.text,
                       birthDate!,
-                      context
+                      context,
                     ),
                   ),
                   context: context,

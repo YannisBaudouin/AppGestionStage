@@ -6,24 +6,32 @@ class CustomTF extends StatelessWidget {
   final TextEditingController controller;
   final BuildContext context;
   final String hintText;
+  final dynamic errorText;
   final String? helperText;
   final bool? cacher;
   final int? maxLines;
+  final dynamic keyboardType;
+  final dynamic changed;
   const CustomTF({
     super.key,
     this.labelText,
     required this.controller,
     required this.context,
     required this.hintText,
+    this.errorText,
     this.helperText,
     this.cacher,
-    this.maxLines
+    this.maxLines,
+    this.keyboardType,
+    this.changed,
   });
   @override
   Widget build(context) {
     return Center(
       child: TextField(
         controller: controller,
+        keyboardType: keyboardType,
+        onChanged: changed,
         maxLines: cacher == true ? 1 : maxLines,
         decoration: InputDecoration(
           labelText: labelText,
@@ -35,6 +43,7 @@ class CustomTF extends StatelessWidget {
             ),
           ),
           helperText: helperText,
+          errorText: errorText,
         ),
         obscureText: cacher ?? false,
       ),

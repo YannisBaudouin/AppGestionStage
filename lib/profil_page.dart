@@ -1,23 +1,9 @@
+import 'package:app_gestion_stage/aPropos/view/about_page.dart';
 import 'package:app_gestion_stage/mentionLegale/view/mention_legale_page.dart';
 import 'package:flutter/material.dart';
 import 'package:app_gestion_stage/global_var.dart' as global;
 import 'package:app_gestion_stage/customWidget/custom_widget.dart';
 import 'profilInfos/profil_infos.dart';
-
-class ProfilPage extends StatelessWidget {
-  const ProfilPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Test flutter',
-      themeMode: ThemeMode.system,
-      theme: global.lightTheme,
-      darkTheme: global.darkTheme,
-      home: const PageProfil(),
-    );
-  }
-}
 
 class PageProfil extends StatefulWidget {
   const PageProfil({super.key});
@@ -73,7 +59,14 @@ class ProfilHome extends State<PageProfil> {
                     labelText: "Informations",
                     selectedIcon: Icons.arrow_forward_ios,
                     context: context,
-                    pressed: () {},
+                    pressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const AboutPage(),
+                        ),
+                      );
+                    },
                   ),
                   Divider(
                     height: 10,
@@ -89,7 +82,7 @@ class ProfilHome extends State<PageProfil> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const MentionLegale(),
+                          builder: (context) => const MentionLegalePage(),
                         ),
                       );
                     },

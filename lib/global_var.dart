@@ -153,5 +153,5 @@ const List<Widget> btmPages = [
   Ressources(),
   HomePage(),
   Messages(),
-  ProfilPage(),
+  PageProfil(),
 ];

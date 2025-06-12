@@ -1,3 +1,4 @@
+import 'package:app_gestion_stage/charteBonneConduite/view/charte_page.dart';
 import 'package:app_gestion_stage/class/pfmp.dart';
 import 'package:app_gestion_stage/emploiDuTemps/view/pfmp_emploi_temps_page.dart';
 import 'package:flutter/material.dart';
@@ -212,6 +213,32 @@ class PfmpInsertView extends StatelessWidget {
                     ),
                     Text(
                       "Nombre de semaines : ${(DateTime(dateDeb.year - dateFin.year, dateDeb.month - dateFin.month, dateDeb.day - dateFin.day).day / 7 + 0.5).round()}",
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CustomTB(
+                          text: "J'ai lu et j'accepte les mentions légales",
+                          pressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const ChartePage(),
+                              ),
+                            );
+                          },
+                        ),
+                        Checkbox(
+                          isError: true,
+                          tristate: true,
+                          value: context.read<PfmpInsertBloc>().acceptCharte,
+                          onChanged: (bool? value) {
+                            context.read<PfmpInsertBloc>().add(
+                              PfmpInsertAcceptCharte(value: value ?? false),
+                            );
+                          },
+                        ),
+                      ],
                     ),
                     CustomEB(
                       text: "Terminer",

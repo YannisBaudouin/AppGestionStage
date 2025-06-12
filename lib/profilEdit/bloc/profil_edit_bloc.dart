@@ -12,9 +12,12 @@ class ProfilEditBloc extends Bloc<ProfilEditEvent, ProfilEditState> {
   ProfilEditBloc() : super(const ProfilEditInitial()) {
     on<ProfilEdit_GetInfos>(getInfos);
     on<SubmitEdits>(submitEdits);
+    //on<ProfilEditInputsChanged>(_checkInputsValid);
   }
 
   AppUser? user;
+  bool prenomValid = true;
+  late bool nomValid = true;
 
   void getInfos(
     ProfilEdit_GetInfos event,
@@ -25,18 +28,35 @@ class ProfilEditBloc extends Bloc<ProfilEditEvent, ProfilEditState> {
   }
 
   void submitEdits(SubmitEdits event, Emitter<ProfilEditState> emit) {
+    if (!(prenomValid && nomValid)) {
+      return;
+    }
     user!.firstName = event.fName;
     user!.lastName = event.lName;
     user!.birthDate = event.birthDate;
 
     user!.update();
 
-    List<Widget> popupOption = [
-      CustomRTB(text: "OK"),
-    ];
-    customShowDialog(event.context, "Modifications", "Votre profil a été édité avec succès", popupOption);
+    List<Widget> popupOption = [CustomRTB(text: "OK")];
+    customShowDialog(
+      event.context,
+      "Modifications",
+      "Votre profil a été édité avec succès",
+      popupOption,
+    );
 
     Navigator.pop(event.context);
     emit(ProfilEditSucceeded());
   }
+
+  /*void _checkInputsValid(
+    ProfilEditInputsChanged event,
+    Emitter<ProfilEditState> emit,
+  ) {
+    prenomValid = RegExp(r"^[A-Z][a-z-A-Za-z]+$").hasMatch(event.prenom);
+
+    nomValid = RegExp(r"^[A-Z][a-z-A-Za-z]+$").hasMatch(event.nom);
+
+    emit(ProfilEditChanged());
+  }*/
 }

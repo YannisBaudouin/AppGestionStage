@@ -1,32 +1,14 @@
 import 'package:flutter/material.dart';
 import 'global_var.dart' as global;
 
-class Messages extends StatelessWidget {
+class Messages extends StatefulWidget {
   const Messages({super.key});
 
-  // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Agestage',
-      themeMode: ThemeMode.system,
-      theme: global.lightTheme,
-      darkTheme: global.darkTheme,
-      home: const MyHomePage(title: 'Agestage'),
-    );
-  }
+  State<Messages> createState() => _MyHomePageState();
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<Messages> {
   @override
   Widget build(BuildContext context) {
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
@@ -49,14 +31,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: ListView(
                     shrinkWrap: true,
                     children: [
-                      Container(
-                        height: 100,
-                        color: const Color(0xFFB00A60),
-                      ),
-                      Container(
-                        height: 100,
-                        color: const Color(0xFFFFEEDD),
-                      ),
+                      Container(height: 100, color: const Color(0xFFB00A60)),
+                      Container(height: 100, color: const Color(0xFFFFEEDD)),
                     ],
                   ),
                 ),

@@ -1,32 +1,14 @@
 import 'package:flutter/material.dart';
 import 'global_var.dart' as global;
 
-class Ressources extends StatelessWidget {
+class Ressources extends StatefulWidget {
   const Ressources({super.key});
 
-  // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Agestage',
-      themeMode: ThemeMode.system,
-      theme: global.lightTheme,
-      darkTheme: global.darkTheme,
-      home: const MyHomePage(title: 'Agestage'),
-    );
-  }
+  State<Ressources> createState() => _MyHomePageState();
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<Ressources> {
   Brightness getBrightness() {
     return MediaQuery.of(context).platformBrightness;
   }

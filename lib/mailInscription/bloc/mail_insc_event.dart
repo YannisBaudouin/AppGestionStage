@@ -14,15 +14,30 @@ final class MailInscLogin extends MailInscEvent {
 
   final BuildContext context;
 
-  const MailInscLogin({required this.fName, required this.lName, required this.birthDate, required this.email, required this.password, required this.context});
+  const MailInscLogin({
+    required this.fName,
+    required this.lName,
+    required this.birthDate,
+    required this.email,
+    required this.password,
+    required this.context,
+  });
 }
 
 final class MailInscInputsChanged extends MailInscEvent {
+  final String prenom;
+  final String nom;
   final String email;
   final String password;
   final String passwordCheck;
 
-  const MailInscInputsChanged({required this.email, required this.password, required this.passwordCheck});
+  const MailInscInputsChanged({
+    required this.prenom,
+    required this.nom,
+    required this.email,
+    required this.password,
+    required this.passwordCheck,
+  });
 }
 
 final class MailInscHidePassword extends MailInscEvent {

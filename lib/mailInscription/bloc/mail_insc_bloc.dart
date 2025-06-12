@@ -19,6 +19,8 @@ class MailInscBloc extends Bloc<MailInscEvent, MailInscState> {
 
   bool passwordHidden = true;
 
+  bool prenomValid = false;
+  bool nomValid = false;
   bool mailValid = false;
   bool passwordValid = false;
   bool passwordVerifValid = false;
@@ -30,14 +32,21 @@ class MailInscBloc extends Bloc<MailInscEvent, MailInscState> {
     emit(MailInscInitial());
   }
 
-  void _checkInputsValid(MailInscInputsChanged event, Emitter<MailInscState> emit) {
+  void _checkInputsValid(
+    MailInscInputsChanged event,
+    Emitter<MailInscState> emit,
+  ) {
+    prenomValid = RegExp(r"^[A-Z][a-z-A-Za-z]+$").hasMatch(event.prenom);
+
+    nomValid = RegExp(r"^[A-Z][a-z-A-Za-z]+$").hasMatch(event.nom);
+
     mailValid = RegExp(
-        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
-      ).hasMatch(event.email);
+      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+",
+    ).hasMatch(event.email);
 
     passwordValid = RegExp(
-        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{6,}$',
-      ).hasMatch(event.password);
+      r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{6,}$',
+    ).hasMatch(event.password);
 
     passwordVerifValid = event.password == event.passwordCheck;
 
@@ -45,7 +54,12 @@ class MailInscBloc extends Bloc<MailInscEvent, MailInscState> {
   }
 
   void _onLoginAttempt(MailInscLogin event, Emitter<MailInscState> emit) async {
-    if (!(mailValid && passwordValid && passwordVerifValid && acceptLegalMentions)) {return;}
+    if (!(mailValid &&
+        passwordValid &&
+        passwordVerifValid &&
+        acceptLegalMentions)) {
+      return;
+    }
     try {
       UserCredential userCredentials = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(

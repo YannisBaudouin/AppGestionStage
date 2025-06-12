@@ -35,3 +35,5 @@ flutter:
     - assets/ministereEducNationale.png
     - assets/pfmpPdf.pdf
     - assets/mentionLegal.txt
+    - assets/about.txt
+    - assets/charteConduite.txt

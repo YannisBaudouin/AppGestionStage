@@ -1,3 +1,4 @@
+import 'package:app_gestion_stage/mentionLegale/view/mention_legale_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/mail_insc_bloc.dart';
@@ -50,6 +51,19 @@ class MailInscriptionView extends StatelessWidget {
                     labelText: "Prénom",
                     hintText: "Prénom",
                     controller: fNameController,
+                    errorText:
+                        !context.select((MailInscBloc bloc) => bloc.prenomValid)
+                        ? "Le prénom n'est pas valide."
+                        : null,
+                    changed: (String text) => context.read<MailInscBloc>().add(
+                      MailInscInputsChanged(
+                        prenom: fNameController.text,
+                        nom: lNameController.text,
+                        email: emailController.text,
+                        password: passwordController.text,
+                        passwordCheck: passwordVerificationController.text,
+                      ),
+                    ),
                   ),
                 ),
                 // Nom
@@ -61,6 +75,19 @@ class MailInscriptionView extends StatelessWidget {
                     labelText: "Nom",
                     hintText: "Nom",
                     controller: lNameController,
+                    errorText:
+                        !context.select((MailInscBloc bloc) => bloc.nomValid)
+                        ? "Le nom n'est pas valide."
+                        : null,
+                    changed: (String text) => context.read<MailInscBloc>().add(
+                      MailInscInputsChanged(
+                        prenom: fNameController.text,
+                        nom: lNameController.text,
+                        email: emailController.text,
+                        password: passwordController.text,
+                        passwordCheck: passwordVerificationController.text,
+                      ),
+                    ),
                   ),
                 ),
                 // Date de naissance
@@ -102,6 +129,8 @@ class MailInscriptionView extends StatelessWidget {
                     onChanged: (String text) =>
                         context.read<MailInscBloc>().add(
                           MailInscInputsChanged(
+                            prenom: fNameController.text,
+                            nom: lNameController.text,
                             email: emailController.text,
                             password: passwordController.text,
                             passwordCheck: passwordVerificationController.text,
@@ -129,6 +158,8 @@ class MailInscriptionView extends StatelessWidget {
                     onChanged: (String text) =>
                         context.read<MailInscBloc>().add(
                           MailInscInputsChanged(
+                            prenom: fNameController.text,
+                            nom: lNameController.text,
                             email: emailController.text,
                             password: passwordController.text,
                             passwordCheck: passwordVerificationController.text,
@@ -177,6 +208,8 @@ class MailInscriptionView extends StatelessWidget {
                     onChanged: (String text) =>
                         context.read<MailInscBloc>().add(
                           MailInscInputsChanged(
+                            prenom: fNameController.text,
+                            nom: lNameController.text,
                             email: emailController.text,
                             password: passwordController.text,
                             passwordCheck: passwordVerificationController.text,
@@ -201,10 +234,16 @@ class MailInscriptionView extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    RichText(
-                      text: TextSpan(
-                        text: "J'ai lu et j'accepte les mentions légales",
-                      ),
+                    CustomTB(
+                      text: "J'ai lu et j'accepte les mentions légales",
+                      pressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const MentionLegalePage(),
+                          ),
+                        );
+                      },
                     ),
                     Checkbox(
                       isError: true,

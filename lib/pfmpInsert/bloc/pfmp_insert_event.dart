@@ -18,6 +18,20 @@ class PfmpInsert_Submit extends PfmpInsertEvent {
   final DateTime dateDeb;
   final DateTime dateFin;
   final BuildContext context;
-  
-  const PfmpInsert_Submit(this.nomSociete, this.adresseSoc, this.statusJuri, this.nomFormate, this.contactFor, this.dateDeb, this.dateFin, this.context);
+
+  const PfmpInsert_Submit(
+    this.nomSociete,
+    this.adresseSoc,
+    this.statusJuri,
+    this.nomFormate,
+    this.contactFor,
+    this.dateDeb,
+    this.dateFin,
+    this.context,
+  );
+}
+
+final class PfmpInsertAcceptCharte extends PfmpInsertEvent {
+  final bool value;
+  const PfmpInsertAcceptCharte({required this.value});
 }
