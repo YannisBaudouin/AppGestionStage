@@ -1,4 +1,3 @@
-import 'package:app_gestion_stage/global_var.dart' as global;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:xml2json/xml2json.dart';
@@ -15,14 +14,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   final Xml2Json xml2json = Xml2Json();
-  //liste des articles
-  List topStories = [];
-  //liste de widget pour contenir les boutons pour les articles
-  List<Widget> widgetsListActu = <Widget>[];
-  //widget pour contenir la liste de widget puis les intégrer dans une page
-  ListView listViewCool = ListView();
 
-  void _lauchUrl(Uri url) async {
+  void _launchUrl(Uri url) async {
     //si jamais la redirection échoue, renvoie un message d'erreur
     if (!await launchUrl(url)) {
       throw 'Could not lauch $url';
@@ -37,42 +30,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     String jsondata = xml2json.toGData();
     dynamic data = json.decode(jsondata);
     // Extract top stories from the JSON data
-    topStories = data['rss']['channel']['item'];
-    try {
-      for (int i = 0; i < topStories.length; i++) {
-        widgetsListActu.add(
-          OutlinedButton(
-            style: OutlinedButton.styleFrom(
-              maximumSize: Size(200, 250),
-              backgroundColor: Color(global.commonTheme),
-            ),
-            onPressed: () {
-              //redirige vers le site
-              _lauchUrl(Uri.parse(topStories[i]['link']['\$t']));
-            },
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                // image pour l'article
-                Image.asset('assets/ministereEducNationale.png', height: 150),
-                RichText(
-                  textAlign: TextAlign.center,
-                  text: TextSpan(
-                    //titre de l'article
-                    text: topStories[i]['title']['\$t'],
-                    style: Theme.of(event.context).textTheme.bodySmall,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      }
-    } catch (e) {
-      print(e);
-    }
+    List tops = data['rss']['channel']['item'];
 
-    listViewCool = ListView(children: widgetsListActu);
-    emit(HomeInitialised());
+    emit(HomeInitialisedState(tops, _launchUrl));
   }
 }

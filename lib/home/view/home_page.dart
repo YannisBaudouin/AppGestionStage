@@ -30,8 +30,64 @@ class HomeView extends StatelessWidget {
             context.read<HomeBloc>().add(
               getArticle(url: url, context: context),
             );
-          default:
+          case HomeInitialisedState():
+            return Scaffold(
+              body: Column(
+                children: <Widget>[
+                  global.currentLogo(isDarkMode),
+                  RichText(
+                    text: TextSpan(
+                      text: "Actualités",
+                      style: Theme.of(context).textTheme.headlineLarge,
+                    ),
+                  ),
+                  Container(
+                    width: 350,
+                    height: MediaQuery.of(context).size.height / 1.8,
+                    margin: EdgeInsets.only(top: 20),
+                    child: ListView(
+                      children: <Widget>[
+                        for (int j = 0; j < state.tops.length; j++)
+                          OutlinedButton(
+                            style: OutlinedButton.styleFrom(
+                              maximumSize: Size(200, 250),
+                              backgroundColor: Color(global.commonTheme),
+                            ),
+                            onPressed: () {
+                              //redirige vers le site
+                              state.launch(
+                                Uri.parse(state.tops[j]['link']['\$t']),
+                              );
+                            },
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                // image pour l'article
+                                Image.asset(
+                                  'assets/ministereEducNationale.png',
+                                  height: 150,
+                                ),
+                                RichText(
+                                  textAlign: TextAlign.center,
+                                  text: TextSpan(
+                                    //titre de l'article
+                                    text: state.tops[j]['title']['\$t'],
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.bodySmall,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            );
         }
+
         return Scaffold(
           body: Column(
             children: <Widget>[
@@ -41,12 +97,6 @@ class HomeView extends StatelessWidget {
                   text: "Actualités",
                   style: Theme.of(context).textTheme.headlineLarge,
                 ),
-              ),
-              Container(
-                width: 350,
-                height: MediaQuery.of(context).size.height / 1.8,
-                margin: EdgeInsets.only(top: 20),
-                child: context.read<HomeBloc>().listViewCool,
               ),
             ],
           ),

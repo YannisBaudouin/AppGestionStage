@@ -8,6 +8,8 @@ class HomeInitial extends HomeState {
   const HomeInitial();
 }
 
-class HomeInitialised extends HomeState {
-  const HomeInitialised();
+class HomeInitialisedState extends HomeState {
+  List tops;
+  Function launch;
+  HomeInitialisedState(this.tops, this.launch) : super();
 }
