@@ -3,87 +3,196 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class Pfmp {
-  //attribut de la classe PFMP
-  late String idPfmp;
-  late String nomSociete;
-  late String adresseSociete;
-  late String statusSociete;
-  late String nomFormateur;
-  late String contactFormateur;
-  late DateTime dateDebut;
-  late DateTime dateFin;
+  //Attributs de la classe PFMP
+  String idPfmp;
+  String companyName;
+  String address;
+  String bossName;
+  String tutorName;
+  String tutorContact;
+  String siretNumber;
+  String phoneNumber;
+  String mailAddress;
+  String mainActivity;
+
+  String? secondaryActivity;
+  int? totalWorkforce;
+  int? serviceWorkforce;
+  bool? sectorType; // false = Secteur Privé, true = Secteur publique
+  String? legalStatus;
+  int? activitySector; // 0 = Primaire, 1 = Secondaire, 2 = Tertiaire
+  bool? productDurableGoods;
+  bool? productSemiDurableGoods;
+  bool? productNonDurableGoods;
+  bool? productMerchantServices;
+  bool? productNonMerchantServices;
+
+  bool? hasCDI;
+  bool? hasCDD;
+  bool? hasInterim;
+
+  bool? hasApprenticeContract;
+  String? requiredDiploma;
+
+  String? typicalCustomerProfile;
+  String? competition;
+
+  String? companyValues;
+  String? socialResponsibilities;
+
+  DateTime startDate;
+  DateTime endDate;
 
   //Constructeur de la classe
-  Pfmp(
-    String idPfmp_,
-    String nomSoc,
-    String adresseSoc,
-    String statusSoc,
-    String nomForma,
-    String contactForma,
-    DateTime dateD,
-    DateTime dateF,
+  Pfmp({
+    required this.idPfmp,
+    required this.companyName,
+    required this.address,
+    required this.bossName,
+    required this.tutorName,
+    required this.tutorContact,
+    required this.siretNumber,
+    required this.phoneNumber,
+    required this.mailAddress,
+    required this.mainActivity,
 
-  ) {
-    idPfmp = idPfmp_;
-    nomSociete = nomSoc;
-    adresseSociete = adresseSoc;
-    statusSociete = statusSoc;
-    nomFormateur = nomForma;
-    contactFormateur = contactForma;
-    dateDebut = dateD;
-    dateFin = dateF;
-  }
+    this.secondaryActivity,
+    this.totalWorkforce,
+    this.serviceWorkforce,
+    this.sectorType,
+    this.legalStatus,
+    this.activitySector,
+    this.productDurableGoods,
+    this.productSemiDurableGoods,
+    this.productNonDurableGoods,
+    this.productMerchantServices,
+    this.productNonMerchantServices,
+
+    required this.startDate,
+    required this.endDate,
+  });
 
   void create() async {
-     AppUser user = await AppUser.retrieve(FirebaseAuth.instance.currentUser!.uid);
-     DocumentReference userRef = FirebaseFirestore.instance.collection("users").doc(user.uid);
+    AppUser user = await AppUser.retrieve(
+      FirebaseAuth.instance.currentUser!.uid,
+    );
+    DocumentReference userRef = FirebaseFirestore.instance
+        .collection("users")
+        .doc(user.uid);
 
-     CollectionReference pfmpListRef = userRef.collection('pfmp');
+    CollectionReference pfmpListRef = userRef.collection('pfmp');
 
     final pfmpData = {
-      "nomSociete": nomSociete,
-      "adresseSociete": adresseSociete,
-      "statusSociete": statusSociete,
-      "nomFormateur": nomFormateur,
-      "contactFormateur": contactFormateur,
-      "dateDebut": dateDebut,
-      "dateFin": dateFin,
+      "companyName": companyName,
+      "address": address,
+      "bossName": bossName,
+      "tutorName": tutorName,
+      "tutorContact": tutorContact,
+      "siretNumber": siretNumber,
+      "phoneNumber": phoneNumber,
+      "mailAddress": mailAddress,
+      "mainActivity": mainActivity,
+
+      "secondaryActivity": secondaryActivity,
+      "totalWorkforce": totalWorkforce,
+      "serviceWorkforce": serviceWorkforce,
+      "sectorType": sectorType,
+      "legalStatus": legalStatus,
+      "activitySector": activitySector,
+      "productDurableGoods": productDurableGoods,
+      "productSemiDurableGoods": productSemiDurableGoods,
+      "productNonDurableGoods": productNonDurableGoods,
+      "productMerchantServices": productMerchantServices,
+      "productNonMerchantServices": productNonMerchantServices,
+
+      "startDate": startDate,
+      "endDate": endDate,
     };
 
-     DocumentReference pfmpRef = await pfmpListRef.add(pfmpData);
+    DocumentReference pfmpRef = await pfmpListRef.add(pfmpData);
 
-     idPfmp = pfmpRef.id;
+    idPfmp = pfmpRef.id;
   }
 
   void update() async {
-     AppUser user = await AppUser.retrieve(FirebaseAuth.instance.currentUser!.uid);
-     DocumentReference userRef = FirebaseFirestore.instance.collection("users").doc(user.uid);
+    AppUser user = await AppUser.retrieve(
+      FirebaseAuth.instance.currentUser!.uid,
+    );
+    DocumentReference userRef = FirebaseFirestore.instance
+        .collection("users")
+        .doc(user.uid);
 
-     CollectionReference pfmpListRef = userRef.collection('pfmp');
+    CollectionReference pfmpListRef = userRef.collection('pfmp');
 
     final pfmpData = {
-      "nomSociete": nomSociete,
-      "adresseSociete": adresseSociete,
-      "statusSociete": statusSociete,
-      "nomFormateur": nomFormateur,
-      "contactFormateur": contactFormateur,
-      "dateDebut": dateDebut,
-      "dateFin": dateFin,
+      "companyName": companyName,
+      "address": address,
+      "bossName": bossName,
+      "tutorName": tutorName,
+      "tutorContact": tutorContact,
+      "siretNumber": siretNumber,
+      "phoneNumber": phoneNumber,
+      "mailAddress": mailAddress,
+      "mainActivity": mainActivity,
+
+      "secondaryActivity": secondaryActivity,
+      "totalWorkforce": totalWorkforce,
+      "serviceWorkforce": serviceWorkforce,
+      "sectorType": sectorType,
+      "legalStatus": legalStatus,
+      "activitySector": activitySector,
+      "productDurableGoods": productDurableGoods,
+      "productSemiDurableGoods": productSemiDurableGoods,
+      "productNonDurableGoods": productNonDurableGoods,
+      "productMerchantServices": productMerchantServices,
+      "productNonMerchantServices": productNonMerchantServices,
+
+      "startDate": startDate,
+      "endDate": endDate,
     };
 
-     pfmpListRef.doc(idPfmp).set(pfmpData);
+    pfmpListRef.doc(idPfmp).set(pfmpData);
   }
 
   static Future<Pfmp> retrieve(String pfmpId) async {
-    AppUser user = await AppUser.retrieve(FirebaseAuth.instance.currentUser!.uid);
-     DocumentReference userRef = FirebaseFirestore.instance.collection("users").doc(user.uid);
+    AppUser user = await AppUser.retrieve(
+      FirebaseAuth.instance.currentUser!.uid,
+    );
+    DocumentReference userRef = FirebaseFirestore.instance
+        .collection("users")
+        .doc(user.uid);
 
     CollectionReference pfmpListRef = userRef.collection('pfmp');
 
     final snapshot = await pfmpListRef.doc(pfmpId).get();
     Map<String, dynamic> pfmpData = snapshot.data() as Map<String, dynamic>;
 
-    return Pfmp(pfmpId, pfmpData["nomSociete"], pfmpData["adresseSociete"], pfmpData["statusSociete"], pfmpData["nomFormateur"], pfmpData["contactFormateur"], pfmpData["dateDebut"].toDate(), pfmpData["dateFin"].toDate());
+    return Pfmp(
+      idPfmp: pfmpId,
+      companyName: pfmpData["companyName"],
+      address: pfmpData["address"],
+      bossName: pfmpData["bossName"],
+      tutorName: pfmpData["tutorName"],
+      tutorContact: pfmpData["tutorContact"],
+      siretNumber: pfmpData["siretNumber"],
+      phoneNumber: pfmpData["phoneNumber"],
+      mailAddress: pfmpData["mailAddress"],
+      mainActivity: pfmpData["mainActivity"],
+
+      secondaryActivity: pfmpData["secondaryActivity"],
+      totalWorkforce: pfmpData["totalWorkforce"],
+      serviceWorkforce: pfmpData["serviceWorkforce"],
+      sectorType: pfmpData["sectorType"],
+      legalStatus: pfmpData["legalStatus"],
+      activitySector: pfmpData["activitySector"],
+      productDurableGoods: pfmpData["productDurableGoods"],
+      productSemiDurableGoods: pfmpData["productSemiDurableGoods"],
+      productNonDurableGoods: pfmpData["productNonDurableGoods"],
+      productMerchantServices: pfmpData["productMerchantServices"],
+      productNonMerchantServices: pfmpData["productNonMerchantServices"],
+
+      startDate: pfmpData["startDate"].toDate(),
+      endDate: pfmpData["endDate"].toDate(),
+    );
   }
 }

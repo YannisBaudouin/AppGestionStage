@@ -41,7 +41,7 @@ class PfmpProfilView extends StatelessWidget {
               global.currentLogo(isDarkMode),
               CustomTBI(
                 text:
-                    context.read<PfmpProfilBloc>().targetPfmp?.nomSociete ??
+                    context.read<PfmpProfilBloc>().targetPfmp?.companyName ??
                     "",
                 pressed: () {
                   // redirection vers la page d'aperçu du profil

@@ -12,26 +12,12 @@ class PfmpHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      themeMode: ThemeMode.system,
-      theme: global.lightTheme,
-      darkTheme: global.darkTheme,
-      home: const BuildPage(),
-    );
-  }
-}
-
-class BuildPage extends StatelessWidget {
-  const BuildPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocProvider(create: (_) => PfmpHomeBloc(), child: PfmpHomeView());
+    return BlocProvider(create: (_) => PfmpHomeBloc(), child: const PfmpHomeView());
   }
 }
 
 class PfmpHomeView extends StatelessWidget {
-  PfmpHomeView({super.key});
+  const PfmpHomeView({super.key});
 
   // page d'accueil des PFMPs
   @override
@@ -39,8 +25,10 @@ class PfmpHomeView extends StatelessWidget {
     //Booléen qui change par rapport au thème
     bool isDarkMode = Theme.of(context).brightness == Brightness.dark;
     return BlocBuilder<PfmpHomeBloc, PfmpHomeState>(
+      
       buildWhen: (prev, state) => prev.runtimeType != state.runtimeType,
       builder: (context, state) {
+
         switch (state) {
           case PfmpHomeInitial():
            context.read<PfmpHomeBloc>().add(PfmpHome_GetListWidgets(context: context));
@@ -98,7 +86,7 @@ class PfmpHomeView extends StatelessWidget {
                       alignment: Alignment.topCenter,
                       height: 500,
                       width: MediaQuery.of(context).size.width - 50,
-                      child: ListView(children: context.select((PfmpHomeBloc bloc) => bloc.widgetsListPfmps)),
+                      child: context.read<PfmpHomeBloc>().listViewPfmp,
                     ),
                   ],
                 ),

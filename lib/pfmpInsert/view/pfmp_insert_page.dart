@@ -37,25 +37,14 @@ class PfmpInsertView extends StatelessWidget {
     );
     DateTime firstDate = DateTime(1980, 1, 1, 0, 0, 0, 0, 0);
 
-    // attribut d'une PFMP en vue de la stockée dans la base de données
-    DateTime dateDeb = DateTime.now();
-    DateTime dateFin = DateTime.now();
-
     // date pour définir le début et la fin des dates sélectionner dans le calendrier
     DateTimeRange selectedDate = DateTimeRange(
       start: DateTime.now(),
       end: DateTime.now(),
     );
 
-    // Controller pour les champs de saisies
-    final nomSociete = TextEditingController();
-    final adresseSoc = TextEditingController();
-    final statusJuri = TextEditingController();
-    final nomFormate = TextEditingController();
-    final contactFor = TextEditingController();
-
     return BlocBuilder<PfmpInsertBloc, PfmpInsertState>(
-      buildWhen: (prev, state) => prev.runtimeType != state.runtimeType,
+      buildWhen: (prev, state) => true, //prev.runtimeType != state.runtimeType,
       builder: (context, state) {
         switch (state) {
           case PfmpInsertInitial():
@@ -66,17 +55,6 @@ class PfmpInsertView extends StatelessWidget {
         Pfmp? targetPfmp = context.select(
           (PfmpInsertBloc bloc) => bloc.targetPfmp,
         );
-
-        if (targetPfmp != null) {
-          nomSociete.text = targetPfmp.nomSociete;
-          adresseSoc.text = targetPfmp.adresseSociete;
-          statusJuri.text = targetPfmp.statusSociete;
-          nomFormate.text = targetPfmp.nomFormateur;
-          contactFor.text = targetPfmp.contactFormateur;
-
-          dateDeb = targetPfmp.dateDebut;
-          dateFin = targetPfmp.dateFin;
-        }
 
         return Scaffold(
           body: Column(
@@ -93,11 +71,11 @@ class PfmpInsertView extends StatelessWidget {
               Container(
                 alignment: Alignment.topCenter,
                 width: MediaQuery.of(context).size.width - 50,
-                height: 300,
+                height: 600,
                 //utiliser pour customiser un Container
                 decoration: BoxDecoration(
                   //backgroundcolors
-                  color: Color(global.darkThemeSeco),
+                  color: Color(global.darkThemeSeco + 80),
                   //permet d'arondir le container
                   borderRadius: BorderRadius.circular(12),
                 ),
@@ -111,60 +89,230 @@ class PfmpInsertView extends StatelessWidget {
                         style: Theme.of(context).textTheme.displayMedium,
                       ),
                     ),
+
                     CustomTF(
-                      labelText: "Nom",
-                      controller: nomSociete,
+                      labelText: "Nom*",
+                      controller: context.read<PfmpInsertBloc>().tec_companyName,
                       context: context,
-                      hintText: "",
-                      helperText: null,
-                      cacher: false,
                     ),
                     CustomTF(
-                      labelText: "Adresse",
-                      controller: adresseSoc,
+                      labelText: "Adresse*",
+                      controller: context.read<PfmpInsertBloc>().tec_address,
                       context: context,
-                      hintText: "",
-                      helperText: null,
-                      cacher: false,
                     ),
                     CustomTF(
-                      labelText: "Statut juridique",
-                      controller: statusJuri,
+                      labelText: "Nom du dirigeant*",
+                      controller: context.read<PfmpInsertBloc>().tec_bossName,
                       context: context,
-                      hintText: "",
-                      helperText: null,
-                      cacher: false,
-                    ),
-                    RichText(
-                      textAlign: TextAlign.start,
-                      text: TextSpan(
-                        text: "Formateur",
-                        style: Theme.of(context).textTheme.displayMedium,
-                      ),
                     ),
                     CustomTF(
-                      labelText: "Nom du formateur",
-                      controller: nomFormate,
+                      labelText: "Nom du tuteur*",
+                      controller: context.read<PfmpInsertBloc>().tec_tutorName,
                       context: context,
-                      hintText: "",
-                      helperText: null,
-                      cacher: false,
                     ),
                     CustomTF(
-                      labelText: "Contact du formateur",
-                      controller: contactFor,
+                      labelText: "Contact du tuteur*",
+                      controller: context.read<PfmpInsertBloc>().tec_tutorContact,
                       context: context,
-                      hintText: "",
-                      helperText: null,
-                      cacher: false,
                     ),
-                    RichText(
-                      textAlign: TextAlign.start,
-                      text: TextSpan(
-                        text: "Période",
-                        style: Theme.of(context).textTheme.displayMedium,
-                      ),
+                    CustomTF(
+                      labelText: "N° de Siret*",
+                      controller: context.read<PfmpInsertBloc>().tec_siretNumber,
+                      context: context,
                     ),
+                    CustomTF(
+                      labelText: "Numéro de téléphone*",
+                      controller: context.read<PfmpInsertBloc>().tec_phoneNumber,
+                      context: context,
+                    ),
+                    CustomTF(
+                      labelText: "Adresse Mail*",
+                      controller: context.read<PfmpInsertBloc>().tec_mailAddress,
+                      context: context,
+                    ),
+                    CustomTF(
+                      labelText: "Activité principale*",
+                      controller: context.read<PfmpInsertBloc>().tec_mainActivity,
+                      context: context,
+                    ),
+
+                    CustomTF(
+                      labelText: "Activité secondaire",
+                      controller: context.read<PfmpInsertBloc>().tec_secondaryActivity,
+                      context: context,
+                    ),
+                    CustomTF(
+                      labelText: "Effectif total",
+                      controller: context.read<PfmpInsertBloc>().tec_totalWorkforce,
+                      context: context,
+                    ),
+                    CustomTF(
+                      labelText: "Effectif du service",
+                      controller: context.read<PfmpInsertBloc>().tec_serviceWorkforce,
+                      context: context,
+                    ),
+                    // sectorType
+                    Row(
+                      children: [
+                        CustomRT(
+                          text: "Secteur : ",
+                          style: Theme.of(context).textTheme.titleLarge,
+                          context: context,
+                        ),
+                        CustomCheckboxLabel(
+                          labelText: "Public",
+                          value: context.read<PfmpInsertBloc>().sectorType,
+                          onChanged: (bool? value) {
+                            context.read<PfmpInsertBloc>().sectorType = !context.read<PfmpInsertBloc>().sectorType;
+                            context.read<PfmpInsertBloc>().add(
+                              PfmpInsert_Update(),
+                            );
+                          },
+                        ),
+                        CustomCheckboxLabel(
+                          labelText: "Privé",
+                          value: !context.read<PfmpInsertBloc>().sectorType,
+                          onChanged: (bool? value) {
+                            context.read<PfmpInsertBloc>().sectorType = !context.read<PfmpInsertBloc>().sectorType;
+                            context.read<PfmpInsertBloc>().add(
+                              PfmpInsert_Update(),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                    CustomTF(
+                      labelText: "Forme juridique",
+                      controller: context.read<PfmpInsertBloc>().tec_legalStatus,
+                      context: context,
+                    ),
+
+                    CustomRT(
+                      text: "Secteur d'activité : ",
+                      style: Theme.of(context).textTheme.titleLarge,
+                      context: context,
+                    ),
+                    CustomCheckboxLabel(
+                      labelText: "Primaire",
+                      value: context.read<PfmpInsertBloc>().activitySector == 1,
+                      onChanged: (bool? value) {
+                        context.read<PfmpInsertBloc>().activitySector = value == true ? 1 : 0;
+                        context.read<PfmpInsertBloc>().add(PfmpInsert_Update());
+                      },
+                    ),
+                    CustomCheckboxLabel(
+                      labelText: "Secondaire",
+                      value: context.read<PfmpInsertBloc>().activitySector == 2,
+                      onChanged: (bool? value) {
+                        context.read<PfmpInsertBloc>().activitySector = value == true ? 2 : 0;
+                        context.read<PfmpInsertBloc>().add(PfmpInsert_Update());
+                      },
+                    ),
+                    CustomCheckboxLabel(
+                      labelText: "Tertiaire",
+                      value: context.read<PfmpInsertBloc>().activitySector == 3,
+                      onChanged: (bool? value) {
+                        context.read<PfmpInsertBloc>().activitySector = value == true ? 3 : 0;
+                        context.read<PfmpInsertBloc>().add(PfmpInsert_Update());
+                      },
+                    ),
+
+                    CustomRT(
+                      text: "Production",
+                      style: Theme.of(context).textTheme.displayMedium,
+                      context: context,
+                    ),
+                    Column(
+                      children: [
+                        CustomCheckboxLabel(
+                          labelText: "De biens",
+                          value:
+                              (context.read<PfmpInsertBloc>().productDurableGoods == true ||
+                              context.read<PfmpInsertBloc>().productSemiDurableGoods == true ||
+                              context.read<PfmpInsertBloc>().productNonDurableGoods == true),
+                          onChanged: (bool? value) {
+                            context.read<PfmpInsertBloc>().productDurableGoods = false;
+                            context.read<PfmpInsertBloc>().productSemiDurableGoods = false;
+                            context.read<PfmpInsertBloc>().productNonDurableGoods = false;
+                            context.read<PfmpInsertBloc>().add(
+                              PfmpInsert_Update(),
+                            );
+                          },
+                        ),
+                        Row(
+                          children: [
+                            CustomCheckboxLabel(
+                              labelText: "Durables",
+                              value: context.read<PfmpInsertBloc>().productDurableGoods,
+                              onChanged: (bool? value) {
+                                context.read<PfmpInsertBloc>().productDurableGoods = value ?? false;
+                                context.read<PfmpInsertBloc>().add(
+                                  PfmpInsert_Update(),
+                                );
+                              },
+                            ),
+                            CustomCheckboxLabel(
+                              labelText: "Semi durables",
+                              value: context.read<PfmpInsertBloc>().productSemiDurableGoods,
+                              onChanged: (bool? value) {
+                                context.read<PfmpInsertBloc>().productSemiDurableGoods = value ?? false;
+                                context.read<PfmpInsertBloc>().add(
+                                  PfmpInsert_Update(),
+                                );
+                              },
+                            ),
+                            CustomCheckboxLabel(
+                              labelText: "Non durables",
+                              value: context.read<PfmpInsertBloc>().productNonDurableGoods,
+                              onChanged: (bool? value) {
+                                context.read<PfmpInsertBloc>().productNonDurableGoods = value ?? false;
+                                context.read<PfmpInsertBloc>().add(
+                                  PfmpInsert_Update(),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                        CustomCheckboxLabel(
+                          labelText: "De services",
+                          value:
+                              (context.read<PfmpInsertBloc>().productMerchantServices == true ||
+                              context.read<PfmpInsertBloc>().productNonMerchantServices == true),
+                          onChanged: (bool? value) {
+                            context.read<PfmpInsertBloc>().productMerchantServices = false;
+                            context.read<PfmpInsertBloc>().productNonMerchantServices = false;
+                            context.read<PfmpInsertBloc>().add(
+                              PfmpInsert_Update(),
+                            );
+                          },
+                        ),
+                        Row(
+                          children: [
+                            CustomCheckboxLabel(
+                              labelText: "Marchands",
+                              value: context.read<PfmpInsertBloc>().productMerchantServices,
+                              onChanged: (bool? value) {
+                                context.read<PfmpInsertBloc>().productMerchantServices = value ?? false;
+                                context.read<PfmpInsertBloc>().add(
+                                  PfmpInsert_Update(),
+                                );
+                              },
+                            ),
+                            CustomCheckboxLabel(
+                              labelText: "Non marchands",
+                              value: context.read<PfmpInsertBloc>().productNonMerchantServices,
+                              onChanged: (bool? value) {
+                                context.read<PfmpInsertBloc>().productNonMerchantServices = value ?? false;
+                                context.read<PfmpInsertBloc>().add(
+                                  PfmpInsert_Update(),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+
                     Container(
                       height: 200,
                       margin: EdgeInsets.only(bottom: 20),
@@ -180,17 +328,17 @@ class PfmpInsertView extends StatelessWidget {
                             lastDate:
                                 lastDate, //dernière date sélectionnable(la plus près dans le temps)
                             initialDateRange: DateTimeRange(
-                              start: dateDeb,
-                              end: dateFin,
+                              start: context.read<PfmpInsertBloc>().startDate,
+                              end: context.read<PfmpInsertBloc>().endDate,
                             ),
                             saveText:
                                 "Enregistrer", //pour modifier l'affichage du boutton qui permet d'enregistrer les dates
                           );
                           if (dateTimeRange != null) {
                             selectedDate = dateTimeRange;
-                            dateDeb = selectedDate
+                            context.read<PfmpInsertBloc>().startDate = selectedDate
                                 .start; //affectation de la valeur de début à une varible instancié avant
-                            dateFin = selectedDate
+                            context.read<PfmpInsertBloc>().endDate = selectedDate
                                 .end; //affectation de la valeur de début à une varible instancié avant
                           }
                         },
@@ -211,20 +359,37 @@ class PfmpInsertView extends StatelessWidget {
                       context: context,
                     ),
                     Text(
-                      "Nombre de semaines : ${(DateTime(dateDeb.year - dateFin.year, dateDeb.month - dateFin.month, dateDeb.day - dateFin.day).day / 7 + 0.5).round()}",
+                      "Nombre de semaines : ${(DateTime(context.read<PfmpInsertBloc>().startDate.year - context.read<PfmpInsertBloc>().endDate.year, context.read<PfmpInsertBloc>().startDate.month - context.read<PfmpInsertBloc>().endDate.month, context.read<PfmpInsertBloc>().startDate.day - context.read<PfmpInsertBloc>().endDate.day).day / 7 + 0.5).round()}",
                     ),
                     CustomEB(
                       text: "Terminer",
                       pressed: () => context.read<PfmpInsertBloc>().add(
                         PfmpInsert_Submit(
-                          nomSociete.text,
-                          adresseSoc.text,
-                          statusJuri.text,
-                          nomFormate.text,
-                          contactFor.text,
-                          dateDeb,
-                          dateFin,
-                          context,
+                          context: context,
+                          companyName: context.read<PfmpInsertBloc>().tec_companyName.text,
+                          address: context.read<PfmpInsertBloc>().tec_address.text,
+                          bossName: context.read<PfmpInsertBloc>().tec_bossName.text,
+                          tutorName: context.read<PfmpInsertBloc>().tec_tutorName.text,
+                          tutorContact: context.read<PfmpInsertBloc>().tec_tutorContact.text,
+                          siretNumber: context.read<PfmpInsertBloc>().tec_siretNumber.text,
+                          phoneNumber: context.read<PfmpInsertBloc>().tec_phoneNumber.text,
+                          mailAddress: context.read<PfmpInsertBloc>().tec_mailAddress.text,
+                          mainActivity: context.read<PfmpInsertBloc>().tec_mainActivity.text,
+
+                          secondaryActivity: context.read<PfmpInsertBloc>().tec_secondaryActivity.text,
+                          totalWorkforce: int.tryParse(context.read<PfmpInsertBloc>().tec_totalWorkforce.text) ?? 0,
+                          serviceWorkforce: int.tryParse(context.read<PfmpInsertBloc>().tec_serviceWorkforce.text) ?? 0,
+                          sectorType: context.read<PfmpInsertBloc>().sectorType,
+                          legalStatus: context.read<PfmpInsertBloc>().tec_legalStatus.text,
+                          activitySector: context.read<PfmpInsertBloc>().activitySector,
+                          productDurableGoods: context.read<PfmpInsertBloc>().productDurableGoods,
+                          productSemiDurableGoods: context.read<PfmpInsertBloc>().productSemiDurableGoods,
+                          productNonDurableGoods: context.read<PfmpInsertBloc>().productNonDurableGoods,
+                          productMerchantServices: context.read<PfmpInsertBloc>().productMerchantServices,
+                          productNonMerchantServices: context.read<PfmpInsertBloc>().productNonMerchantServices,
+
+                          startDate: context.read<PfmpInsertBloc>().startDate,
+                          endDate: context.read<PfmpInsertBloc>().endDate,
                         ),
                       ),
                       context: context,

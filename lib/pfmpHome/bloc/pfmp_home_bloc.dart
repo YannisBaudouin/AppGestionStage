@@ -16,6 +16,8 @@ class PfmpHomeBloc extends Bloc<PfmpHomeEvent, PfmpHomeState> {
 
   List<Widget> widgetsListPfmps = <Widget>[];
 
+  ListView listViewPfmp = ListView();
+
   void _getListWidgets(
     PfmpHome_GetListWidgets event,
     Emitter<PfmpHomeState> emit,
@@ -35,18 +37,8 @@ class PfmpHomeBloc extends Bloc<PfmpHomeEvent, PfmpHomeState> {
         .map((doc) => doc)
         .toList();
 
-    pfmpList.forEach((QueryDocumentSnapshot pfmpObj) {
-      dynamic pfmpData = pfmpObj.data();
-      Pfmp pfmp = Pfmp(
-        pfmpObj.id,
-        pfmpData["nomSociete"],
-        pfmpData["nomSociete"],
-        pfmpData["statusSociete"],
-        pfmpData["nomFormateur"],
-        pfmpData["contactFormateur"],
-        pfmpData['dateDebut'].toDate(),
-        pfmpData['dateFin'].toDate(),
-      );
+    for (final QueryDocumentSnapshot pfmpObj in pfmpList) {
+      Pfmp pfmp = await Pfmp.retrieve(pfmpObj.id);
 
       widgetsListPfmps.add(
         ElevatedButton(
@@ -55,16 +47,14 @@ class PfmpHomeBloc extends Bloc<PfmpHomeEvent, PfmpHomeState> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                pfmp.nomSociete,
+                pfmp.companyName,
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Text(
-                pfmp.dateDebut.toString().split(' ')[0].replaceAll("-", "/") +
-                    "-" +
-                    pfmp.dateFin.toString().split(' ')[0].replaceAll("-", "/"),
+                "${pfmp.startDate.toString().split(' ')[0].replaceAll("-", "/")}-${pfmp.startDate.toString().split(' ')[0].replaceAll("-", "/")}",
                 style: TextStyle(color: Colors.white),
               ),
             ],
@@ -83,7 +73,9 @@ class PfmpHomeBloc extends Bloc<PfmpHomeEvent, PfmpHomeState> {
           },
         ),
       );
-    });
+    }
+
+    listViewPfmp = ListView(children: widgetsListPfmps);
 
     emit(PfmpHomeInitialized());
   }

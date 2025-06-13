@@ -27,10 +27,10 @@ class LogBookBloc extends Bloc<LogBookEvent, LogBookState> {
 
     // Choisis une date par défaut, qui est soit le premier jour du stage, soit la date d'aujourd'hui si elle fait partie du stage
     selectedDate =
-        DateTime.now().isBefore(pfmp!.dateFin) &
-            DateTime.now().isAfter(pfmp!.dateDebut)
+        DateTime.now().isBefore(pfmp!.endDate) &
+            DateTime.now().isAfter(pfmp!.startDate)
         ? DateTime.now()
-        : pfmp!.dateDebut;
+        : pfmp!.startDate;
 
     emit(LogBookInitialized());
   }
@@ -75,8 +75,8 @@ class LogBookBloc extends Bloc<LogBookEvent, LogBookState> {
     selectedDate = await showDatePicker(
       context: event.context,
       initialDate: selectedDate,
-      firstDate: pfmp!.dateDebut,
-      lastDate: pfmp!.dateFin,
+      firstDate: pfmp!.startDate,
+      lastDate: pfmp!.endDate,
     );
 
     emit(LogBookInitialized());

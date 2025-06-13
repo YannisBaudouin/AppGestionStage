@@ -1,3 +1,4 @@
+import 'package:app_gestion_stage/customWidget/custom_checkbox.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/mail_insc_bloc.dart';
@@ -198,25 +199,15 @@ class MailInscriptionView extends StatelessWidget {
                     obscureText: true,
                   ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    RichText(
-                      text: TextSpan(
-                        text: "J'ai lu et j'accepte les mentions légales",
-                      ),
-                    ),
-                    Checkbox(
-                      isError: true,
-                      tristate: true,
-                      value: context.read<MailInscBloc>().acceptLegalMentions,
-                      onChanged: (bool? value) {
-                        context.read<MailInscBloc>().add(
-                          MailInscAcceptLegal(value: value ?? false),
-                        );
-                      },
-                    ),
-                  ],
+                // Custom Widget 
+                CustomCheckboxLabel(
+                  labelText: "J'ai lu et j'accepte les mentions légales",
+                  value: context.read<MailInscBloc>().acceptLegalMentions,
+                  onChanged: (bool? value) {
+                    context.read<MailInscBloc>().add(
+                      MailInscAcceptLegal(value: value ?? false),
+                    );
+                  },
                 ),
                 // Bouton Inscription
                 CustomEB(

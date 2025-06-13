@@ -33,7 +33,7 @@ class PfmpProfilBloc extends Bloc<PfmpProfilEvent, PfmpProfilState> {
     PfmpProfil_ConvertToPdf event,
     Emitter<PfmpProfilState> emit,
   ) async {
-    final ByteData bytes = await rootBundle.load('assets/pfmpPdf.pdf');
+    /*final ByteData bytes = await rootBundle.load('assets/pfmpPdf.pdf');
     final Uint8List list = bytes.buffer.asUint8List();
     final PdfDocument document = PdfDocument(inputBytes: list);
 
@@ -67,6 +67,6 @@ class PfmpProfilBloc extends Bloc<PfmpProfilEvent, PfmpProfilState> {
     List<int> savedPdf = await document.save();
     await file.writeAsBytes(savedPdf);
 
-    document.dispose();
+    document.dispose();*/
   }
 }

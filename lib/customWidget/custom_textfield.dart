@@ -5,7 +5,7 @@ class CustomTF extends StatelessWidget {
   final String? labelText;
   final TextEditingController controller;
   final BuildContext context;
-  final String hintText;
+  final String? hintText;
   final String? helperText;
   final bool? cacher;
   final int? maxLines;
@@ -14,7 +14,7 @@ class CustomTF extends StatelessWidget {
     this.labelText,
     required this.controller,
     required this.context,
-    required this.hintText,
+    this.hintText,
     this.helperText,
     this.cacher,
     this.maxLines
